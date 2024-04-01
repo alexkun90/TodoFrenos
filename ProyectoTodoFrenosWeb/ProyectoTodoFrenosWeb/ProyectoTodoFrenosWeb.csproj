@@ -1,0 +1,74 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Estilos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Estilos\css\bootstrap.min.css" />
+    <None Include="wwwroot\Estilos\css\custom.css" />
+    <None Include="wwwroot\Estilos\css\fontawesome.css" />
+    <None Include="wwwroot\Estilos\css\fontawesome.min.css" />
+    <None Include="wwwroot\Estilos\css\session.css" />
+    <None Include="wwwroot\Estilos\css\slick-theme.css" />
+    <None Include="wwwroot\Estilos\css\slick-theme.min.css" />
+    <None Include="wwwroot\Estilos\css\slick.min.css" />
+    <None Include="wwwroot\Estilos\css\templatemo.css" />
+    <None Include="wwwroot\Estilos\css\templatemo.min.css" />
+    <None Include="wwwroot\Estilos\img\about-hero.svg" />
+    <None Include="wwwroot\Estilos\img\ajax-loader.gif" />
+    <None Include="wwwroot\Estilos\img\carousel-img-1.jpg" />
+    <None Include="wwwroot\Estilos\img\carousel-img-2.jpg" />
+    <None Include="wwwroot\Estilos\img\carousel-img-3.jpg" />
+    <None Include="wwwroot\Estilos\img\img-bate-p1.jpg" />
+    <None Include="wwwroot\Estilos\img\img-bate-p2.jpg" />
+    <None Include="wwwroot\Estilos\img\img-bate-p3.jpg" />
+    <None Include="wwwroot\Estilos\img\img-bateria.jpg" />
+    <None Include="wwwroot\Estilos\img\img-cambioAceite.jpg" />
+    <None Include="wwwroot\Estilos\img\img-clut-p1.jpg" />
+    <None Include="wwwroot\Estilos\img\img-clutch.jpg" />
+    <None Include="wwwroot\Estilos\img\img-fren-p1.jpg" />
+    <None Include="wwwroot\Estilos\img\img-lavacar.jpg" />
+    <None Include="wwwroot\Estilos\img\img-lubri-p1.jpg" />
+    <None Include="wwwroot\Estilos\img\img-lubricanteWolf.jpg" />
+    <None Include="wwwroot\Estilos\img\img-manoObra.jpg" />
+    <None Include="wwwroot\Estilos\img\TodoFrenosLogo.png" />
+    <None Include="wwwroot\Estilos\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\Estilos\js\custom.js" />
+    <None Include="wwwroot\Estilos\js\jquery-1.11.0.min.js" />
+    <None Include="wwwroot\Estilos\js\jquery-migrate-1.2.1.min.js" />
+    <None Include="wwwroot\Estilos\js\slick.min.js" />
+    <None Include="wwwroot\Estilos\js\templatemo.js" />
+    <None Include="wwwroot\Estilos\js\templatemo.min.js" />
+    <None Include="wwwroot\Estilos\webfonts\fa-brands-400.eot" />
+    <None Include="wwwroot\Estilos\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\Estilos\webfonts\fa-brands-400.ttf" />
+    <None Include="wwwroot\Estilos\webfonts\fa-brands-400.woff" />
+    <None Include="wwwroot\Estilos\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\Estilos\webfonts\fa-regular-400.eot" />
+    <None Include="wwwroot\Estilos\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\Estilos\webfonts\fa-regular-400.ttf" />
+    <None Include="wwwroot\Estilos\webfonts\fa-regular-400.woff" />
+    <None Include="wwwroot\Estilos\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\Estilos\webfonts\fa-solid-900.eot" />
+    <None Include="wwwroot\Estilos\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\Estilos\webfonts\fa-solid-900.ttf" />
+    <None Include="wwwroot\Estilos\webfonts\fa-solid-900.woff" />
+    <None Include="wwwroot\Estilos\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\Estilos\webfonts\slick.eot" />
+    <None Include="wwwroot\Estilos\webfonts\slick.svg" />
+    <None Include="wwwroot\Estilos\webfonts\slick.ttf" />
+    <None Include="wwwroot\Estilos\webfonts\slick.woff" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+  </ItemGroup>
+
+</Project>

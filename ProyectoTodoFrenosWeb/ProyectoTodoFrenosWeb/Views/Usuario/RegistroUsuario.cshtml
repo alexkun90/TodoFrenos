@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "RegistroUsuario";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+
+<div class="center">
+    <h1>Registrar Usuario</h1>
+    <form method="post">
+        <div style="display:flex">
+            <div class="m-2">
+                <div class="txt_field">
+                    <input type="email" required />
+                    <span></span>
+                    <label>Correo Eléctronico</label>
+                </div>
+                <div class="txt_field">
+                    <input type="text" required />
+                    <span></span>
+                    <label>Nombre</label>
+                </div>
+                <div class="txt_field">
+                    <input type="text" required />
+                    <span></span>
+                    <label>Apellidos</label>
+                </div>
+            </div>
+
+            <div class="m-2">
+                <div class="txt_field">
+                    <input type="number" required />
+                    <span></span>
+                    <label>Edad</label>
+                </div>
+                <div class="txt_field">
+                    <input type="text" required />
+                    <span></span>
+                    <label>Teléfono</label>
+                </div>
+                <div class="txt_field">
+                    <input type="password" required />
+                    <span></span>
+                    <label>Contraseña</label>
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="Registrar" />
+        <div class="signup_link">ya tienes usuario? <a href=@Url.Action("InicioSesion","Usuario") style="color: #ff8000;">Iniciar Sesión</a></div>
+    </form>
+</div>
+

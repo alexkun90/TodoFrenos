@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller Todo Frenos y Mec&aacute;nica en general</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="~/estilos/img/todofrenoslogo.png">
+ 
+    <link href="~/estilos/css/templatemo.css" rel="stylesheet" />
+    <link href="~/estilos/css/custom.css" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet"/>
+   
+    <link href="~/estilos/css/fontawesome.min.css" rel="stylesheet" />
+
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light d-none d-lg-block" style="background-color:black;" id="templatemo_nav_top">
+        <div class="container text-light">
+            <div class="w-100 d-flex justify-content-between">
+                <div>
+                    <i class="fa fa-envelope mx-2"></i>
+                    <a class="navbar-sm-brand text-decoration-none text-custom" href="mailto:info@todofrenoscr.com">info@todofrenoscr.com</a>
+                    <i class="fa fa-phone mx-2"></i>
+                    <a class="navbar-sm-brand text-decoration-none text-custom" href="tel:+50622279522">(506) 2227 9522</a>
+                </div>
+                <div>
+                    <a class="text-custom m-1" href="https://www.facebook.com/tallertodofrenos" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                    <a class="text-custom m-1" href="https://www.instagram.com/tallertodofrenoscr" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <a class="navbar-brand text-success logo h1 align-self-center" href=@Url.Action("Inicio","Inicio")>
+                <img src="~/estilos/img/TodoFrenosLogo.png" style="max-width: 150px; max-height: 80px;" />
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+                <div class="flex-fill">
+                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-a-custom" href="#">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-a-custom" href="#">Servicios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-a-custom" href=@Url.Action("ListaProductos","Producto")>Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-a-custom" href="#">Administración</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-a-custom" href="#">Nosotros</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="navbar align-self-center d-flex">
+                    <a class="nav-icon position-relative text-decoration-none m-2">
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                        <!-- <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span> -->
+                    </a>
+                    <a class="nav-icon position-relative text-decoration-none m-2" href=@Url.Action("InicioSesion","Usuario")>
+                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                        <!--<span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>-->
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div m-5>
+        @RenderBody()
+    </div>
+
+    <footer style="background-color: #333333" id="tempaltemo_footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 border-bottom pb-3 border-3" style="color: #ff8000;border-color: #292929 !important">TodoFrenos</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt fa-fw"></i>
+                            <p class="mt-1" style="color: #f8f9fa">100 sur, 25 oeste de la entrada de emergencias Maternidad Carit.</p>
+
+                        </li>
+                        <li>
+                            <i class="fa fa-phone"></i>
+                            <a class="text-decoration-none text-custom-wh" href="tel:+50622279522">(506) 2227 9522</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope fa-fw"></i>
+                            <a class="text-decoration-none text-custom-wh" href="mailto:info@todofrenoscr.com">info@company.com</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 border-bottom pb-3 border-3" style="color: #ff8000;border-color: #292929 !important">Menú</h2>
+                    <ul class="list-unstyled text-light footer-link-list" style="margin-top:40px">
+                        <li><a class="text-decoration-none text-custom-wh" href="#">Inicio</a></li>
+                        <li><a class="text-decoration-none text-custom-wh" href="#">Servicios</a></li>
+                        <li><a class="text-decoration-none text-custom-wh" href="#">Nosotros</a></li>
+                        <li><a class="text-decoration-none text-custom-wh" href="#">Productos</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="row text-light mb-4">
+                <div class="col-12 mb-3">
+                    <div class="w-100 my-3 border-top border-light border-3" style="border-color: #292929 !important "></div>
+                </div>
+                <div class="col-auto me-auto">
+                    <ul class="list-inline text-left footer-icons">
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="https://www.facebook.com/tallertodofrenos"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/tallertodofrenoscr"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-100 py-3" style="background-color: #292929">
+            <div class="container">
+                <div class="row pt-2">
+                    <div class="col-12">
+                        <p class="text-left text-light">
+                            Copyright &copy; 2023 Taller Todo Frenos
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+    <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+    <script src="~/estilos/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/estilos/js/bootstrap.bundle.min.js"></script>
+    <script src="~/estilos/js/templatemo.js"></script>
+    <script src="~/estilos/js/custom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</body>
+</html>
