@@ -9,5 +9,23 @@ namespace ProyectoTodoFrenosWeb.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult AdminProductos()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult AgregarProductos()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ModificarProductos()
+        {
+            return View();
+        }
     }
 }

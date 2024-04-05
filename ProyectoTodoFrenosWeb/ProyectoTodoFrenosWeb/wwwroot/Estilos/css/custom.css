@@ -41,13 +41,13 @@
 }
 
 .btn-custom {
-    background-color: #ff8000;
-    color:#ffffff;
+    background-color: #ff8000 !important;
+    color: #ffffff !important;
 }
 
 .btn-custom:hover {
-    background-color: #000000;
-    color: #ffc489;
+    background-color: #000000 !important;
+    color: #f0f0f0 !important;
 }
 
 .btn-new {
@@ -84,3 +84,68 @@
     border-radius: var(--bs-btn-border-radius);
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
+
+.dropdown-item-custom {
+    display: block;
+    width: 100%;
+    padding: .25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    text-decoration: none;
+}
+
+/*Responsive Hamburger-------------------------------------------------------*/
+
+.dropdown-item-custom:active, .dropdown-item-custom:hover {
+    background-color: #ededed !important;
+}
+
+/*Tables-------------------------------------------------------*/
+.th-bg-custom {
+    background-color: #fc2d3b !important;
+    color: #ffffff !important;
+    text-align:center !important;
+}
+
+.container-border-custom {
+    border: 2px solid #ccc;
+    padding: 20px;
+}
+
+.btn-agree {
+    background-color: #ff8000 !important;
+    color: #ffffff !important;
+}
+
+.btn-agree:hover {
+    background-color: #cd6600 !important;
+    color: #ffffff !important;
+}
+
+.btn-modify {
+    background-color: #78828a !important;
+    color: #ffffff !important;
+}
+
+.btn-modify:hover {
+    background-color: #5a6268 !important;
+    color: #ffffff !important;
+}
+
+.btn-delete {
+    background-color: #e04b59 !important;
+    color: #ffffff !important;
+}
+
+.btn-delete:hover {
+    background-color: #c82333 !important;
+    color: #ffffff !important;
+}
+
+

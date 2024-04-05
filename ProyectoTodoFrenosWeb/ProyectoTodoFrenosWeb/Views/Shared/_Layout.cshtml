@@ -48,7 +48,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="align-self-center collapse navbar-collapse d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
@@ -60,8 +60,16 @@
                         <li class="nav-item">
                             <a class="nav-link nav-link-a-custom" href=@Url.Action("ListaProductos","Producto")>Productos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-a-custom" href="#">Administración</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-link-a-custom dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Administración
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item-custom" href="#">Usuarios</a></li>
+                                <li><a class="dropdown-item-custom" href=@Url.Action("AdminProductos","Producto")>Productos</a></li>
+                                <li><a class="dropdown-item-custom" href="#">Vehiculos</a></li>
+                                <li><a class="dropdown-item-custom" href="#">Citas</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-link-a-custom" href="#">Nosotros</a>
