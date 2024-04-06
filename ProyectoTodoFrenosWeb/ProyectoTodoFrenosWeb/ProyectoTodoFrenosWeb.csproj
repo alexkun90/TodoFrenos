@@ -22,7 +22,6 @@
     <None Include="wwwroot\Estilos\css\templatemo.css" />
     <None Include="wwwroot\Estilos\css\templatemo.min.css" />
     <None Include="wwwroot\Estilos\img\about-hero.svg" />
-    <None Include="wwwroot\Estilos\img\ajax-loader.gif" />
     <None Include="wwwroot\Estilos\img\carousel-img-1.jpg" />
     <None Include="wwwroot\Estilos\img\carousel-img-2.jpg" />
     <None Include="wwwroot\Estilos\img\carousel-img-3.jpg" />

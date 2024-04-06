@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewData["Title"] = "AdminCitas";
+}
+
+<div class="container mt-3">
+    <h2>Gestión de Citas</h2>
+    <p>Apartado donde se muestran las solicitudes de citas por parte de los clientes de TodoFrenos</p>
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="th-bg-custom">Cliente</th>
+                        <th class="th-bg-custom">Contacto</th>
+                        <th class="th-bg-custom">Vehículo</th>
+                        <th class="th-bg-custom">Estado</th>
+                        <th class="th-bg-custom">Fecha</th>
+                        <th class="th-bg-custom">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center align-middle">118963025</td>
+                        <td class="text-center align-middle">8896-3601</td>
+                        <td class="text-center align-middle">COS-507</td>
+                        <td class="text-center align-middle">Pendiente</td>
+                        <td class="text-center align-middle">06/07/2024</td>
+                        <td class="text-center align-middle">
+                            <a class="btn btn-agree mb-2" href="@Url.Action("EvaluarCitas","Cita")">Evaluar</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center align-middle">112045789</td>
+                        <td class="text-center align-middle">8896-3601</td>
+                        <td class="text-center align-middle">RIC-789</td>
+                        <td class="text-center align-middle">Pendiente</td>
+                        <td class="text-center align-middle">10/09/2024</td>
+                        <td class="text-center align-middle">
+                            <a class="btn btn-agree mb-2" href="@Url.Action("EvaluarCitas","Cita")">Evaluar</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center align-middle">112045789</td>
+                        <td class="text-center align-middle">8896-3601</td>
+                        <td class="text-center align-middle">CAC-808</td>
+                        <td class="text-center align-middle">Pendiente</td>
+                        <td class="text-center align-middle">06/11/2024</td>
+                        <td class="text-center align-middle">
+                            <a class="btn btn-agree mb-2" href="@Url.Action("EvaluarCitas","Cita")">Evaluar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

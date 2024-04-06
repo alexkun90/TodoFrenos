@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "EvaluarCitas";
+}
+
+<div class="container d-flex justify-content-center align-items-center m-5">
+    <div class="card rounded-3 p-4 w-50">
+        <form>
+            <div class="mb-3">
+                <label for="motivo" class="form-label">Motivo</label>
+                <textarea type="text" class="form-control" id="motivo" style="pointer-events: none;">Ocupo Limpiar mi carro</textarea>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="categoria" class="form-label">Categoria</label>
+                    <select id="categoria" class="form-select">
+                        <option selected>Pendiente</option>
+                        <option>Aceptar</option>
+                        <option>Rechazar</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-custom">Terminar Evaluación</button>
+        </form>
+    </div>
+</div>
+

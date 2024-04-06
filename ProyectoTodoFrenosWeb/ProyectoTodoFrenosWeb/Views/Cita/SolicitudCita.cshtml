@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewData["Title"] = "SolicitudCita";
+}
+
+<div class="container d-flex justify-content-center align-items-center m-5">
+    <div class="card rounded-3 p-4 w-50">
+        <form>
+            <div class="mb-3">
+                <label for="motivo" class="form-label">Motivo</label>
+                <textarea type="date" class="form-control" id="motivo" placeholder="motivo de la cita?"></textarea>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-5">
+                    <label for="fecha" class="form-label">Fecha</label>
+                    <input type="date" class="form-control" id="fecha">
+                </div>
+                <!--<div class="col-md-4">
+                    <label for="servicio" class="form-label">Tipo de Servicio</label>
+                    <select id="servicio" class="form-select m-2">
+                        <option selected>Seleccione....</option>
+                        <option>Revisión técnica (DEKRA)</option>
+                        <option>Mecánica general</option>
+                        <option>Cambio de Aceite</option>
+                        <option>Lavacar</option>
+                        <option>Tapicería</option>
+                        <option>Enderezado y Pintura</option>
+                    </select>
+                </div>-->
+                <div class="col-md-5">
+                    <label for="vehiculo" class="form-label">Vehículo</label>
+                    <select id="vehiculo" class="form-select">
+                        <option selected>Seleccine....</option>
+                        <option>COS-507</option>
+                        <option>RIC-789</option>
+                        <option>CAC-808</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-custom">Solicitar Cita</button>
+        </form>
+    </div>
+</div>
+
