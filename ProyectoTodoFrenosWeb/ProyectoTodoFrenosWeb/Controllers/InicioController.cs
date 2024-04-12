@@ -16,5 +16,11 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Servicios()
+        {
+            return View();
+        }
+
     }
 }
