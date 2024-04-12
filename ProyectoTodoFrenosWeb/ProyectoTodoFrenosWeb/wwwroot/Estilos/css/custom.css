@@ -8,11 +8,17 @@
     color: #e9eef5 !important;
 }
 
+.text-custom-contact {
+    font-size: 14px !important;
+    color: #000000;
+    text-decoration:none !important;
+}
+
 .text-custom-wh {
     color: #f8f9fa !important;
 }
 
-.text-custom:hover, .text-custom-wh:hover {
+.text-custom:hover, .text-custom-wh:hover, .text-custom-contact:hover{
     color: #ff8000 !important;
 }
 
@@ -99,6 +105,10 @@
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     text-decoration: none;
     font-size: 14px !important;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
 }
 
 /*Responsive Hamburger-------------------------------------------------------*/
@@ -189,6 +199,32 @@
     color:#ffffff;
     background-color: deepskyblue;
     font-size: 20px !important;
+}
+
+/*ChatBot*/
+.fixed-button {
+    position: fixed;
+    right: 5px;
+    top: 95%;
+    transform: translateY(-50%);
+}
+
+.btn-circle-custom {
+    width: 50px;
+    height: 50px;
+    border-radius: 50% !important;
+    background-color: #ff8000 !important;
+    color: white !important;
+    border: none;
+    font-size: 16px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-circle-custom:hover {
+    background-color: #000000 !important;
 }
 
 

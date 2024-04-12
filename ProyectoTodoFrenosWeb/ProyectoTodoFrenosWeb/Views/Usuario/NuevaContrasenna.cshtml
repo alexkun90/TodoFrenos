@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "NuevaContrasenna";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+
+<div class="center">
+    <h1>Nueva Contraseña</h1>
+    <form method="post">
+        <div class="txt_field">
+            <input type="text" required />
+            <span></span>
+            <label>Código</label>
+        </div>
+        <div class="txt_field">
+            <input type="password" required />
+            <span></span>
+            <label>Nueva Contraseña</label>
+        </div>
+        <div class="txt_field">
+            <input type="password" required />
+            <span></span>
+            <label>Confirmación de Contraseña</label>
+        </div>
+   
+
+        <input type="submit" class="mb-3" value="Guardar Cambios" />
+
+    </form>
+</div>
+
+

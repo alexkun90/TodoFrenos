@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "PerfilUsuario";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-dark">
+                    <h5 class="card-title text-white">Información de Usuario</h5>
+                </div>
+                <div class="card-body">
+                    <div class="col-md-9">
+                        <p class="card-text"><b>Nombre Completo:</b > Enrique Campos</p>
+                        <p class="card-text"><b>Correo Electrónico:</b> alberto@emai.com</p>                       
+                        <p class="card-text"><b>Teléfono:</b> 8896-3601</p>
+                        <a href="@Url.Action("ActualizarUsuario","Usuario")" class="btn btn-agree mb-1">
+                            <i class="fa fa-pencil"></i> Modificar Información
+                        </a>
+                        <a href="#" class="btn btn-delete mb-1">
+                            <i class="fa fa-trash"></i> Eliminar Usuario
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

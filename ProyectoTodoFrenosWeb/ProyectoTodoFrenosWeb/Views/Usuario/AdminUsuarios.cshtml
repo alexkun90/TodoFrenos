@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewData["Title"] = "AdminUsuarios";
+}
+
+<div class="container mt-3">
+    <h2>Gestión de Usuario</h2>
+    <p>Apartado donde se gestiona la administracion de los usuarios de TodoFrenos</p>
+    <div class="container-border-custom mb-2">
+        <div>
+            <a class="btn btn-agree mb-1" style="font-weight:bold" href="@Url.Action("AgregarUsuarios","Usuario")">Agregar Producto</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="th-bg-custom">Nombre</th>
+                        <th class="th-bg-custom">Correo Eléctronico</th>
+                        <th class="th-bg-custom">Rol</th>
+                        <th class="th-bg-custom">Estado</th>
+                        <th class="th-bg-custom">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center align-middle">Enrique Campos</td>
+                        <td class="text-center align-middle">enrique@emai.com</td>
+                        <td class="text-center align-middle">Administrador</td>
+                        <td class="text-center align-middle">Activo</td>
+                        <td class="text-center align-middle">
+                            <div>
+                                <a class="btn btn-modify mb-2" href="#">Modificar</a>
+                                <a class="btn btn-danger mb-2" href="#">Inactivar</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center align-middle">Alberto Rodriguez</td>
+                        <td class="text-center align-middle">alberto@emai.com</td>
+                        <td class="text-center align-middle">Cliente</td>
+                        <td class="text-center align-middle">Activo</td>
+                        <td class="text-center align-middle">
+                            <div>
+                                <a class="btn btn-modify mb-2" href="@Url.Action("ModificarUsuarios","Usuario")">Modificar</a>
+                                <a class="btn btn-danger mb-2" href="#">Inactivar</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center align-middle">Claudia Umaña</td>
+                        <td class="text-center align-middle">claudia@emai.com</td>
+                        <td class="text-center align-middle">Cliente</td>
+                        <td class="text-center align-middle">Inactivo</td>
+                        <td class="text-center align-middle">
+                            <div>
+                                <a class="btn btn-modify mb-2" href="#">Modificar</a>
+                                <a class="btn btn-danger mb-2" href="#">Inactivar</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

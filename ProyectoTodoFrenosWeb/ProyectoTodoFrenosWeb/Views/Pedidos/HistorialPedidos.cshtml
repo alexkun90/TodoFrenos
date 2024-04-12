@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "HistorialPedidos";
+}
+
+<div class="container mt-3">
+    <h2>Historial de Pedidos</h2>
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Fecha</th>
+                        <th>Pago Total</th>
+                        <th style="width: 50px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center align-middle">1</td>
+                        <td class="text-center align-middle">11/04/2024</td>
+                        <td class="text-center align-middle">₡66.860.00</td>
+                        <td class="text-center align-middle">
+                            <div>
+                                <a class="btn btn-modify mb-2" href="@Url.Action("DetallePedidos","Pedidos")"><i class="fa fa-search"></i></a>
+                                <a class="btn btn-danger mb-2" href="#"><i class="fa fa-trash"></i></a>
+                            </div>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

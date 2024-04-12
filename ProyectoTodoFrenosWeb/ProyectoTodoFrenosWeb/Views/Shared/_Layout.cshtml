@@ -72,10 +72,11 @@
                                 Gestión
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item-custom" href="#">Usuarios</a></li>
+                                <li><a class="dropdown-item-custom" href=@Url.Action("AdminUsuarios","Usuario")>Usuarios</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("AdminProductos","Producto")>Productos</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("AdminVehiculos","Vehiculo")>Vehiculos</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("AdminCitas","Cita")>Citas</a></li>
+                                <li><a class="dropdown-item-custom" href=@Url.Action("AdminPedidos","Pedidos")>Pédidos</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -83,24 +84,31 @@
                                 Nosotros
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item-custom" href="#">Contacto</a></li>
+                                <li><a class="dropdown-item-custom" href="@Url.Action("Contacto","Inicio")">Contacto</a></li>
                             </ul>
                         </li>                       
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <a class="nav-icon position-relative text-decoration-none m-2">
+                    <a class="nav-icon position-relative text-decoration-none m-2" href=@Url.Action("ListaCarrito","Carrito")>
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <!-- <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span> -->
+                        <span class="position-absolute top-2 left-80 translate-middle badge rounded-pill bg-transparent text-dark">2</span>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none m-2" href=@Url.Action("InicioSesion","Usuario")>
-                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <!--<span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>-->
-                    </a>
+                    <div class="dropdown">
+                        <a class="nav-icon position-relative text-decoration-none m-2 dropdown-toggle-custom-profile" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-fw fa-user text-dark mr-3 text-custom"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item-custom" href="@Url.Action("PerfilUsuario","Usuario")">Pérfil</a></li>
+                            <li><a class="dropdown-item-custom" href="@Url.Action("HistorialPedidos","Pedidos")">Pedidos</a></li>
+                            <li><a class="dropdown-item-custom" href="@Url.Action("HistorialPedidos","Usuario")">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
+    
 
     <div m-5>
         @RenderBody()
@@ -164,7 +172,7 @@
                 <div class="row pt-2">
                     <div class="col-12">
                         <p class="text-left text-light">
-                            Copyright &copy; 2023 Taller Todo Frenos
+                            Copyright &copy; 2024 Taller Todo Frenos
                         </p>
                     </div>
                 </div>

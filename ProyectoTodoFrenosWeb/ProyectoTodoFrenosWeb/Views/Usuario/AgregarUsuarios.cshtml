@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "AgregarUsuarios";
+}
+
+<div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
+    <div class="card rounded-3 p-4">
+        <form>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" placeholder="ingrese su nombre">
+            </div>
+            <div class="mb-3">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input type="text" class="form-control" id="apellido" placeholder="ingrese sus apellidos">
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="correo" class="form-label">Correo Eléctronico</label>
+                    <input type="email" class="form-control" id="correo" placeholder="correo eléctronico">
+                </div>
+                <div class="col-md-4">
+                    <label for="telefono" class="form-label">Numero de Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" placeholder="teléfono">
+                </div>
+                <div class="col-md-4">
+                    <label for="roles" class="form-label">Rol</label>
+                    <select id="roles" class="form-select">
+                        <option selected>Seleccione el Rol....</option>
+                        <option>Administrador</option>
+                        <option>Cliente</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-custom">Agregar nuevo usuario</button>
+        </form>
+    </div>
+</div>
+

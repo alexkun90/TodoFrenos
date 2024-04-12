@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewData["Title"] = "ListaCarrito";
+}
+
+<div class="container mt-3">
+    <h2>Mi Carrito TodoFrenos</h2>
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <table class="table table-bordered">  
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Imagen</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Impuesto</th>
+                        <th>SubTotal</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center align-middle">11/04/2024</td>
+                        <td class="d-flex justify-content-center">
+                            <img src="~/estilos/img/img-bate-p1.jpg" width="120" height="120" />
+                        </td>
+                        <td class="text-center align-middle">Bateria Plomo Acido</td>
+                        <td class="text-center align-middle">4</td>
+                        <td class="text-center align-middle">₡10.000.00</td>
+                        <td class="text-center align-middle">₡1.300.00</td>
+                        <td class="text-center align-middle">₡40.000.00</td>
+                        <td class="text-center align-middle">₡41.300.00</td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-center align-middle">11/04/2024</td>
+                        <td class="d-flex justify-content-center">
+                            <img src="~/estilos/img/img-bate-p2.jpg" width="120" height="120" />
+                        </td>
+                        <td class="text-center align-middle">Bateria de Ion</td>
+                        <td class="text-center align-middle">2</td>
+                        <td class="text-center align-middle">₡12.000.00</td>
+                        <td class="text-center align-middle">₡1.560.00</td>
+                        <td class="text-center align-middle">₡24.000.00</td>
+                        <td class="text-center align-middle">₡25.560.00</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <p style="font-size:14pt">El monto a cancelar es de: <b>₡66.860.00</b></p>
+            </div>
+            <div>
+                <a class="btn btn-agree mb-1" style="font-weight:bold" href="#">Confirmar Compra</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
