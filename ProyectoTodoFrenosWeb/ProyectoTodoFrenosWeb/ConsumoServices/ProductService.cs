@@ -2,6 +2,7 @@
 
 namespace ProyectoTodoFrenosWeb.ConsumoServices
 {
+    /*
     public class ProductService
     {
         private IConfiguration _config;
@@ -166,5 +167,5 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             }
 
         }
-    }
+    }*/
 }

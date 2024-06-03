@@ -44,7 +44,6 @@
             <a class="navbar-brand text-success logo h1 align-self-center" href=@Url.Action("Inicio","Inicio")>
                 <img src="~/estilos/img/TodoFrenosLogo.png" style="max-width: 150px; max-height: 80px;" />
             </a>
-
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -61,11 +60,12 @@
                                 <li><a class="dropdown-item-custom" href=@Url.Action("SolicitudCita","Cita")>Gestionar Cita</a></li>
                             </ul>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link nav-link-a-custom" href=@Url.Action("ListaVehiculos","Vehiculo")>Vehículos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-link-a-custom" href=@Url.Action("ListaProductos","Producto")>Productos</a>
+                            <a class="nav-link nav-link-a-custom" href=@Url.Action("Index","Products")>Productosss</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link nav-link-a-custom dropdown-toggle-custom" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -187,6 +187,6 @@
     <script src="~/estilos/js/templatemo.js"></script>
     <script src="~/estilos/js/custom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
