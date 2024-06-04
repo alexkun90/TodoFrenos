@@ -1,23 +1,24 @@
-﻿using System.Text;
+﻿using DAL.Models;
+using System.Text;
 
 namespace ProyectoTodoFrenosWeb.ConsumoServices
 {
-    /*
+    
     public class ProductService
     {
         private IConfiguration _config;
 
-        public ServicesProfesor(IConfiguration config)
+        public ProductService(IConfiguration config)
         {
             _config = config;
         }
 
         //GET INDEX
-        public async Task<IEnumerable<Profesor>> GetProfesor()
+        public async Task<IEnumerable<Product>> GetProduct()
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Profesor").Value;
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value;
 
                 try
                 {
@@ -26,7 +27,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     if (response.IsSuccessStatusCode)
                     {
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Profesor>>(responseData);
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Product>>(responseData);
 
                         return result;
                     }
@@ -45,11 +46,11 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
 
         //Details
-        public async Task<Profesor> GetProfesor(int? Id)
+        public async Task<Product> GetProduct(long? Id)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Profesor").Value + $"/{Id}";
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/{Id}";
 
                 try
                 {
@@ -59,7 +60,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     {
 
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Profesor>(responseData);
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Product>(responseData);
 
                         return result;
                     }
@@ -77,15 +78,15 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
         }
 
         //Create
-        public async Task<Profesor> CreateProfesor(Profesor profesor)
+        public async Task<Product> CreateProduct(Product product)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Profesor").Value;
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value;
 
                 try
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(profesor);
+                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(product);
                     var content = new StringContent(body, Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(apiUrl, content);
 
@@ -93,7 +94,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     {
 
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Profesor>(responseData);
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Product>(responseData);
 
                         return result;
                     }
@@ -110,22 +111,22 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
         }
         //Editar
-        public async Task<Profesor> EditProfesor(int Id, Profesor profesor)
+        public async Task<Product> EditProduct(long Id, Product product)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Profesor").Value + $"/{Id}";
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/{Id}";
 
                 try
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(profesor);
+                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(product);
                     var content = new StringContent(body, Encoding.UTF8, "application/json");
                     var response = await client.PutAsync(apiUrl, content);
 
                     if (response.IsSuccessStatusCode)
                     {
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Profesor>(responseData);
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Product>(responseData);
                         return result;
                     }
                     else
@@ -140,11 +141,11 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             }
         }
         //Details
-        public async Task<bool> DeleteProfesor(int? Id)
+        public async Task<bool> DeleteProduct(long? Id)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Profesor").Value + $"/{Id}";
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/{Id}";
 
                 try
                 {
@@ -167,5 +168,5 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             }
 
         }
-    }*/
+    }
 }

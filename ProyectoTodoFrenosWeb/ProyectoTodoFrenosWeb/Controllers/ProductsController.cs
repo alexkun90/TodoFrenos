@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.Models;
+using ProyectoTodoFrenosWeb.ConsumoServices;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -13,41 +14,51 @@ namespace ProyectoTodoFrenosWeb.Controllers
     {
         private readonly TodoFrenosDbContext _context;
 
-        public ProductsController(TodoFrenosDbContext context)
+        ProductService productService;
+
+        public ProductsController(TodoFrenosDbContext context, IConfiguration config)
         {
             _context = context;
+            productService = new ProductService(config);
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var todoFrenosDbContext = _context.Products.Include(p => p.Category);
-            return View(await todoFrenosDbContext.ToListAsync());
+            var productos = await productService.GetProduct();
+            return View(productos);
+
+            /*var todoFrenosDbContext = _context.Products.Include(p => p.Category);
+            return View(await todoFrenosDbContext.ToListAsync());*/
         }
 
         // GET: Products/Details/5
+        [Route("/Producto/Detalles/{id}")]
         public async Task<IActionResult> Details(long? id)
         {
+            Product producto = await productService.GetProduct(id);
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products
+            /*var product = await _context.Products
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            return View(product);
+            return View(producto);
         }
 
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+           /* ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+           */
             return View();
         }
 
@@ -56,15 +67,28 @@ namespace ProyectoTodoFrenosWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,CategoryId,ProductName,Stock,Price,ImageProduct")] Product product)
+        public async Task<IActionResult> Create(Product product)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                var resultado = await productService.CreateProduct(product);
+
+                if (resultado != null)
+                {
+                    TempData["MenasajeExito"] = "Se guardo el producto exitosamente";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return View(product);
+                }
+
+               /* _context.Add(product);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));*/
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            /*ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            */
             return View(product);
         }
 
@@ -76,12 +100,16 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            Product product = await productService.GetProduct(id);
+
+           /* var product = await _context.Products.FindAsync(id);*/
+
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+           /* ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            */
             return View(product);
         }
 
@@ -90,7 +118,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("ProductId,CategoryId,ProductName,Stock,Price,ImageProduct")] Product product)
+        public async Task<IActionResult> Edit(long id, Product product)
         {
             if (id != product.ProductId)
             {
@@ -101,8 +129,16 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    var resultado = await productService.EditProduct((long)id, product);
+
+                    if (resultado != null)
+                    {
+                        TempData["MenasajeExito"] = "Se edito el producto exitosamente";
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                   /* _context.Update(product);
+                    await _context.SaveChangesAsync();*/
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -115,9 +151,10 @@ namespace ProyectoTodoFrenosWeb.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                /*return RedirectToAction(nameof(Index));*/
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            /*ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+            */
             return View(product);
         }
 
@@ -129,9 +166,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
+            Product product = await productService.GetProduct(id);
+
+           /* var product = await _context.Products
                 .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);*/
+
             if (product == null)
             {
                 return NotFound();
@@ -145,14 +185,15 @@ namespace ProyectoTodoFrenosWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product != null)
+            var resultado = await productService.DeleteProduct((long)id);
+
+            /* var product = await _context.Products.FindAsync(id);*/
+            if (resultado != null)
             {
-                _context.Products.Remove(product);
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Delete));
         }
 
         private bool ProductExists(long id)
