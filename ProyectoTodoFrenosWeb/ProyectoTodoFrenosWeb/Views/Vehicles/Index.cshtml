@@ -1,0 +1,115 @@
+﻿@model IEnumerable<DAL.Models.Vehicle>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-3">
+    <h2>Gestión de Vehículo</h2>
+    <p>Apartado donde se gestiona el progreso del servicio recivido del vehiculo de los clientes de TodoFrenos</p>
+    <div class="mb-2">
+        <a class="btn btn-warning" asp-action="Create">Registrar nuevo vehículo</a>
+    </div>
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <div id="dataTable_wrapper" class="dataTables_wrapper">
+                <div class="col-sm-12">
+                    <div class="col-sm-12">
+                        
+                        <table id="myDataTable" class="table table-bordered dataTable"  style="width: 100%;">
+                            
+                            <thead>
+                                
+                                <tr>
+                                    <th class="th-bg-custom">Cliente</th>
+                                    <th class="th-bg-custom">Marca</th>
+                                    <th class="th-bg-custom">Matricula</th>
+                                    <th class="th-bg-custom">Fecha Registro</th>
+                                    <th class="th-bg-custom">Estado</th>
+                        
+                                    <th class="th-bg-custom">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model) 
+                                {
+                                    <tr>
+                                        <td class="text-center align-middle">
+                                            @Html.DisplayFor(modelItem => item.UserId)
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            @Html.DisplayFor(modelItem => item.Brand)
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            @Html.DisplayFor(modelItem => item.RegistrationCar)
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            @Html.DisplayFor(modelItem => item.CreationDate)
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            @if (item.CarState == 1)
+                                            {
+                                                @:Activo
+                                            }
+                                            else if (item.CarState == 0)
+                                            {
+                                                @:Inactivo
+                                            }
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <a class="btn btn-modify" asp-action="Edit" asp-route-id="@item.VehicleId">Editar</a>
+                                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.VehicleId">Expediente</a>
+                                            <button type="button" class="btn btn-danger AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+                                                data-id="@item.VehicleId" style="font:bold;font-size:18px">
+                                                Inactivar
+                                            </button>
+                                            @*<a class="btn btn-danger" href="@Url.Action("Delete","Vehicles", new { id = @item.VehicleId })">Eliminar</a>*@
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myDataTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+             "info":false
+        });
+    });
+
+    $(".AbrirModal").click(function () {
+        var vehicleId = $(this).attr("data-id");
+        $("#VehicleId").val(vehicleId);
+        $("#confirmDeleteButton").attr("href", "/Vehicles/Delete/" + vehicleId);
+    });
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Desea inactivar el vehículo seleccionado?
+            </div>
+            <div class="modal-footer">
+                
+                <input type="hidden" id="VehicleId" name="id" value="" />
+                <a id="confirmDeleteButton" href="#" class="btn btn-primary">Confirmar</a>
+            </div>
+        </div>
+    </div>
+</div>

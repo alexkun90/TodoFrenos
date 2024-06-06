@@ -1,0 +1,178 @@
+﻿using System.Net;
+using System.Text;
+using DAL.Models;
+
+namespace ProyectoTodoFrenosWeb.ConsumoServices
+{
+    public class VehicleService
+    {
+        private IConfiguration _config;
+
+        public VehicleService(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        public async Task<IEnumerable<Vehicle>> GetVehicles()
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value;
+
+                try
+                {
+                    var response = await client.GetAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Vehicle>>(responseData);
+
+                        return result;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+
+        }
+
+
+        //Details
+        public async Task<Vehicle> GetVehicle(long? Id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/{Id}";
+
+                try
+                {
+                    var response = await client.GetAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Vehicle>(responseData);
+
+                        return result;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+
+        }
+
+        //Create
+        public async Task<Vehicle> CreateVehicle(Vehicle vehicle)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value;
+
+                try
+                {
+                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(vehicle);
+                    var content = new StringContent(body, Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync(apiUrl, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Vehicle>(responseData);
+
+                        return result;
+                    }
+                    else if (response.StatusCode == HttpStatusCode.Conflict)
+                    {
+                        throw new Exception("La placa del vehículo ya se encuentra registrada.");
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        //Editar
+        public async Task<Vehicle> EditVehicle(long Id, Vehicle vehicle)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/{Id}";
+
+                try
+                {
+                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(vehicle);
+                    var content = new StringContent(body, Encoding.UTF8, "application/json");
+                    var response = await client.PutAsync(apiUrl, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Vehicle>(responseData);
+                        return result;
+                    }
+                    else if (response.StatusCode == HttpStatusCode.Conflict)
+                    {
+                        throw new Exception("La placa del vehículo ya se encuentra registrada.");
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+        //Delete
+        public async Task<bool> DeleteVehicle(long? Id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/{Id}";
+                try
+                {
+                    var response = await client.DeleteAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+    }
+}
+
