@@ -1,0 +1,57 @@
+﻿@model IEnumerable<DAL.Models.Product>
+
+@{
+    ViewData["Title"] = "ListaProductos";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <h2 class="text-center mb-4" style="font-size: 28px; font-weight: 600; color: #333;">─ Productos ─</h2>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="row">
+                @foreach (var producto in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="card mb-4 product-wap rounded-0">
+                            <div class="card rounded-0">
+
+                                @if (producto.ImageProduct != null && producto.ImageProduct.Length > 0)
+                                {
+                                    <img class="card-img rounded-0 img-fluid" alt="Imagen" src="data:image/jpeg;base64,@(Convert.ToBase64String(producto.ImageProduct))" width="120" height="120" />
+                                }
+                                else
+                                {
+                                    <span>Sin imagen</span>
+                                }
+                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                    <ul class="list-unstyled">
+                                        <li><a class="btn-new btn-custom text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <a href="shop-single.html" class="h3 text-decoration-none">@producto.ProductName</a>
+                                <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                    
+                                </ul>
+                                <div class="row">
+                                    <div class="col-7">
+                                        <p class="text-center mb-0 mt-1" style="font-size:20px!important;">₡@producto.Price</p>
+                                    </div>
+                                    <div class="col-5">
+                                        <input type="number" class="form-control" value="1" min="1" style="text-align:center;height:24pt;border-color:#ff8000;border-width:2px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

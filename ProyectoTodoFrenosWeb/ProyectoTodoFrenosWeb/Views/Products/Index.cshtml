@@ -1,59 +1,79 @@
 ﻿@model IEnumerable<DAL.Models.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "AdminProductos";
 }
 
-<h1>Index</h1>
+<div class="container mt-3">
+    <h2>Administración de Productos</h2>
+    <p>Apartado para agregar, modificar y eliminar los productos disponibles en el carrito de compras de TodoFrenos</p>
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <div>
+                    <a class="btn btn-agree mb-1" style="font-weight:bold" href="@Url.Action("Create", "Products")">Agregar Producto</a>
+                </div>
+                <thead>
+                    <tr>
+                        <th class="th-bg-custom">
+                            @Html.DisplayNameFor(model => model.Category)
+                        </th>
+                        <th class="th-bg-custom">
+                            @Html.DisplayNameFor(model => model.ProductName)
+                        </th>
+                        <th class="th-bg-custom">
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th class="th-bg-custom">
+                            @Html.DisplayNameFor(model => model.Stock)
+                        </th>
+                        <th class="th-bg-custom">Estado</th>
+                        <th class="th-bg-custom">
+                            @Html.DisplayNameFor(model => model.ImageProduct)
+                        </th>
+                        <th class="th-bg-custom">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Stock)
+                            </td>
+                            <td class="text-center align-middle">Activo</td>
+                            <td class="d-flex justify-content-center">
+                                @if (item.ImageProduct != null && item.ImageProduct.Length > 0)
+                                {
+                                    <img alt="Imagen" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.ImageProduct))" width="120" height="120" />
+                                }
+                                else
+                                {
+                                    <span>Sin imagen</span>
+                                }
+                            </td>
+                            <td class="text-center align-middle">
+                                <div class="d-flex flex-column align-items-center">
+                                    <a class="btn btn-modify mb-2" href="@Url.Action("Edit", new { id = item.ProductId })">Modificar</a>
+                                    
+                                    <a class="btn btn-delete mb-2" href="@Url.Action("IndexCliente", "Products")">Detalles</a>
+                                    <a class="btn btn-delete" href="@Url.Action("Delete", new { id = item.ProductId })">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageProduct)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageProduct)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>

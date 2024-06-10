@@ -31,6 +31,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
             /*var todoFrenosDbContext = _context.Products.Include(p => p.Category);
             return View(await todoFrenosDbContext.ToListAsync());*/
         }
+        // GET: Products
+        public async Task<IActionResult> IndexCliente()
+        {
+            var productos = await productService.GetProduct();
+            return View(productos);
+
+        }
 
         // GET: Products/Details/5
         [Route("/Producto/Detalles/{id}")]
@@ -67,10 +74,25 @@ namespace ProyectoTodoFrenosWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(Product product, IFormFile imagen)
         {
             if (ModelState.IsValid)
             {
+                // Iformefile imagen
+                //Validar imagen
+                byte[] imagenMas = null;
+
+                if (imagen != null && imagen.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await imagen.CopyToAsync(memoryStream);
+                        imagenMas = memoryStream.ToArray();
+                    }
+                }
+                //Configuracion de la imagen
+                product.ImageProduct = imagenMas;
+
                 var resultado = await productService.CreateProduct(product);
 
                 if (resultado != null)
@@ -118,7 +140,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, Product product)
+        public async Task<IActionResult> Edit(long id, Product product, IFormFile imagen)
         {
             if (id != product.ProductId)
             {
@@ -127,8 +149,27 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
             if (ModelState.IsValid)
             {
+                // Iformefile imagen
+                //Validar imagen
+                byte[] imagenMas = null;
+
+                if (imagen != null && imagen.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await imagen.CopyToAsync(memoryStream);
+                        imagenMas = memoryStream.ToArray();
+                    }
+                }
+                else
+                {
+                    imagenMas = product.ImageProduct;
+                }
+
                 try
                 {
+                    //Configuracion de la imagen
+                    product.ImageProduct = imagenMas;
                     var resultado = await productService.EditProduct((long)id, product);
 
                     if (resultado != null)

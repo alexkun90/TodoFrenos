@@ -56,6 +56,7 @@ namespace API.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                return Ok(product);
             }
             catch (DbUpdateConcurrencyException)
             {
