@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
-/*
-namespace ProyectoTodoFrenosWeb.Controllers
+
+/*namespace ProyectoTodoFrenosWeb.Controllers
 {
     public class EjemploController : Controller
     { 
@@ -169,5 +169,4 @@ namespace ProyectoTodoFrenosWeb.Controllers
     }
 }
 }
-
 */
