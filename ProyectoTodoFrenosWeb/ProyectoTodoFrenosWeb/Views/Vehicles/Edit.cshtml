@@ -1,0 +1,113 @@
+﻿@model DAL.Models.Vehicle
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
+    <div class="card rounded-3 p-4 w-50">
+        @using (Html.BeginForm("Edit", "Vehicles", FormMethod.Post))
+        {
+            @Html.TextBoxFor(m => m.VehicleId, new { @type = "hidden" })
+            <div class="mb-3">
+                <label for="UserId" class="form-label">Propietario</label>
+                @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", @required = "true" })
+            </div>
+            <div class="mb-3">
+                <label for="Brand" class="form-label">Modelo</label>
+                @Html.TextBoxFor(m => m.Brand, new { @class = "form-control",  @required = "true" })
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="RegistrationCar" class="form-label">Placa</label>
+                    @Html.TextBoxFor(m => m.RegistrationCar, new { @class = "form-control",  @required = "true" })
+                </div>
+
+                <div class="col-md-5">
+                    <label for="CreationDate" class="form-label">Fecha Registro</label>
+                    @Html.TextBoxFor(m => m.CreationDate, new { @class = "form-control", @required = "true" })
+                    @Html.ValidationMessageFor(m => m.CreationDate, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-3">
+                    <label for="CarState" class="form-label">Estado</label>
+                    @{
+                        var estados = new List<SelectListItem>
+                        {
+                            new SelectListItem { Value = "1", Text = "Activo" },
+                            new SelectListItem { Value = "0", Text = "Inactivo" }
+                        };
+                    }
+
+                    @Html.DropDownListFor(m => m.CarState, estados, new { @class = "form-select", @required = "true" })
+                </div>
+            </div>
+            <button type="submit" class="btn btn-custom">Guardar</button>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <ul class="mt-2">
+                        @foreach (var key in ViewData.ModelState.Keys)
+                        {
+                            foreach (var error in ViewData.ModelState[key].Errors)
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        }
+                    </ul>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+@*<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="VehicleId" />
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Brand" class="control-label"></label>
+                <input asp-for="Brand" class="form-control" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RegistrationCar" class="control-label"></label>
+                <input asp-for="RegistrationCar" class="form-control" />
+                <span asp-validation-for="RegistrationCar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreationDate" class="control-label"></label>
+                <input asp-for="CreationDate" class="form-control" />
+                <span asp-validation-for="CreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CarState" class="control-label"></label>
+                <input asp-for="CarState" class="form-control" />
+                <span asp-validation-for="CarState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+*@
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

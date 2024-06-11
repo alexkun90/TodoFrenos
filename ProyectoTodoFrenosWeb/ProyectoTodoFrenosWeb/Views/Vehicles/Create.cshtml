@@ -1,0 +1,66 @@
+﻿@model DAL.Models.Vehicle
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+
+<div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
+    <div class="card rounded-3 p-4 w-50">
+        @using (Html.BeginForm("Create", "Vehicles", FormMethod.Post))
+        {
+            <div class="mb-3">
+                <label for="UserId" class="form-label">Propietario</label>
+                @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", placeholder = "identificación del propietario del vehículo", @required = "true" })
+            </div>
+            <div class="mb-3">
+                <label for="Brand" class="form-label">Modelo</label>
+                @Html.TextBoxFor(m => m.Brand, new { @class = "form-control", placeholder = "modelo del vehículo", @required = "true" })
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <label for="RegistrationCar" class="form-label">Placa</label>
+                    @Html.TextBoxFor(m => m.RegistrationCar, new { @class = "form-control", placeholder = "número de placa del vehículo", @required = "true" })
+                </div>
+
+                <div class="col-md-3">
+                    <label for="CarState" class="form-label">Estado</label>
+                    @{
+                        var estados = new List<SelectListItem>
+                        {
+                            new SelectListItem { Value = "1", Text = "Activo" },
+                            new SelectListItem { Value = "0", Text = "Inactivo" }
+                        };
+                    }
+
+                    @Html.DropDownListFor(m => m.CarState, estados, new { @class = "form-select", @required = "true" })
+                </div>
+            </div>
+            <button type="submit" class="btn btn-custom">Registrar</button>
+           
+            @if (!ViewData.ModelState.IsValid)
+            {
+                
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <ul class="mt-2">
+                        @foreach (var key in ViewData.ModelState.Keys)
+                        {
+                            foreach (var error in ViewData.ModelState[key].Errors)
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        }
+                    </ul>
+                </div>
+            }
+        }
+       
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
