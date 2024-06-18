@@ -51,7 +51,7 @@ namespace API.Controllers
                 return BadRequest();
             }
 
-            var existingVRG = await _context.Vehicles.FirstOrDefaultAsync(x => x.RegistrationCar == vehicle.RegistrationCar && x.VehicleId != id);
+            var existingVRG = await _context.Vehicles.FirstOrDefaultAsync(x => x.Plate == vehicle.Plate && x.VehicleId != id);
             if (existingVRG != null)
             {
                 return Conflict("Esta placa del vehículo ya se encuentra registrada en otro vehículo");
@@ -81,7 +81,7 @@ namespace API.Controllers
         public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
         {
             //existRC = Validación de RegistracionCar 
-            var existRC = await _context.Vehicles.FirstOrDefaultAsync(x => x.RegistrationCar == vehicle.RegistrationCar);
+            var existRC = await _context.Vehicles.FirstOrDefaultAsync(x => x.Plate == vehicle.Plate);
             if(existRC != null)
             {
                 return Conflict("Está placa del vehículo ya se encuentra registrada");

@@ -8,11 +8,17 @@ public partial class Vehicle
 {
     public long VehicleId { get; set; }
 
-    public string UserId { get; set; } = null!;
+    public int UserId { get; set; }
+
+    public string TypeVeh { get; set; }
 
     public string? Brand { get; set; }
 
-    public string? RegistrationCar { get; set; }
+    public string? ModelYear { get; set; }
+
+    public string? Vin { get; set; }
+
+    public string? Plate { get; set; }
 
     public DateTime? CreationDate { get; set; }
 
