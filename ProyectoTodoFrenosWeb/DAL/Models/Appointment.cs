@@ -19,7 +19,7 @@ public partial class Appointment
 
     public string? Reason { get; set; }
 
-    public string? AppointState { get; set; }
+    public int? AppointState { get; set; }
 
     public virtual Vehicle? Vehicle { get; set; }
 }

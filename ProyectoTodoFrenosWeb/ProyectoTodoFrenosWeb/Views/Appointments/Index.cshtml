@@ -1,0 +1,125 @@
+﻿@model IEnumerable<DAL.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div class="container mt-3">
+    <h2>Gestión de Citas</h2>
+    <p>Apartado donde se gestiona las citas de los clientes de TodoFrenos</p>
+    <div class="mb-2">
+        <a class="btn btn-warning" asp-action="Create">Registrar nueva cita</a>
+    </div>
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <div id="dataTable_wrapper" class="dataTables_wrapper">
+                <div class="col-sm-12">
+                    <div class="col-sm-12">
+                        <table id="myDataTable" class="table table-bordered dataTable" style="width: 100%;">
+                            <thead>
+
+                                <tr>
+                                    <th class="th-bg-custom">Id Cita</th>
+                                    <th class="th-bg-custom">Fecha</th>
+                                    <th class="th-bg-custom">Motivo</th>
+                                    <th class="th-bg-custom">Estado</th>
+
+                                    <th class="th-bg-custom">Acciones</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                            @foreach (var item in Model) {
+                             <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserId)
+                                </td>
+                                <!--
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AppointDate)
+                                </td>
+                                -->
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AppointCreationDate)
+                                </td>
+                                <!--
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AppointModifyDate)
+                                    </td>
+                                -->
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Reason)
+                                </td>
+                                        <td class="text-center align-middle">
+                                            @if (item.AppointState == 1)
+                                            {
+                                                @:Activo
+                                            }
+                                            else if (item.AppointState == 0)
+                                            {
+                                                @:Inactivo
+                                            }
+                                        </td>
+                              
+                                <td class="text-center align-middle">
+                                            <a class="btn btn-modify" asp-action="Edit" asp-route-id="@item.AppointId">Editar</a> |
+                                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.AppointId">Detalles</a> |
+                                            @*<a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.AppointId">Inactivar</a>*@
+                                            <button type="button" class="btn btn-danger AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                    data-id="@item.AppointId" style="font:bold;font-size:18px">
+                                                Inactivar
+                                            </button>
+
+                                            
+                                </td>
+                             </tr>
+}
+                        </tbody>
+                      </table>
+                </div>
+            </div>  
+        </div>
+     </div>
+  </div>
+</div>
+
+
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myDataTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "info": false
+        });
+    });
+
+    $(".AbrirModal").click(function () {
+        var appointId = $(this).attr("data-id");
+        $("#AppointId").val(appointId);
+        $("#confirmDeleteButton").attr("href", "/Appointments/Delete/" + appointId);
+    });
+</script>
+
+<!-- Modal -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Desea inactivar la cita seleccionada?
+            </div>
+            <div class="modal-footer">
+
+                <input type="hidden" id="AppointId" name="id" value="" />
+                <a id="confirmDeleteButton" href="#" class="btn btn-primary">Confirmar</a>
+            </div>
+        </div>
+    </div>
+</div>
