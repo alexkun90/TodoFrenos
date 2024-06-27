@@ -93,8 +93,8 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-
-            _context.Products.Remove(product);
+            product.StateProdc = false;
+            _context.Products.Update(product);
             await _context.SaveChangesAsync();
 
             return NoContent();

@@ -140,7 +140,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                 }
             }
         }
-        //Details
+        //Detete
         public async Task<bool> DeleteProduct(long? Id)
         {
             using (var client = new HttpClient())

@@ -80,7 +80,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 // Iformefile imagen
                 //Validar imagen
-                byte[] imagenMas = null;
+                byte[]? imagenMas = null;
 
                 if (imagen != null && imagen.Length > 0)
                 {
@@ -151,7 +151,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 // Iformefile imagen
                 //Validar imagen
-                byte[] imagenMas = null;
+                byte[]? imagenMas = null;
 
                 if (imagen != null && imagen.Length > 0)
                 {
@@ -221,21 +221,23 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(product);
         }
 
-        // POST: Products/Delete/5
+        // POST: Products/DeleteConfirmed/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var resultado = await productService.DeleteProduct((long)id);
+            var resultado = await productService.DeleteProduct(id);
 
-            /* var product = await _context.Products.FindAsync(id);*/
-            if (resultado != null)
+            if (resultado)
             {
+                TempData["MensajeExito"] = "Producto desactivado exitosamente";
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction(nameof(Delete));
+            TempData["MensajeError"] = "Error al desactivar el producto";
+            return RedirectToAction(nameof(Delete), new { id = id });
         }
+
 
         private bool ProductExists(long id)
         {

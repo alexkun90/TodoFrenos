@@ -26,7 +26,7 @@
                 <div class="col-md-4">
                     <label asp-for="CategoryId" class="form-label"></label>
                     <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId"></select>
-                    
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-2">
@@ -34,6 +34,12 @@
                     <input asp-for="Stock" class="form-control" />
                     <span asp-validation-for="Stock" class="text-danger"></span>
                 </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="StateProdc" class="form-label">Estado del Producto</label><br />
+                <input asp-for="StateProdc" type="checkbox" />
+                <span asp-validation-for="StateProdc" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
