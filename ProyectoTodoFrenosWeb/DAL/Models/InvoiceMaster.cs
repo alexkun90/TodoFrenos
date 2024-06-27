@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DAL.Models;
 
 public partial class InvoiceMaster
 {
+    [Key]
     public long MasterId { get; set; }
 
     public string UserId { get; set; } = null!;

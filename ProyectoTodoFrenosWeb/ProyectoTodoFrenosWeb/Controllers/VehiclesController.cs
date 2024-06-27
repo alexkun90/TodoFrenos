@@ -161,39 +161,60 @@ namespace ProyectoTodoFrenosWeb.Controllers
             var vehicle = await vehicleService.GetVehicle(id);
 
             return View(vehicle);
-
-            /*if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vehicle = await vehicleService.GetVehicle(id);
-
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-
-            return View(vehicle);*/
         }
 
-        // POST: Vehicles/Delete/5
-        /*[HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        /*if (id == null)
         {
-            var resultado = await vehicleService.DeleteVehicle(id);
+            return NotFound();
+        }
+
+        var vehicle = await vehicleService.GetVehicle(id);
+
+        if (vehicle == null)
+        {
+            return NotFound();
+        }
+
+        return View(vehicle);
+    }
+
+    // POST: Vehicles/Delete/5
+    /*[HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(long id)
+    {
+        var resultado = await vehicleService.DeleteVehicle(id);
+
+        if (resultado)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        ModelState.AddModelError(string.Empty, "Error deleting vehicle. Please try again.");
+        var vehicle = await vehicleService.GetVehicle(id);
+
+        return View("Delete", vehicle);
+    }*/
+
+        public async Task<IActionResult> Activate(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var resultado = await vehicleService.ActivateVehicle(id.Value);
 
             if (resultado)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            ModelState.AddModelError(string.Empty, "Error deleting vehicle. Please try again.");
+            ModelState.AddModelError(string.Empty, "Error al activar el vehiculo.");
             var vehicle = await vehicleService.GetVehicle(id);
 
-            return View("Delete", vehicle);
-        }*/
+            return View(vehicle);
+        }
 
         private bool VehicleExists(long id)
         {
