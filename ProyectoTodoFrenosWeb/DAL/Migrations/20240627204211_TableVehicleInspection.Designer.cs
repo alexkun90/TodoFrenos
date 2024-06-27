@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(TodoFrenosDbContext))]
-    [Migration("20240618223803_Inicial")]
-    partial class Inicial
+    [Migration("20240627204211_TableVehicleInspection")]
+    partial class TableVehicleInspection
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,35 +34,31 @@ namespace DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("AppointId"));
 
                     b.Property<DateTime?>("AppointCreationDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateOnly?>("AppointDate")
                         .HasColumnType("date");
 
                     b.Property<DateTime?>("AppointModifyDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("AppointState")
-                        .HasMaxLength(50)
                         .HasColumnType("int");
 
                     b.Property<int?>("InspectionsIdInsep")
                         .HasColumnType("int");
 
                     b.Property<string>("Reason")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("UserID");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long?>("VehicleId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("AppointId")
-                        .HasName("PK__Appointm__DCC1C939FBF15791");
+                    b.HasKey("AppointId");
 
                     b.HasIndex("InspectionsIdInsep");
 
@@ -81,14 +77,12 @@ namespace DAL.Migrations
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("StateCateg")
                         .HasColumnType("bit");
 
-                    b.HasKey("CategoryId")
-                        .HasName("PK__Categori__19093A0B6D47F42D");
+                    b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -173,7 +167,7 @@ namespace DAL.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
@@ -182,22 +176,21 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("SubTotal")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Taxes")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("DetailId")
-                        .HasName("PK__InvoiceD__135C316D25B0313B");
+                    b.HasKey("DetailId");
 
                     b.HasIndex("MasterId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("InvoiceDetail", (string)null);
+                    b.ToTable("InvoiceDetails");
                 });
 
             modelBuilder.Entity("DAL.Models.InvoiceMaster", b =>
@@ -209,16 +202,16 @@ namespace DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("MasterId"));
 
                     b.Property<DateTime>("DatePurchase")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("SubTotal")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Taxes")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -226,7 +219,7 @@ namespace DAL.Migrations
 
                     b.HasKey("MasterId");
 
-                    b.ToTable("InvoiceMaster", (string)null);
+                    b.ToTable("InvoiceMasters");
                 });
 
             modelBuilder.Entity("DAL.Models.Product", b =>
@@ -241,15 +234,13 @@ namespace DAL.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<byte[]>("ImageProduct")
-                        .HasColumnType("varbinary(max)")
-                        .HasColumnName("Image_Product");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(10, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("StateProdc")
                         .HasColumnType("bit");
@@ -257,8 +248,7 @@ namespace DAL.Migrations
                     b.Property<int?>("Stock")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId")
-                        .HasName("PK__Products__B40CC6CD5D85E39A");
+                    b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
 
@@ -274,7 +264,7 @@ namespace DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("CartId"));
 
                     b.Property<DateTime?>("DateCart")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<long?>("ProductId")
                         .HasColumnType("bigint");
@@ -286,12 +276,11 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CartId")
-                        .HasName("PK__Shopping__51BCD7B70845E51C");
+                    b.HasKey("CartId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ShoppingCart", (string)null);
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("DAL.Models.Vehicle", b =>
@@ -303,21 +292,19 @@ namespace DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("VehicleId"));
 
                     b.Property<string>("Brand")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CarState")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ModelYear")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Plate")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TypeVeh")
                         .IsRequired()
@@ -332,6 +319,60 @@ namespace DAL.Migrations
                     b.HasKey("VehicleId");
 
                     b.ToTable("Vehicles");
+                });
+
+            modelBuilder.Entity("DAL.Models.VehicleInspection", b =>
+                {
+                    b.Property<long>("VehicleInspectionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("VehicleInspectionId"));
+
+                    b.Property<string>("Brakes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DatePerformed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ElectricalSystem")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Engine")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("InspectionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InspectorName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lights")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NextChangeDue")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OilChange")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Steering")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Suspension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tires")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("VehicleId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("VehicleInspectionId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("VehicleInspections");
                 });
 
             modelBuilder.Entity("DAL.Models.WorkPerformed", b =>
@@ -370,8 +411,7 @@ namespace DAL.Migrations
 
                     b.HasOne("DAL.Models.Vehicle", "Vehicle")
                         .WithMany("Appointments")
-                        .HasForeignKey("VehicleId")
-                        .HasConstraintName("Fk_Apponint_VehicleId");
+                        .HasForeignKey("VehicleId");
 
                     b.Navigation("Vehicle");
                 });
@@ -396,14 +436,14 @@ namespace DAL.Migrations
                     b.HasOne("DAL.Models.InvoiceMaster", "Master")
                         .WithMany("InvoiceDetails")
                         .HasForeignKey("MasterId")
-                        .IsRequired()
-                        .HasConstraintName("Fk_Details_MasterId");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DAL.Models.Product", "Product")
                         .WithMany("InvoiceDetails")
                         .HasForeignKey("ProductId")
-                        .IsRequired()
-                        .HasConstraintName("Fk_Details_ProductId");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Master");
 
@@ -414,8 +454,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .HasConstraintName("Fk_CategoryId");
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
@@ -424,10 +463,20 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Product", "Product")
                         .WithMany("ShoppingCarts")
-                        .HasForeignKey("ProductId")
-                        .HasConstraintName("Fk_Cart_ProductId");
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DAL.Models.VehicleInspection", b =>
+                {
+                    b.HasOne("DAL.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("DAL.Models.WorkPerformed", b =>

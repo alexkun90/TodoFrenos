@@ -16,16 +16,28 @@
                 @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", placeholder = "identificación del propietario del vehículo", @required = "true" })
             </div>
             <div class="mb-3">
-                <label for="Brand" class="form-label">Modelo</label>
-                @Html.TextBoxFor(m => m.Brand, new { @class = "form-control", placeholder = "modelo del vehículo", @required = "true" })
+                <label for="Vin" class="form-label">VIN</label>
+                @Html.TextBoxFor(m => m.Vin, new { @class = "form-control", placeholder = "vin del vehículo", @required = "true" })
+            </div>
+            <div class="mb-3">
+                <label for="Brand" class="form-label">Marca</label>
+                @Html.TextBoxFor(m => m.Brand, new { @class = "form-control", placeholder = "marca del vehículo", @required = "true" })
             </div>
             <div class="row mb-3">
-                <div class="col-md-8">
+               
+                <div class="col-md-5">
                     <label for="Plate" class="form-label">Placa</label>
                     @Html.TextBoxFor(m => m.Plate, new { @class = "form-control", placeholder = "número de placa del vehículo", @required = "true" })
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-5">
+                    <label for="ModelYear" class="form-label">Modelo</label>
+                    @Html.TextBoxFor(m => m.ModelYear, new { @class = "form-control", placeholder = "año del vehículo", @required = "true" })
+                </div>
+                
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
                     <label for="CarState" class="form-label">Estado</label>
                     @{
                         var estados = new List<SelectListItem>
@@ -36,6 +48,20 @@
                     }
 
                     @Html.DropDownListFor(m => m.CarState, estados, new { @class = "form-select", @required = "true" })
+                </div>
+
+                <div class="col-md-4">
+                    <label for="TypeVeh" class="form-label">Estado</label>
+                    @{
+                        var tipoVehicylo = new List<SelectListItem>
+                        {
+                            new SelectListItem { Value = "Liviano", Text = "Liviano" },
+                            new SelectListItem { Value = "Semiliviano", Text = "Semiliviano" },
+                            new SelectListItem { Value = "Pesado", Text = "Pesado" }
+                        };
+                    }
+
+                    @Html.DropDownListFor(m => m.TypeVeh, tipoVehicylo, new { @class = "form-select", @required = "true" })
                 </div>
             </div>
             <button type="submit" class="btn btn-custom">Registrar</button>

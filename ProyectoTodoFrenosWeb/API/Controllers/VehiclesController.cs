@@ -109,6 +109,22 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [HttpDelete("Activate/{id}")]
+        public async Task<IActionResult> ActiveVehicle(long id)
+        {
+            var vehicle = await _context.Vehicles.FindAsync(id);
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+
+            vehicle.CarState = 1;
+            _context.Vehicles.Update(vehicle);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         private bool VehicleExists(long id)
         {
             return _context.Vehicles.Any(e => e.VehicleId == id);

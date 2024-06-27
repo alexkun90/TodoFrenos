@@ -173,6 +173,33 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                 }
             }
         }
+
+        //Active
+        public async Task<bool> ActivateVehicle(long? Id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/Activate/{Id}";
+                try
+                {
+
+                    var response = await client.DeleteAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
     }
 }
 

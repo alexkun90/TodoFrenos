@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class TableVehicleInspection : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,12 +17,12 @@ namespace DAL.Migrations
                 {
                     CategoryId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StateCateg = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Categori__19093A0B6D47F42D", x => x.CategoryId);
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,20 +42,20 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InvoiceMaster",
+                name: "InvoiceMasters",
                 columns: table => new
                 {
                     MasterId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DatePurchase = table.Column<DateTime>(type: "datetime", nullable: false),
+                    DatePurchase = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SubTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Taxes = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InvoiceMaster", x => x.MasterId);
+                    table.PrimaryKey("PK_InvoiceMasters", x => x.MasterId);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,11 +66,11 @@ namespace DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     TypeVeh = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Brand = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Brand = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModelYear = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Vin = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Plate = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "datetime", nullable: true),
+                    Plate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CarState = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -85,17 +85,17 @@ namespace DAL.Migrations
                     ProductId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryId = table.Column<long>(type: "bigint", nullable: true),
-                    ProductName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Stock = table.Column<int>(type: "int", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     StateProdc = table.Column<bool>(type: "bit", nullable: false),
-                    Image_Product = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                    ImageProduct = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Products__B40CC6CD5D85E39A", x => x.ProductId);
+                    table.PrimaryKey("PK_Products", x => x.ProductId);
                     table.ForeignKey(
-                        name: "Fk_CategoryId",
+                        name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "CategoryId");
@@ -132,7 +132,38 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InvoiceDetail",
+                name: "VehicleInspections",
+                columns: table => new
+                {
+                    VehicleInspectionId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VehicleId = table.Column<long>(type: "bigint", nullable: false),
+                    InspectorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InspectionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Engine = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Brakes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Lights = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Steering = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tires = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Suspension = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ElectricalSystem = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OilChange = table.Column<int>(type: "int", nullable: false),
+                    DatePerformed = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NextChangeDue = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VehicleInspections", x => x.VehicleInspectionId);
+                    table.ForeignKey(
+                        name: "FK_VehicleInspections_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "Vehicles",
+                        principalColumn: "VehicleId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InvoiceDetails",
                 columns: table => new
                 {
                     DetailId = table.Column<long>(type: "bigint", nullable: false)
@@ -147,35 +178,37 @@ namespace DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__InvoiceD__135C316D25B0313B", x => x.DetailId);
+                    table.PrimaryKey("PK_InvoiceDetails", x => x.DetailId);
                     table.ForeignKey(
-                        name: "Fk_Details_MasterId",
+                        name: "FK_InvoiceDetails_InvoiceMasters_MasterId",
                         column: x => x.MasterId,
-                        principalTable: "InvoiceMaster",
-                        principalColumn: "MasterId");
+                        principalTable: "InvoiceMasters",
+                        principalColumn: "MasterId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "Fk_Details_ProductId",
+                        name: "FK_InvoiceDetails_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "ProductId");
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShoppingCart",
+                name: "ShoppingCarts",
                 columns: table => new
                 {
                     CartId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProductId = table.Column<long>(type: "bigint", nullable: true),
-                    DateCart = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DateCart = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Stock = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Shopping__51BCD7B70845E51C", x => x.CartId);
+                    table.PrimaryKey("PK_ShoppingCarts", x => x.CartId);
                     table.ForeignKey(
-                        name: "Fk_Cart_ProductId",
+                        name: "FK_ShoppingCarts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "ProductId");
@@ -187,25 +220,25 @@ namespace DAL.Migrations
                 {
                     AppointId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VehicleId = table.Column<long>(type: "bigint", nullable: true),
                     AppointDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    AppointCreationDate = table.Column<DateTime>(type: "datetime", nullable: true),
-                    AppointModifyDate = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Reason = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    AppointState = table.Column<int>(type: "int", maxLength: 50, nullable: true),
+                    AppointCreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AppointModifyDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AppointState = table.Column<int>(type: "int", nullable: true),
                     InspectionsIdInsep = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Appointm__DCC1C939FBF15791", x => x.AppointId);
+                    table.PrimaryKey("PK_Appointments", x => x.AppointId);
                     table.ForeignKey(
                         name: "FK_Appointments_Inspections_InspectionsIdInsep",
                         column: x => x.InspectionsIdInsep,
                         principalTable: "Inspections",
                         principalColumn: "IdInsep");
                     table.ForeignKey(
-                        name: "Fk_Apponint_VehicleId",
+                        name: "FK_Appointments_Vehicles_VehicleId",
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "VehicleId");
@@ -254,13 +287,13 @@ namespace DAL.Migrations
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoiceDetail_MasterId",
-                table: "InvoiceDetail",
+                name: "IX_InvoiceDetails_MasterId",
+                table: "InvoiceDetails",
                 column: "MasterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoiceDetail_ProductId",
-                table: "InvoiceDetail",
+                name: "IX_InvoiceDetails_ProductId",
+                table: "InvoiceDetails",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -269,9 +302,14 @@ namespace DAL.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShoppingCart_ProductId",
-                table: "ShoppingCart",
+                name: "IX_ShoppingCarts_ProductId",
+                table: "ShoppingCarts",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VehicleInspections_VehicleId",
+                table: "VehicleInspections",
+                column: "VehicleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkPerformeds_InspeIdInsep",
@@ -286,16 +324,19 @@ namespace DAL.Migrations
                 name: "Appointments");
 
             migrationBuilder.DropTable(
-                name: "InvoiceDetail");
+                name: "InvoiceDetails");
 
             migrationBuilder.DropTable(
-                name: "ShoppingCart");
+                name: "ShoppingCarts");
+
+            migrationBuilder.DropTable(
+                name: "VehicleInspections");
 
             migrationBuilder.DropTable(
                 name: "WorkPerformeds");
 
             migrationBuilder.DropTable(
-                name: "InvoiceMaster");
+                name: "InvoiceMasters");
 
             migrationBuilder.DropTable(
                 name: "Products");

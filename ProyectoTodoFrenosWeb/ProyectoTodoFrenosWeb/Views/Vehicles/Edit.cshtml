@@ -16,6 +16,10 @@
                 @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", @required = "true" })
             </div>
             <div class="mb-3">
+                <label for="Vin" class="form-label">VIN</label>
+                @Html.TextBoxFor(m => m.Vin, new { @class = "form-control", placeholder = "vin del vehículo", @required = "true" })
+            </div>
+            <div class="mb-3">
                 <label for="Brand" class="form-label">Modelo</label>
                 @Html.TextBoxFor(m => m.Brand, new { @class = "form-control",  @required = "true" })
             </div>
@@ -25,23 +29,44 @@
                     @Html.TextBoxFor(m => m.Plate, new { @class = "form-control",  @required = "true" })
                 </div>
 
+                <div class="col-md-3">
+                    <label for="ModelYear" class="form-label">Modelo</label>
+                    @Html.TextBoxFor(m => m.ModelYear, new { @class = "form-control", placeholder = "año del vehículo", @required = "true" })
+                </div>
+
                 <div class="col-md-5">
                     <label for="CreationDate" class="form-label">Fecha Registro</label>
                     @Html.TextBoxFor(m => m.CreationDate, new { @class = "form-control", @required = "true" })
                     @Html.ValidationMessageFor(m => m.CreationDate, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="col-md-3">
+            <div class="row mb-3">
+                <div class="col-md-4">
                     <label for="CarState" class="form-label">Estado</label>
                     @{
                         var estados = new List<SelectListItem>
-                        {
-                            new SelectListItem { Value = "1", Text = "Activo" },
-                            new SelectListItem { Value = "0", Text = "Inactivo" }
-                        };
+                {
+                new SelectListItem { Value = "1", Text = "Activo" },
+                new SelectListItem { Value = "0", Text = "Inactivo" }
+                };
                     }
 
                     @Html.DropDownListFor(m => m.CarState, estados, new { @class = "form-select", @required = "true" })
+                </div>
+
+                <div class="col-md-4">
+                    <label for="TypeVeh" class="form-label">Estado</label>
+                    @{
+                        var tipoVehicylo = new List<SelectListItem>
+                {
+                new SelectListItem { Value = "Liviano", Text = "Liviano" },
+                new SelectListItem { Value = "Semiliviano", Text = "Semiliviano" },
+                new SelectListItem { Value = "Pesado", Text = "Pesado" }
+                };
+                    }
+
+                    @Html.DropDownListFor(m => m.TypeVeh, tipoVehicylo, new { @class = "form-select", @required = "true" })
                 </div>
             </div>
             <button type="submit" class="btn btn-custom">Guardar</button>

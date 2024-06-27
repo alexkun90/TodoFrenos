@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace DAL.Models;
 
 public partial class Product
 {
+    [Key]
     public long ProductId { get; set; }
 
     [DisplayName("Categoria")]

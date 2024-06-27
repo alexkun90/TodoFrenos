@@ -59,7 +59,6 @@
 .btn-new {
     --bs-btn-padding-x: 0.75rem;
     --bs-btn-padding-y: 0.375rem;
-    --bs-btn-font-family:;
     --bs-btn-font-size: 1rem;
     --bs-btn-font-weight: 400;
     --bs-btn-line-height: 1.5;
@@ -119,9 +118,9 @@
 
 /*Tables-------------------------------------------------------*/
 .th-bg-custom {
-    background-color: #fc2d3b !important;
-    color: #ffffff !important;
-    text-align:center !important;
+    background-color: #333333 !important;
+    color: #e6e6e6 !important;
+    text-align: center !important;
 }
 
 .container-border-custom {
@@ -130,24 +129,24 @@
 }
 
 .btn-agree {
-    background-color: #ff8000 !important;
+    background-color: #f18b4d !important;
     color: #ffffff !important;
 }
 
-.btn-agree:hover {
-    background-color: #cd6600 !important;
-    color: #ffffff !important;
-}
+    .btn-agree:hover {
+        background-color: #e28248 !important;
+        color: #ffffff !important;
+    }
 
 .btn-modify {
-    background-color: #78828a !important;
+    background-color: #E2C275 !important;
     color: #ffffff !important;
 }
 
-.btn-modify:hover {
-    background-color: #5a6268 !important;
-    color: #ffffff !important;
-}
+    .btn-modify:hover {
+        background-color: #d0b36b !important;
+        color: #ffffff !important;
+    }
 
 .btn-delete {
     background-color: #e04b59 !important;
@@ -158,6 +157,26 @@
     background-color: #c82333 !important;
     color: #ffffff !important;
 }
+
+.btn-inactive {
+    background-color: #737d85 !important;
+    color: #ffffff !important;
+}
+
+    .btn-inactive:hover {
+        background-color: #616970 !important;
+        color: #ffffff !important;
+    }
+
+.btn-active-custom {
+    background-color: #43a85a !important;
+    color: #ffffff !important;
+}
+
+    .btn-active-custom:hover {
+        background-color: #419855 !important;
+        color: #ffffff !important;
+    }
 
 /*Dropdown Fleca*/
 .dropdown-toggle-custom {

@@ -6,6 +6,7 @@ namespace DAL.Models;
 
 public partial class Vehicle
 {
+    [Key]
     public long VehicleId { get; set; }
 
     public int UserId { get; set; }

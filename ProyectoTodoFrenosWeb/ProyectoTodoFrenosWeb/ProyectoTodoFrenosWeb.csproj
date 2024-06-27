@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Estilos\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\Estilos\css\bootstrap.min.css" />
     <None Include="wwwroot\Estilos\css\custom.css" />
     <None Include="wwwroot\Estilos\css\fontawesome.css" />

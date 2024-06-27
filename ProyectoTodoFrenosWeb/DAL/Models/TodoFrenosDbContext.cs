@@ -39,100 +39,102 @@ public partial class TodoFrenosDbContext : DbContext
     public virtual DbSet <CheckList> CheckLists { get; set; }
     public virtual DbSet<WorkPerformed> WorkPerformeds { get; set; }
 
-    
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Appointment>(entity =>
-        {
-            entity.HasKey(e => e.AppointId).HasName("PK__Appointm__DCC1C939FBF15791");
+    public virtual DbSet<VehicleInspection>VehicleInspections { get; set; }
 
-            entity.Property(e => e.AppointCreationDate).HasColumnType("datetime");
-            entity.Property(e => e.AppointModifyDate).HasColumnType("datetime");
-            entity.Property(e => e.AppointState).HasMaxLength(50);
-            entity.Property(e => e.Reason).HasMaxLength(255);
-            entity.Property(e => e.UserId).HasColumnName("UserID");
+    /* 
+     protected override void OnModelCreating(ModelBuilder modelBuilder)
+     {
+         modelBuilder.Entity<Appointment>(entity =>
+         {
+             entity.HasKey(e => e.AppointId).HasName("PK__Appointm__DCC1C939FBF15791");
 
-            entity.HasOne(d => d.Vehicle).WithMany(p => p.Appointments)
-                .HasForeignKey(d => d.VehicleId)
-                .HasConstraintName("Fk_Apponint_VehicleId");
-        });
+             entity.Property(e => e.AppointCreationDate).HasColumnType("datetime");
+             entity.Property(e => e.AppointModifyDate).HasColumnType("datetime");
+             entity.Property(e => e.AppointState).HasMaxLength(50);
+             entity.Property(e => e.Reason).HasMaxLength(255);
+             entity.Property(e => e.UserId).HasColumnName("UserID");
 
-        modelBuilder.Entity<Category>(entity =>
-        {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0B6D47F42D");
+             entity.HasOne(d => d.Vehicle).WithMany(p => p.Appointments)
+                 .HasForeignKey(d => d.VehicleId)
+                 .HasConstraintName("Fk_Apponint_VehicleId");
+         });
 
-            entity.Property(e => e.CategoryName).HasMaxLength(255);
-        });
+         modelBuilder.Entity<Category>(entity =>
+         {
+             entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0B6D47F42D");
 
-        modelBuilder.Entity<InvoiceDetail>(entity =>
-        {
-            entity.HasKey(e => e.DetailId).HasName("PK__InvoiceD__135C316D25B0313B");
+             entity.Property(e => e.CategoryName).HasMaxLength(255);
+         });
 
-            entity.ToTable("InvoiceDetail");
+         modelBuilder.Entity<InvoiceDetail>(entity =>
+         {
+             entity.HasKey(e => e.DetailId).HasName("PK__InvoiceD__135C316D25B0313B");
 
-            entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Taxes).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Total).HasColumnType("decimal(18, 2)");
+             entity.ToTable("InvoiceDetail");
 
-            entity.HasOne(d => d.Master).WithMany(p => p.InvoiceDetails)
-                .HasForeignKey(d => d.MasterId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Fk_Details_MasterId");
+             entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+             entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 2)");
+             entity.Property(e => e.Taxes).HasColumnType("decimal(18, 2)");
+             entity.Property(e => e.Total).HasColumnType("decimal(18, 2)");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.InvoiceDetails)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Fk_Details_ProductId");
-        });
+             entity.HasOne(d => d.Master).WithMany(p => p.InvoiceDetails)
+                 .HasForeignKey(d => d.MasterId)
+                 .OnDelete(DeleteBehavior.ClientSetNull)
+                 .HasConstraintName("Fk_Details_MasterId");
 
-        modelBuilder.Entity<InvoiceMaster>(entity =>
-        {
-            entity.HasKey(e => e.MasterId);
+             entity.HasOne(d => d.Product).WithMany(p => p.InvoiceDetails)
+                 .HasForeignKey(d => d.ProductId)
+                 .OnDelete(DeleteBehavior.ClientSetNull)
+                 .HasConstraintName("Fk_Details_ProductId");
+         });
 
-            entity.ToTable("InvoiceMaster");
+         modelBuilder.Entity<InvoiceMaster>(entity =>
+         {
+             entity.HasKey(e => e.MasterId);
 
-            entity.Property(e => e.DatePurchase).HasColumnType("datetime");
-            entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Taxes).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.Total).HasColumnType("decimal(18, 2)");
-        });
+             entity.ToTable("InvoiceMaster");
 
-        modelBuilder.Entity<Product>(entity =>
-        {
-            entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6CD5D85E39A");
+             entity.Property(e => e.DatePurchase).HasColumnType("datetime");
+             entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 2)");
+             entity.Property(e => e.Taxes).HasColumnType("decimal(18, 2)");
+             entity.Property(e => e.Total).HasColumnType("decimal(18, 2)");
+         });
 
-            entity.Property(e => e.ImageProduct).HasColumnName("Image_Product");
-            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.ProductName).HasMaxLength(100);
+         modelBuilder.Entity<Product>(entity =>
+         {
+             entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6CD5D85E39A");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.Products)
-                .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("Fk_CategoryId");
-        });
+             entity.Property(e => e.ImageProduct).HasColumnName("Image_Product");
+             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
+             entity.Property(e => e.ProductName).HasMaxLength(100);
 
-        modelBuilder.Entity<ShoppingCart>(entity =>
-        {
-            entity.HasKey(e => e.CartId).HasName("PK__Shopping__51BCD7B70845E51C");
+             entity.HasOne(d => d.Category).WithMany(p => p.Products)
+                 .HasForeignKey(d => d.CategoryId)
+                 .HasConstraintName("Fk_CategoryId");
+         });
 
-            entity.ToTable("ShoppingCart");
+         modelBuilder.Entity<ShoppingCart>(entity =>
+         {
+             entity.HasKey(e => e.CartId).HasName("PK__Shopping__51BCD7B70845E51C");
 
-            entity.Property(e => e.DateCart).HasColumnType("datetime");
+             entity.ToTable("ShoppingCart");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ShoppingCarts)
-                .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("Fk_Cart_ProductId");
-        });
+             entity.Property(e => e.DateCart).HasColumnType("datetime");
 
-        modelBuilder.Entity<Vehicle>(entity =>
-        {
-            entity.Property(e => e.Brand).HasMaxLength(50);
-            entity.Property(e => e.CreationDate).HasColumnType("datetime");
-            entity.Property(e => e.Plate).HasMaxLength(20);
-        });
+             entity.HasOne(d => d.Product).WithMany(p => p.ShoppingCarts)
+                 .HasForeignKey(d => d.ProductId)
+                 .HasConstraintName("Fk_Cart_ProductId");
+         });
 
-        OnModelCreatingPartial(modelBuilder);
-    }
+         modelBuilder.Entity<Vehicle>(entity =>
+         {
+             entity.Property(e => e.Brand).HasMaxLength(50);
+             entity.Property(e => e.CreationDate).HasColumnType("datetime");
+             entity.Property(e => e.Plate).HasMaxLength(20);
+         });
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+         OnModelCreatingPartial(modelBuilder);
+     }
+
+     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);*/
 }
