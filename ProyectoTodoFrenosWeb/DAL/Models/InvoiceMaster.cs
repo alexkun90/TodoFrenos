@@ -20,4 +20,6 @@ public partial class InvoiceMaster
     public decimal Total { get; set; }
 
     public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; } = new List<InvoiceDetail>();
+
+    public ApplicationUser? User { get; set; }
 }

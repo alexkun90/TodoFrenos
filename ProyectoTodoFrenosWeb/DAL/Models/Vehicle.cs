@@ -9,7 +9,7 @@ public partial class Vehicle
     [Key]
     public long VehicleId { get; set; }
 
-    public int UserId { get; set; }
+    public string UserId { get; set; }
 
     public string TypeVeh { get; set; }
 
@@ -26,4 +26,5 @@ public partial class Vehicle
     public int? CarState { get; set; }
 
     public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+    public ApplicationUser? User { get; set; }
 }

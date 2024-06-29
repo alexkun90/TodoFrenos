@@ -1,0 +1,28 @@
+﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DAL;
+
+[Table("AspNetUsers")]
+public class ApplicationUser : IdentityUser
+{
+    [Required]
+    [MaxLength(100)]
+    public string Nombre { get; set; }
+
+    [Required]
+    [MaxLength(100)]
+    public string PrimApellido { get; set; }
+
+    [Required]
+    [MaxLength(100)]
+    public string SegunApellido { get; set; }
+
+    public bool Activo { get; set; } = true;
+}

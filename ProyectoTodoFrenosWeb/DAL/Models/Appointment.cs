@@ -24,4 +24,6 @@ public partial class Appointment
     public int? AppointState { get; set; }
 
     public virtual Vehicle? Vehicle { get; set; }
+
+    public ApplicationUser? User { get; set; }
 }

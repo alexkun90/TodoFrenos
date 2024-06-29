@@ -18,4 +18,5 @@ public partial class ShoppingCart
     public int? Stock { get; set; }
 
     public virtual Product? Product { get; set; }
+    public ApplicationUser? User { get; set; }
 }

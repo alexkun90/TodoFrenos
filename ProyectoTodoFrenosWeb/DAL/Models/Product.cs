@@ -7,6 +7,7 @@ namespace DAL.Models;
 
 public partial class Product
 {
+    [Key]
     [DisplayName("Producto")]
     public long ProductId { get; set; }
 
