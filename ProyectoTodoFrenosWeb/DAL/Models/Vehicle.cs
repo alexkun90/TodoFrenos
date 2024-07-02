@@ -9,7 +9,7 @@ public partial class Vehicle
     [Key]
     public long VehicleId { get; set; }
 
-    public string UserId { get; set; }
+    public string? UserId { get; set; }
 
     public string TypeVeh { get; set; }
 

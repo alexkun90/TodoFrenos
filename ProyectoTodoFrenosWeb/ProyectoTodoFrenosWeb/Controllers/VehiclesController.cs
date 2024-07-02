@@ -7,20 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.Models;
 using ProyectoTodoFrenosWeb.ConsumoServices;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Drawing;
+using Microsoft.AspNetCore.Identity;
+using DAL;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
+    [Authorize]
+    //[Authorize(Roles = "User,Mecanico")]
     public class VehiclesController : Controller
     {
         private readonly TodoFrenosDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         VehicleService vehicleService;
 
-        public VehiclesController(TodoFrenosDbContext context,IConfiguration config)
+        public VehiclesController(TodoFrenosDbContext context, UserManager<ApplicationUser> userManager, IConfiguration config)
         {
             _context = context;
             vehicleService = new VehicleService(config);
-
+            _userManager = userManager;
         }
 
         // GET: Vehicles
@@ -55,10 +63,14 @@ namespace ProyectoTodoFrenosWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Vehicle vehicle)
         {
+            var identidad = User.Identity as ClaimsIdentity;
+            string idLogin = identidad.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            vehicle.UserId = idLogin;
+
             if (ModelState.IsValid)
             {
                 vehicle.CreationDate = DateTime.Now;
-
+                
                 try
                 {
                     var resultado = await vehicleService.CreateVehicle(vehicle);

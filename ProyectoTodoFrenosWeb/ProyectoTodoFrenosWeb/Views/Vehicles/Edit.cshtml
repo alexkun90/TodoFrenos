@@ -4,9 +4,9 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h2 class="mt-3" style="text-align:center;">Editar Vehículo</h2>
 
-<div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
+<div class="container d-flex justify-content-center align-items-center mt-3 mb-5">
     <div class="card rounded-3 p-4 w-50">
         @using (Html.BeginForm("Edit", "Vehicles", FormMethod.Post))
         {
@@ -129,9 +129,10 @@
     </div>
 </div>
 *@
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    history.pushState(null, null, '@Url.Action("Inicio", "Inicio")');
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
