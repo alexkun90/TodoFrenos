@@ -11,10 +11,7 @@
         @using (Html.BeginForm("Edit", "Vehicles", FormMethod.Post))
         {
             @Html.TextBoxFor(m => m.VehicleId, new { @type = "hidden" })
-            <div class="mb-3">
-                <label for="UserId" class="form-label">Propietario</label>
-                @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", @required = "true" })
-            </div>
+            @Html.TextBoxFor(m => m.UserId, new { @type = "hidden" })
             <div class="mb-3">
                 <label for="Vin" class="form-label">VIN</label>
                 @Html.TextBoxFor(m => m.Vin, new { @class = "form-control", placeholder = "vin del vehículo", @required = "true" })
@@ -92,46 +89,9 @@
     </div>
 </div>
 
-@*<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="VehicleId" />
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Brand" class="control-label"></label>
-                <input asp-for="Brand" class="form-control" />
-                <span asp-validation-for="Brand" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RegistrationCar" class="control-label"></label>
-                <input asp-for="RegistrationCar" class="form-control" />
-                <span asp-validation-for="RegistrationCar" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreationDate" class="control-label"></label>
-                <input asp-for="CreationDate" class="form-control" />
-                <span asp-validation-for="CreationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CarState" class="control-label"></label>
-                <input asp-for="CarState" class="form-control" />
-                <span asp-validation-for="CarState" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-*@
 <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
 <script>
-    history.pushState(null, null, '@Url.Action("Inicio", "Inicio")');
+    history.replaceState(null, null, '@Url.Action("Inicio","Inicio")');
 </script>
 
 @section Scripts {

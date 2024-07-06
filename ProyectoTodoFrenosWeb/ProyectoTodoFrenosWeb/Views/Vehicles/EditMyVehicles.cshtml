@@ -1,46 +1,52 @@
 ﻿@model DAL.Models.Vehicle
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "EditMyVehicles";
 }
 
-<h2 class="mt-3" style="text-align:center;">Crear Vehículo</h2>
-
+<h2 class="mt-3" style="text-align:center;">Editar  Mi Vehículo</h2>
 
 <div class="container d-flex justify-content-center align-items-center mt-3 mb-5">
     <div class="card rounded-3 p-4 w-50">
-        @using (Html.BeginForm("Create", "Vehicles", FormMethod.Post))
+        @using (Html.BeginForm("EditMyVehicles", "Vehicles", FormMethod.Post))
         {
+            @Html.TextBoxFor(m => m.VehicleId, new { @type = "hidden" })
+            @Html.TextBoxFor(m => m.UserId, new { @type = "hidden" })
             <div class="mb-3">
                 <label for="Vin" class="form-label">VIN</label>
                 @Html.TextBoxFor(m => m.Vin, new { @class = "form-control", placeholder = "vin del vehículo", @required = "true" })
             </div>
             <div class="mb-3">
-                <label for="Brand" class="form-label">Marca</label>
-                @Html.TextBoxFor(m => m.Brand, new { @class = "form-control", placeholder = "marca del vehículo", @required = "true" })
+                <label for="Brand" class="form-label">Modelo</label>
+                @Html.TextBoxFor(m => m.Brand, new { @class = "form-control", @required = "true" })
             </div>
             <div class="row mb-3">
-               
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label for="Plate" class="form-label">Placa</label>
-                    @Html.TextBoxFor(m => m.Plate, new { @class = "form-control", placeholder = "número de placa del vehículo", @required = "true" })
+                    @Html.TextBoxFor(m => m.Plate, new { @class = "form-control", @required = "true" })
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-md-3">
                     <label for="ModelYear" class="form-label">Modelo</label>
                     @Html.TextBoxFor(m => m.ModelYear, new { @class = "form-control", placeholder = "año del vehículo", @required = "true" })
                 </div>
-                
+
+                <div class="col-md-5">
+                    <label for="CreationDate" class="form-label">Fecha Registro</label>
+                    @Html.TextBoxFor(m => m.CreationDate, new { @class = "form-control", @required = "true" })
+                    @Html.ValidationMessageFor(m => m.CreationDate, "", new { @class = "text-danger" })
+                </div>
             </div>
+
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="CarState" class="form-label">Estado</label>
                     @{
                         var estados = new List<SelectListItem>
-                        {
-                            new SelectListItem { Value = "1", Text = "Activo" },
-                            new SelectListItem { Value = "0", Text = "Inactivo" }
-                        };
+                {
+                new SelectListItem { Value = "1", Text = "Activo" },
+                new SelectListItem { Value = "0", Text = "Inactivo" }
+                };
                     }
 
                     @Html.DropDownListFor(m => m.CarState, estados, new { @class = "form-select", @required = "true" })
@@ -50,21 +56,21 @@
                     <label for="TypeVeh" class="form-label">Estado</label>
                     @{
                         var tipoVehicylo = new List<SelectListItem>
-                        {
-                            new SelectListItem { Value = "Liviano", Text = "Liviano" },
-                            new SelectListItem { Value = "Semiliviano", Text = "Semiliviano" },
-                            new SelectListItem { Value = "Pesado", Text = "Pesado" }
-                        };
+                {
+                new SelectListItem { Value = "Liviano", Text = "Liviano" },
+                new SelectListItem { Value = "Semiliviano", Text = "Semiliviano" },
+                new SelectListItem { Value = "Pesado", Text = "Pesado" }
+                };
                     }
 
                     @Html.DropDownListFor(m => m.TypeVeh, tipoVehicylo, new { @class = "form-select", @required = "true" })
                 </div>
             </div>
-            <button type="submit" class="btn btn-custom">Registrar</button>
-           
+            <button type="submit" class="btn btn-custom">Guardar</button>
+
             @if (!ViewData.ModelState.IsValid)
             {
-                
+
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <ul class="mt-2">
@@ -79,13 +85,17 @@
                 </div>
             }
         }
-       
+
     </div>
 </div>
+
 <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
 <script>
     history.replaceState(null, null, '@Url.Action("Inicio", "Inicio")');
 </script>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

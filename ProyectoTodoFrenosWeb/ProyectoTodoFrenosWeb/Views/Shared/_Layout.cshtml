@@ -58,12 +58,12 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Servicios","Inicio")>Información General</a></li>
-                                <li><a class="dropdown-item-custom" href=@Url.Action("Index","Appointments")>Gestionar Cita</a></li>
+                                <li><a class="dropdown-item-custom" href=@Url.Action("Create","Appointments")>Gestionar Cita</a></li>
                             </ul>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link nav-link-a-custom" href=@Url.Action("ListaVehiculos","Vehiculo")>Vehículos</a>
+                            <a class="nav-link nav-link-a-custom" href=@Url.Action("MyVehicles","Vehicles")>Vehículos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-link-a-custom" href=@Url.Action("IndexCliente","Products")>Productos</a>
@@ -80,7 +80,7 @@
                                 <li><a class="dropdown-item-custom" href=@Url.Action("AdminUsuarios","Usuario")>Usuarios</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","Products")>Productos</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","Vehicles")>Vehiculos</a></li>
-                                <li><a class="dropdown-item-custom" href=@Url.Action("AdminCitas","Cita")>Citas</a></li>
+                                <li><a class="dropdown-item-custom" href=@Url.Action("Index","Appointments")>Citas</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("AdminPedidos","Pedidos")>Pédidos</a></li>
                             </ul>
                         </li>
@@ -198,7 +198,7 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
 
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>*@
     @RenderSection("Scripts", required: false)
 </body>
 </html>

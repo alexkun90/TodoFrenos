@@ -123,6 +123,24 @@
     text-align: center !important;
 }
 
+.th-bg-verify {
+    background-color: #419855 !important;
+    color: #e6e6e6 !important;
+    text-align: center !important;
+}
+
+.th-bg-fails {
+    background-color: #e04b59 !important;
+    color: #e6e6e6 !important;
+    text-align: center !important;
+}
+
+.th-bg-notverify {
+    background-color: #e8bc52 !important;
+    color: #e6e6e6 !important;
+    text-align: center !important;
+}
+
 .container-border-custom {
     border: 2px solid #ccc;
     padding: 20px;
@@ -161,6 +179,7 @@
 .btn-inactive {
     background-color: #737d85 !important;
     color: #ffffff !important;
+    width: 100px;
 }
 
     .btn-inactive:hover {
@@ -171,10 +190,21 @@
 .btn-active-custom {
     background-color: #43a85a !important;
     color: #ffffff !important;
+    width: 100px;
 }
 
     .btn-active-custom:hover {
         background-color: #419855 !important;
+        color: #ffffff !important;
+    }
+
+.btn-details {
+    background-color: #5092e4 !important;
+    color: #ffffff !important;
+}
+
+    .btn-details:hover {
+        background-color: #3772bb !important;
         color: #ffffff !important;
     }
 
@@ -248,10 +278,11 @@
 
 
 /* Servicios */
-.card {
+.card-custom {
     transition: transform 0.2s;
 }
 
-.card:hover {
+.card-custom:hover {
     transform: translateY(-5px);
 }
+

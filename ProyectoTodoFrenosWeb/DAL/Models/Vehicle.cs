@@ -21,6 +21,7 @@ public partial class Vehicle
 
     public string? Plate { get; set; }
 
+    [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
     public DateTime? CreationDate { get; set; }
 
     public int? CarState { get; set; }
