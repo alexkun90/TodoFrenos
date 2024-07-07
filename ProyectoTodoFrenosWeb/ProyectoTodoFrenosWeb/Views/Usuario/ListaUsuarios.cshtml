@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ApplicationUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-3">
+    <h2>Gestión de Usuario</h2>
+    <p>Apartado donde se gestiona la administración de los usuarios de TodoFrenos</p>
+    <div class="container-border-custom mb-2">
+        <div>
+            <a class="btn btn-agree mb-1" style="font-weight:bold" asp-area="" asp-action="Create">Registrar Usuario</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="th-bg-custom">Nombre</th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                        <th class="th-bg-custom">Correo</th>
+                        @Html.DisplayNameFor(model => model.Email)
+                        <th class="th-bg-custom">Rol</th>
+                        @Html.DisplayNameFor(model => model.)
+                        <th class="th-bg-custom">Estado</th>
+                        <th class="th-bg-custom">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.)
+                            </td>
+                            <td class="text-center align-middle">
+                                @(item.Activo ? "Activo" : "Inactivo")
+                            </td>
+                            <td class="text-center align-middle">
+                                <div>
+                                    <a class="btn btn-modify mb-2" asp-action="Edit" asp-route-id="@item.Id">Modificar</a>
+                                    <a class="btn btn-danger mb-2" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
