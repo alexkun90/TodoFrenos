@@ -23,30 +23,15 @@
                
                 <div class="col-md-5">
                     <label for="Plate" class="form-label">Placa</label>
-                    @Html.TextBoxFor(m => m.Plate, new { @class = "form-control", placeholder = "número de placa del vehículo", @required = "true" })
+                    @Html.TextBoxFor(m => m.Plate, new { @class = "form-control", placeholder = "número de placa", @required = "true" })
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label for="ModelYear" class="form-label">Modelo</label>
                     @Html.TextBoxFor(m => m.ModelYear, new { @class = "form-control", placeholder = "año del vehículo", @required = "true" })
                 </div>
-                
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label for="CarState" class="form-label">Estado</label>
-                    @{
-                        var estados = new List<SelectListItem>
-                        {
-                            new SelectListItem { Value = "1", Text = "Activo" },
-                            new SelectListItem { Value = "0", Text = "Inactivo" }
-                        };
-                    }
 
-                    @Html.DropDownListFor(m => m.CarState, estados, new { @class = "form-select", @required = "true" })
-                </div>
-
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="TypeVeh" class="form-label">Estado</label>
                     @{
                         var tipoVehicylo = new List<SelectListItem>
@@ -59,7 +44,9 @@
 
                     @Html.DropDownListFor(m => m.TypeVeh, tipoVehicylo, new { @class = "form-select", @required = "true" })
                 </div>
+                
             </div>
+            
             <button type="submit" class="btn btn-custom">Registrar</button>
            
             @if (!ViewData.ModelState.IsValid)

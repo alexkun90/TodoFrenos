@@ -10,7 +10,7 @@
                 <div class="col-sm-12">
                     <div class="col-sm-12">
                         <div>
-                            <h4>Inspección</h4>
+                            <h4>Inspección Vehicular</h4>
                             <hr />
                             <dt class="col-sm-2">
                                 @Html.DisplayNameFor(model => model.InspectorName)
@@ -129,10 +129,9 @@
                                 @Html.DisplayNameFor(model => model.OilChange)
                             </dt>
                             <dd class="col-sm-10">
-                                @Html.DisplayFor(model => model.OilChange)
                                 @if (Model.OilChange == 1)
                                 {
-                                    <text>Sí</text>
+                                    <text>Realizado</text>
                                     <dt class="col-sm-2">
                                             @Html.DisplayNameFor(model => model.DatePerformed)
                                     </dt>
@@ -148,9 +147,29 @@
                                 }
                                 else if (Model.OilChange == 0)
                                 {
-                                    <text>No</text>
+                                    <text>Sin Realizar</text>
                                 }
                             </dd>
+
+                            <div>
+                                <dt >
+                                    @Html.DisplayNameFor(model => model.Recommendations)
+                                    
+                                    @if (Model.Recommendations == null)
+                                    {
+                                        <p>
+                                            <text>Sin recomendaciones técnicas </text>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p style="border: 1px solid #ccc; padding: 5px;">
+                                           @Html.DisplayFor(model => model.Recommendations)
+                                        </p>
+                                    }
+                                </dt>
+                                
+                            </div>
                             @*
                             <dt class="col-sm-2">
                                 @Html.DisplayNameFor(model => model.VehicleId)
@@ -165,92 +184,3 @@
         </div>
     </div>
 </div>
-
-                    
-
-@*
-<div>
-    <h4>VehicleInspection</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InspectorName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InspectorName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InspectionDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InspectionDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Engine)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Engine)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Brakes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Brakes)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Lights)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Lights)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Steering)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Steering)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tires)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tires)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Suspension)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Suspension)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ElectricalSystem)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ElectricalSystem)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OilChange)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OilChange)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DatePerformed)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DatePerformed)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NextChangeDue)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NextChangeDue)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VehicleId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VehicleId)
-        </dd>
-    </dl>
-</div>
-*@

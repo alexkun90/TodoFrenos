@@ -34,10 +34,27 @@ namespace ProyectoTodoFrenosWeb.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var emailUser = User.FindFirst(ClaimTypes.Email).Value;
-            ViewBag.Email = emailUser.ToString();
-            
+            /* var emailUser = User.FindFirst(ClaimTypes.Email).Value;
+             ViewBag.Email = emailUser.ToString();
+
+             var vehicles = await vehicleService.GetVehicles();  
+
+             return View(vehicles);*/
+
             var vehicles = await vehicleService.GetVehicles();
+            var userIds = vehicles.Select(v => v.UserId).Distinct();
+            var userEmails = new Dictionary<string, string>();
+
+            foreach (var userId in userIds)
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user != null)
+                {
+                    userEmails[userId] = user.Email;
+                }
+            }
+
+            ViewBag.UserEmails = userEmails;
 
             return View(vehicles);
         }       
@@ -74,12 +91,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
         public async Task<IActionResult> Create(Vehicle vehicle)
         {
             var identidad = User.Identity as ClaimsIdentity;
-            string idLogin = identidad.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
+            string idLogin = identidad.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value; 
             vehicle.UserId = idLogin;
 
             if (ModelState.IsValid)
             {
                 vehicle.CreationDate = DateTime.Now;
+                vehicle.CarState = 1;
                 
                 try
                 {

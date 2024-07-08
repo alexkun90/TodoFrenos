@@ -37,8 +37,9 @@
                                     </button>
                                 </div>
                             </div>
-                            <p class="card-text mt-3">Progreso</p>
-                            <span class="font-custom w-100">Ausente</span>
+                            <a class="btn btn-inspections w-100 mt-3" href="@Url.Action("Index","VehicleInspections", new { id = @item.VehicleId })">Historial de Inspecciones</a>
+                            @*<p class="card-text mt-3">Progreso</p>
+                    <span class="font-custom w-100">Ausente</span>*@
                         </div>
                     </div>
                 </div>

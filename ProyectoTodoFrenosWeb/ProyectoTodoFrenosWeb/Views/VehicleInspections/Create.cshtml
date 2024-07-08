@@ -153,6 +153,12 @@
                     </div>
                 </div>
             </div>
+
+            <div class="mb-3">
+                <label for="Vin" class="form-label">Recomendaciones Técnicas</label>
+                @Html.TextAreaFor(m => m.Recommendations, new { @class = "form-control" })
+            </div>
+
             <button type="submit" class="btn btn-custom">Guardar Resultados</button>           
         }
     </div>

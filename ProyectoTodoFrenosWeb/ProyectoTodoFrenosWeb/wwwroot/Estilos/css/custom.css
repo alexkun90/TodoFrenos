@@ -208,6 +208,16 @@
         color: #ffffff !important;
     }
 
+.btn-inspections {
+    background-color: #5560e2 !important;
+    color: #ffffff !important;
+}
+
+    .btn-inspections:hover {
+        background-color: #424ba7 !important;
+        color: #ffffff !important;
+    }
+
 /*Dropdown Fleca*/
 .dropdown-toggle-custom {
     cursor: pointer; 
