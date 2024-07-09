@@ -10,9 +10,9 @@
     <div class="card rounded-3 p-4 w-50">
         @using (Html.BeginForm("Create", "VehicleInspections", FormMethod.Post))
         {
-            <input type="hidden" asp-for="VehicleId" />
+            <input type="hidden" asp-for="VehicleId" id="vehicleID"/>
             <div class="mb-3">
-                <label for="UserId" class="form-label">Propietario</label>
+                <label for="UserId" class="form-label">Inspector</label>
                 @Html.TextBoxFor(m => m.InspectorName, new { @class = "form-control", placeholder = "nombre del inspector", @required = "true" })
             </div>
             <div class="row mb-3">
@@ -153,6 +153,12 @@
                     </div>
                 </div>
             </div>
+
+            <div class="mb-3">
+                <label for="Vin" class="form-label">Recomendaciones Técnicas</label>
+                @Html.TextAreaFor(m => m.Recommendations, new { @class = "form-control" })
+            </div>
+
             <button type="submit" class="btn btn-custom">Guardar Resultados</button>           
         }
     </div>
@@ -164,6 +170,13 @@
 
 <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
 <script>
+    /*$(document).ready(function () {
+        var vehicleId = $('#vehicleID').val();
+        history.replaceState(null, null, '@Url.Action("Index", "VehicleInspections")' + '/' + vehicleId);
+    });*/
+
+    history.replaceState(null, null, '@Url.Action("Index", "Vehicles")')
+
     document.addEventListener('DOMContentLoaded', function () {
         const oilChangeYes = document.getElementById('oilchange1');
         const oilChangeNo = document.getElementById('oilchange2');

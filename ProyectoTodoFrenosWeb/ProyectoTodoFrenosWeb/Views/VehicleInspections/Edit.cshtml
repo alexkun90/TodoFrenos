@@ -147,11 +147,11 @@
                 <div id="extraFields" style="display: none;">
                     <div class="mb-3">
                         <label for="DatePerformed" class="form-label">Fecha del Cambio</label>
-                        @Html.TextBoxFor(m => m.DatePerformed, new { @class = "form-control", @type = "DateTime", @required = "false" })
+                        @Html.TextBoxFor(m => m.DatePerformed, new { @class = "form-control", @type = "Date", @required = "false" })
                     </div>
                     <div class="mb-3">
                         <label for="NextChangeDue" class="form-label">Próximo Cambio</label>
-                        @Html.TextBoxFor(m => m.NextChangeDue, new { @class = "form-control", @type = "DateTime", @required = "false" })
+                        @Html.TextBoxFor(m => m.NextChangeDue, new { @class = "form-control", @type = "Date", @required = "false" })
                     </div>
                 </div>
             </div>
@@ -162,6 +162,15 @@
 
 <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
 <script>
+    
+    history.replaceState(null, null, '@Url.Action("Index", "Vehicles")')
+
+    window.addEventListener('load', function () {
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         const oilChangeYes = document.getElementById('oilchange1');
         const oilChangeNo = document.getElementById('oilchange2');
@@ -185,88 +194,7 @@
     }); 
 </script>
 @*
-<h4>VehicleInspection</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="VehicleInspectionId" />
-            <div class="form-group">
-                <label asp-for="VehicleId" class="control-label"></label>
-                <input asp-for="VehicleId" class="form-control"></input>
-                <span asp-validation-for="VehicleId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InspectorName" class="control-label"></label>
-                <input asp-for="InspectorName" class="form-control" />
-                <span asp-validation-for="InspectorName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InspectionDate" class="control-label"></label>
-                <input asp-for="InspectionDate" class="form-control" />
-                <span asp-validation-for="InspectionDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Engine" class="control-label"></label>
-                <input asp-for="Engine" class="form-control" />
-                <span asp-validation-for="Engine" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Brakes" class="control-label"></label>
-                <input asp-for="Brakes" class="form-control" />
-                <span asp-validation-for="Brakes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Lights" class="control-label"></label>
-                <input asp-for="Lights" class="form-control" />
-                <span asp-validation-for="Lights" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Steering" class="control-label"></label>
-                <input asp-for="Steering" class="form-control" />
-                <span asp-validation-for="Steering" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tires" class="control-label"></label>
-                <input asp-for="Tires" class="form-control" />
-                <span asp-validation-for="Tires" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Suspension" class="control-label"></label>
-                <input asp-for="Suspension" class="form-control" />
-                <span asp-validation-for="Suspension" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ElectricalSystem" class="control-label"></label>
-                <input asp-for="ElectricalSystem" class="form-control" />
-                <span asp-validation-for="ElectricalSystem" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OilChange" class="control-label"></label>
-                <input asp-for="OilChange" class="form-control" />
-                <span asp-validation-for="OilChange" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DatePerformed" class="control-label"></label>
-                <input asp-for="DatePerformed" class="form-control" />
-                <span asp-validation-for="DatePerformed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NextChangeDue" class="control-label"></label>
-                <input asp-for="NextChangeDue" class="form-control" />
-                <span asp-validation-for="NextChangeDue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 *@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -53,6 +53,9 @@ namespace DAL.Models
         [DisplayName("Proximo Cambio")]
         public DateTime? NextChangeDue { get; set; }
 
+        [DisplayName("Recomendaciones")]
+        public string? Recommendations { get; set; }
+
         public virtual Vehicle? Vehicle { get; set; }
 
     }

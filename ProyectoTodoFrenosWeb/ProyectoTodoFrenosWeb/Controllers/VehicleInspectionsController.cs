@@ -10,6 +10,7 @@ using ProyectoTodoFrenosWeb.ConsumoServices;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
+    //[ResponseCache(NoStore = true, Location = ResponseCacheLocation.None, Duration = 0, VaryByQueryKeys = new[] { "*" })]
     public class VehicleInspectionsController : Controller
     {
         private readonly TodoFrenosDbContext _context;
@@ -113,6 +114,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 try
                 {
+                    if(vehicleInspection.OilChange == 0)
+                    {
+                        vehicleInspection.DatePerformed = null;
+                        vehicleInspection.NextChangeDue = null;
+                    }
+
                     var result = await service.EditVehicleInspection((long)id,vehicleInspection);
                     if (result != null)
                     {
