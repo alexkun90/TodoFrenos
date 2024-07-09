@@ -20,7 +20,7 @@
                         <th class="th-bg-custom">Correo</th>
                         @Html.DisplayNameFor(model => model.Email)
                         <th class="th-bg-custom">Rol</th>
-                        @Html.DisplayNameFor(model => model.)
+                        @Html.DisplayNameFor(model => model.Nombre)
                         <th class="th-bg-custom">Estado</th>
                         <th class="th-bg-custom">Acciones</th>
                     </tr>
@@ -36,7 +36,7 @@
                                 @Html.DisplayFor(modelItem => item.Email)
                             </td>
                             <td class="text-center align-middle">
-                                @Html.DisplayFor(modelItem => item.)
+                                @Html.DisplayFor(modelItem => item.Nombre)
                             </td>
                             <td class="text-center align-middle">
                                 @(item.Activo ? "Activo" : "Inactivo")
