@@ -4,6 +4,7 @@ using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(TodoFrenosDbContext))]
-    partial class TodoFrenosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240706173233_Table_suppliers")]
+    partial class Table_suppliers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -371,10 +374,6 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("SupplierCreationDate")
                         .IsRequired()
                         .HasColumnType("datetime2");
@@ -382,7 +381,8 @@ namespace DAL.Migrations
                     b.Property<DateTime?>("SupplierModifyDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SupplierState")
+                    b.Property<int?>("SupplierState")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateOnly?>("SuppliertDate")

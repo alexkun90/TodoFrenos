@@ -4,57 +4,46 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Registar Cita</h1>
-
+<h1>Registrar Cita</h1>
 
 <hr />
 <div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
     <div class="card rounded-3 p-4 w-50">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group d-none">
                 <label asp-for="UserId" class="control-label">Propietario</label>
-                <input asp-for="UserId" class="form-control" />
+                <input asp-for="UserId" class="form-control" readonly="readonly" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
-            <!--
             <div class="form-group">
-                <label asp-for="VehicleId" class="control-label"></label>
-                <input asp-for="VehicleId" class ="form-control"/>
-            </div>-->
-            <!--
-            <div class="form-group">
-                <label asp-for="AppointDate" class="control-label"></label>
-                <input asp-for="AppointDate" class="form-control" />
-                <span asp-validation-for="AppointDate" class="text-danger"></span>
-            </div>-->
-            <div class="form-group">
-                <label asp-for="AppointCreationDate" class="control-label">Fecha de Cita</label>
-                <input asp-for="AppointCreationDate" class="form-control" />
+                <label asp-for="AppointCreationDate" class="control-label">Fecha de Creación</label>
+                <input asp-for="AppointCreationDate" class="form-control" type="date" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
                 <span asp-validation-for="AppointCreationDate" class="text-danger"></span>
             </div>
-            <!--
-            <div class="form-group">
-                <label asp-for="AppointModifyDate" class="control-label"></label>
-                <input asp-for="AppointModifyDate" class="form-control" />
-                <span asp-validation-for="AppointModifyDate" class="text-danger"></span>
-            </div>-->
             <div class="form-group">
                 <label asp-for="Reason" class="control-label">Motivo</label>
                 <input asp-for="Reason" class="form-control" />
                 <span asp-validation-for="Reason" class="text-danger"></span>
             </div>
             <div class="col-md-3">
-                <label for="AppointState" class="form-label">Estado</label>
-                @{
-                    var estados = new List<SelectListItem>
-                {
-                new SelectListItem { Value = "1", Text = "Activo" },
-                new SelectListItem { Value = "0", Text = "Inactivo" }
-                };
-                }
-
-                @Html.DropDownListFor(m => m.AppointState, estados, new { @class = "form-select", @required = "true" })
+                <label class="form-label">Estado</label>
+                <input type="text" class="form-control" value="Pendiente" readonly />
             </div>
             <br />
             <div class="form-group">
@@ -68,8 +57,52 @@
     </div>
 </div>
 
-
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        
+
+            $('form').submit(function (event) {
+                event.preventDefault(); 
+
+                var form = $(this);
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function (data) {
+                        updatePendingAppointments();
+                        window.location.href = '@Url.Action("Create", "Appointments")';
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Form submission error:', error);
+                    }
+                });
+            });
+
+            function updatePendingAppointments() {
+                $.ajax({
+                    url: '@Url.Action("GetPendingAppointmentsCount", "Appointments")',
+                    type: 'GET',
+                    success: function (count) {
+                        var countElement = $('#pendingAppointmentsCount');
+                        if (count > 0) {
+                            countElement.text(count);
+                            countElement.show();
+                        } else {
+                            countElement.hide();
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error fetching pending appointments count:', error);
+                    }
+                });
+            }
+        });
+    </script>
 }
+
+
+
+
+

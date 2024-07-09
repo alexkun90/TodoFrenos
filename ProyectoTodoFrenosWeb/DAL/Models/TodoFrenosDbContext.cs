@@ -38,6 +38,8 @@ public partial class TodoFrenosDbContext : DbContext
     public virtual DbSet <CheckList> CheckLists { get; set; }
     public virtual DbSet<WorkPerformed> WorkPerformeds { get; set; }
     public virtual DbSet<VehicleInspection>VehicleInspections { get; set; }
+    public virtual DbSet<Suppliers> Suppliers { get; set; }
+
 
     /* 
      protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -130,7 +132,7 @@ public partial class TodoFrenosDbContext : DbContext
              entity.Property(e => e.CreationDate).HasColumnType("datetime");
              entity.Property(e => e.Plate).HasMaxLength(20);
          });
-
+         
          OnModelCreatingPartial(modelBuilder);
      }
 

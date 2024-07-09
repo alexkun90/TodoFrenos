@@ -9,6 +9,8 @@ var connectionString = builder.Configuration.GetConnectionString("ConexiBD") ?? 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+
 //Configuracion BD y el context
 
 builder.Services.AddDbContext<TodoFrenosDbContext>(options => options.UseSqlServer(connectionString));
@@ -37,6 +39,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Inicio}/{action=Inicio}/{id?}");
+
+app.MapControllerRoute(
+    name: "appointments",
+    pattern: "Appointments/{action}/{id?}",
+    defaults: new { controller = "Appointments" });
 
 app.MapRazorPages();
 
