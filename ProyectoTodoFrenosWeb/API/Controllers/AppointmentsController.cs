@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Drawing;
 using Microsoft.AspNetCore.Identity;
 using DAL;
-using ProyectoTodoFrenosWeb.ConsumoServices;
+
 namespace API.Controllers
 {
     [Route("api/[controller]")]
@@ -20,7 +20,6 @@ namespace API.Controllers
     public class AppointmentsController : ControllerBase
     {
         private readonly TodoFrenosDbContext _context;
-        AppointmentService appointmentService;
         public AppointmentsController(TodoFrenosDbContext context)
         {
             _context = context;
