@@ -43,6 +43,35 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
         }
 
+        public async Task<IEnumerable<Vehicle>> GetMyVehicles(string? Id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/MyVehicles/{Id}";
+
+                try
+                {
+                    var response = await client.GetAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Vehicle>>(responseData);
+
+                        return result;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
 
         //Details
         public async Task<Vehicle> GetVehicle(long? Id)

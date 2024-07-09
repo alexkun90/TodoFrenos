@@ -1,0 +1,186 @@
+﻿@model DAL.Models.VehicleInspection
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="container mt-5">
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <div id="dataTable_wrapper" class="dataTables_wrapper">
+                <div class="col-sm-12">
+                    <div class="col-sm-12">
+                        <div>
+                            <h4>Inspección Vehicular</h4>
+                            <hr />
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.InspectorName)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.InspectorName)
+                            </dd>
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.InspectionDate)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.InspectionDate)
+                            </dd>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="th-bg-custom">Parte</th>
+                                        <th class="th-bg-verify">Verificado</th>
+                                        <th class="th-bg-fails">Presenta Fallos</th>
+                                        <th class="th-bg-notverify">Sin Verificar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr >
+                                        <td>@Html.DisplayNameFor(model => model.Engine)</td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px;"
+                                            @(Model.Engine == "Verificado" ? "checked" : "") disabled />
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Engine == "Presenta Fallos" ? "checked" : "") disabled />
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Engine == "Sin Verificar" ? "checked" : "") disabled />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.DisplayNameFor(model => model.Brakes)</td>
+                                        <td class ="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px" @(Model.Brakes == "Verificado" ? "checked" : "") disabled />
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox"  style="width:20px; height:20px" @(Model.Brakes == "Presenta Fallos" ? "checked" : "") disabled />
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px" @(Model.Brakes == "Sin Verificar" ? "checked" : "") disabled />
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td>@Html.DisplayNameFor(model => model.Lights)</td>                                        
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Lights == "Verificado" ? "checked" : "") disabled />
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Lights == "Presenta Fallos" ? "checked" : "") disabled /></td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Lights == "Sin Verificar" ? "checked" : "") disabled /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.DisplayNameFor(model => model.Steering)</td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Steering == "Verificado" ? "checked" : "") disabled /></td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Steering == "Presenta Fallos" ? "checked" : "") disabled /></td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Steering == "Sin Verificar" ? "checked" : "") disabled /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.DisplayNameFor(model => model.Tires)</td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Tires == "Verificado" ? "checked" : "") disabled /></td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Tires == "Presenta Fallos" ? "checked" : "") disabled /></td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Tires == "Sin Verificar" ? "checked" : "") disabled /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.DisplayNameFor(model => model.Suspension)</td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Suspension == "Verificado" ? "checked" : "") disabled /></td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Suspension == "Presenta Fallos" ? "checked" : "") disabled /></td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.Suspension == "Sin Verificar" ? "checked" : "") disabled /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.DisplayNameFor(model => model.ElectricalSystem)</td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.ElectricalSystem == "Verificado" ? "checked" : "") disabled /></td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.ElectricalSystem == "Presenta Fallos" ? "checked" : "") disabled /></td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="width:20px; height:20px"
+                                            @(Model.ElectricalSystem == "Sin Verificar" ? "checked" : "") disabled /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.OilChange)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @if (Model.OilChange == 1)
+                                {
+                                    <text>Realizado</text>
+                                    <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.DatePerformed)
+                                    </dt>
+                                    <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.DatePerformed)
+                                    </dd>
+                                    <dt class="col-sm-2">
+                                            @Html.DisplayNameFor(model => model.NextChangeDue)
+                                    </dt>
+                                    <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => model.NextChangeDue)
+                                    </dd>
+                                }
+                                else if (Model.OilChange == 0)
+                                {
+                                    <text>Sin Realizar</text>
+                                }
+                            </dd>
+
+                            <div>
+                                <dt >
+                                    @Html.DisplayNameFor(model => model.Recommendations)
+                                    
+                                    @if (Model.Recommendations == null)
+                                    {
+                                        <p>
+                                            <text>Sin recomendaciones técnicas </text>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p style="border: 1px solid #ccc; padding: 5px;">
+                                           @Html.DisplayFor(model => model.Recommendations)
+                                        </p>
+                                    }
+                                </dt>
+                                
+                            </div>
+                            @*
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.VehicleId)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.VehicleId)
+                            </dd>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

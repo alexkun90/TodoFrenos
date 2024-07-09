@@ -9,7 +9,7 @@ public partial class Vehicle
     [Key]
     public long VehicleId { get; set; }
 
-    public string UserId { get; set; }
+    public string? UserId { get; set; }
 
     public string TypeVeh { get; set; }
 
@@ -21,6 +21,7 @@ public partial class Vehicle
 
     public string? Plate { get; set; }
 
+    [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
     public DateTime? CreationDate { get; set; }
 
     public int? CarState { get; set; }

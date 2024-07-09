@@ -1,23 +1,23 @@
 ﻿using DAL.Models;
+using System.Net;
 using System.Text;
 
 namespace ProyectoTodoFrenosWeb.ConsumoServices
 {
-    public class AppointmentService
+    public class VehicleInspectionService
     {
         private IConfiguration _config;
 
-        public AppointmentService(IConfiguration config)
+        public VehicleInspectionService(IConfiguration config)
         {
             _config = config;
         }
 
-        //GET INDEX
-        public async Task<IEnumerable<Appointment>> GetAppointments()
+        public async Task<IEnumerable<VehicleInspection>> GetList(long? Id)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value;
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/List/{Id}";
 
                 try
                 {
@@ -26,7 +26,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     if (response.IsSuccessStatusCode)
                     {
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Appointment>>(responseData);
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<VehicleInspection>>(responseData);
 
                         return result;
                     }
@@ -43,13 +43,11 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
         }
 
-
-        //Details
-        public async Task<Appointment> GetAppointment(long? Id)
+        public async Task<VehicleInspection> GetVehicleInspection(long? Id)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/{Id}";
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/{Id}";
 
                 try
                 {
@@ -59,7 +57,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     {
 
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Appointment>(responseData);
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<VehicleInspection>(responseData);
 
                         return result;
                     }
@@ -76,16 +74,15 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
         }
 
-        //Create
-        public async Task<Appointment> CreateAppointment(Appointment appointment)
+        public async Task<VehicleInspection> CreateVehicleInspection(VehicleInspection model)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value;
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value;
 
                 try
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(appointment);
+                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(model);
                     var content = new StringContent(body, Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(apiUrl, content);
 
@@ -93,7 +90,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     {
 
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Appointment>(responseData);
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<VehicleInspection>(responseData);
 
                         return result;
                     }
@@ -107,25 +104,24 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     throw;
                 }
             }
-
         }
-        //Editar
-        public async Task<Appointment> EditAppointment(long Id, Appointment appointment)
+
+        public async Task<VehicleInspection> EditVehicleInspection(long Id, VehicleInspection model)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/{Id}";
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/{Id}";
 
                 try
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(appointment);
+                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(model);
                     var content = new StringContent(body, Encoding.UTF8, "application/json");
                     var response = await client.PutAsync(apiUrl, content);
 
                     if (response.IsSuccessStatusCode)
                     {
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Appointment>(responseData);
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<VehicleInspection>(responseData);
                         return result;
                     }
                     else
@@ -139,13 +135,12 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                 }
             }
         }
-        //Delete
-        public async Task<bool> DeleteAppointment(long? Id)
+
+        public async Task<bool> DeleteVehicleInspection(long? Id)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/{Id}";
-
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/{Id}";
                 try
                 {
                     var response = await client.DeleteAsync(apiUrl);
@@ -165,52 +160,6 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     throw;
                 }
             }
-
         }
-
-
-
-  
-
-        public async Task<bool> AcceptAppointment(long? id)
-        {
-            using (var client = new HttpClient())
-            {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Accept/{id}";
-                try
-                {
-                    var response = await client.PutAsync(apiUrl, null);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-        }
-
-        public async Task<bool> RejectAppointment(long? id)
-        {
-            using (var client = new HttpClient())
-            {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Reject/{id}";
-                try
-                {
-                    var response = await client.PutAsync(apiUrl, null);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-        }
-
-
-
-
-
     }
 }
-
-

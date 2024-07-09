@@ -1,8 +1,7 @@
-﻿@model IEnumerable<DAL.Models.Appointment>
+﻿@model IEnumerable<DAL.Models.Suppliers>
 
-@{
-    ViewData["Title"] = "Index";
-}
+<h2>Gestión de Proveedores</h2>
+
 <div class="container mt-3">
     <h2>Gestión de Citas</h2>
     <p>Apartado donde se gestionan las citas de TodoFrenos</p>
@@ -11,41 +10,41 @@
             <div id="dataTable_wrapper" class="dataTables_wrapper">
                 <div class="col-sm-12">
                     <h3>Citas</h3>
-                    <table id="appointmentTable" class="table table-bordered dataTable" style="width: 100%;">
+                    <table id="supplierTable" class="table table-bordered dataTable" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th class="th-bg-custom">Email</th>
-                                <th class="th-bg-custom">Fecha de Cita</th>
+                                <th class="th-bg-custom">Fecha de Registro</th>
                                 <th class="th-bg-custom">Motivo</th>
                                 <th class="th-bg-custom">Estado</th>
                                 <th class="th-bg-custom action-column-header">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var appointment in Model)
+                            @foreach (var supplier in Model)
                             {
-                                <tr id="appointment-@appointment.AppointId" class="appointment-row @(appointment.AppointState == 0 ? "has-actions" : "")">
-                                    <td>@appointment.User?.Email</td>
-                                    <td>@appointment.AppointCreationDate?.ToString("dd/MM/yyyy")</td>
-                                    <td>@appointment.Reason</td>
+                                <tr id="supplier-@supplier.SupplierId" class="appointment-row @(supplier.SupplierState == 0 ? "has-actions" : "")">
+                                    <td>@supplier.Email</td>
+                                    <td>@supplier.SupplierCreationDate?.ToString("dd/MM/yyyy")</td>
+                                    <td>@supplier.Cause</td>
                                     <td class="text-center align-middle">
                                         @{
-                                            string estado = appointment.AppointState == 0 ? "Pendiente" :
-                                            appointment.AppointState == 1 ? "Aceptado" :
+                                            string estado = supplier.SupplierState == 0 ? "Pendiente" :
+                                            supplier.SupplierState == 1 ? "Aceptado" :
                                             "Rechazado";
                                         }
                                         @estado
                                     </td>
                                     <td class="text-center align-middle action-column">
-                                        @if (appointment.AppointState == 0)
+                                        @if (supplier.SupplierState == 0)
                                         {
-                                            <form id="acceptForm-@appointment.AppointId" asp-action="AcceptAppointment" method="post">
-                                                <input type="hidden" name="id" value="@appointment.AppointId" />
-                                                <button type="submit" class="btn btn-success accept-btn" data-id="@appointment.AppointId">Aceptar</button>
+                                            <form id="acceptForm-@supplier.SupplierId" asp-action="SupplierAppointment" method="post">
+                                                <input type="hidden" name="id" value="@supplier.SupplierId" />
+                                                <button type="submit" class="btn btn-success accept-btn" data-id="@supplier.SupplierId">Aceptar</button>
                                             </form>
-                                            <form id="rejectForm-@appointment.AppointId" asp-action="RejectAppointment" method="post">
-                                                <input type="hidden" name="id" value="@appointment.AppointId" />
-                                                <button type="submit" class="btn btn-danger reject-btn" data-id="@appointment.AppointId">Rechazar</button>
+                                            <form id="rejectForm-@supplier.SupplierId" asp-action="RejectSupplier" method="post">
+                                                <input type="hidden" name="id" value="@supplier.SupplierId" />
+                                                <button type="submit" class="btn btn-danger reject-btn" data-id="@supplier.SupplierId">Rechazar</button>
                                             </form>
                                         }
                                     </td>
@@ -62,22 +61,22 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        // Inicialización de DataTable
-        var table = $('#appointmentTable').DataTable({
+        
+        var table = $('#supplierTable').DataTable({
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
             },
             "info": false,
             "columnDefs": [
-                { "orderable": false, "targets": [4] } // Deshabilitar ordenación en la columna de acciones
+                { "orderable": false, "targets": [4] } 
             ]
         });
 
-        // Mostrar u ocultar la columna de acciones según sea necesario
-        var actionColumnVisible = $('#appointmentTable tbody tr.has-actions').length > 0;
+        
+        var actionColumnVisible = $('#supplierTable tbody tr.has-actions').length > 0;
         table.column('.action-column-header').visible(actionColumnVisible);
 
-        // Manejo de acciones de aceptar y rechazar citas
+        
         $(document).on('click', '.accept-btn', function (e) {
             e.preventDefault();
             var form = $(this).closest('form');
@@ -88,7 +87,7 @@
                 data: form.serialize(),
                 success: function (response) {
                     row.find('.action-column').fadeOut();
-                    // Recargar la página para actualizar la tabla
+                    
                     location.reload();
                 },
                 error: function () {
@@ -107,7 +106,7 @@
                 data: form.serialize(),
                 success: function (response) {
                     row.find('.action-column').fadeOut();
-                    // Recargar la página para actualizar la tabla
+                    
                     location.reload();
                 },
                 error: function () {

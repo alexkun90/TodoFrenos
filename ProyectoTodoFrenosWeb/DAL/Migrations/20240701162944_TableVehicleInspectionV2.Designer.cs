@@ -4,6 +4,7 @@ using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(TodoFrenosDbContext))]
-    partial class TodoFrenosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240701162944_TableVehicleInspectionV2")]
+    partial class TableVehicleInspectionV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,7 +104,6 @@ namespace DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("AppointId"));
 
                     b.Property<DateTime?>("AppointCreationDate")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateOnly?>("AppointDate")
@@ -111,14 +113,12 @@ namespace DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("AppointState")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("InspectionsIdInsep")
                         .HasColumnType("int");
 
                     b.Property<string>("Reason")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -359,40 +359,6 @@ namespace DAL.Migrations
                     b.ToTable("ShoppingCarts");
                 });
 
-            modelBuilder.Entity("DAL.Models.Suppliers", b =>
-                {
-                    b.Property<long>("SupplierId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("SupplierId"));
-
-                    b.Property<string>("Cause")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("SupplierCreationDate")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("SupplierModifyDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("SupplierState")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly?>("SuppliertDate")
-                        .HasColumnType("date");
-
-                    b.HasKey("SupplierId");
-
-                    b.ToTable("Suppliers");
-                });
-
             modelBuilder.Entity("DAL.Models.Vehicle", b =>
                 {
                     b.Property<long>("VehicleId")
@@ -421,6 +387,7 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Vin")
@@ -467,9 +434,6 @@ namespace DAL.Migrations
 
                     b.Property<int>("OilChange")
                         .HasColumnType("int");
-
-                    b.Property<string>("Recommendations")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Steering")
                         .HasColumnType("nvarchar(max)");
@@ -614,7 +578,9 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

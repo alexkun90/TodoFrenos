@@ -27,6 +27,14 @@ namespace API.Controllers
             return await _context.Vehicles.ToListAsync();
         }
 
+        [HttpGet("MyVehicles/{id}")]
+        public async Task<ActionResult<IEnumerable<Vehicle>>> GetMyVehicles(string id)
+        {
+            return await _context.Vehicles
+                                     .Where(v => v.UserId == id)
+                                     .ToListAsync();
+        }
+
         // GET: api/Vehicles/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Vehicle>> GetVehicle(long id)

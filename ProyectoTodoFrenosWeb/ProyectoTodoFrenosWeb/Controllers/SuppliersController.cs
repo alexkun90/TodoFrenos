@@ -8,118 +8,109 @@ using Microsoft.EntityFrameworkCore;
 using DAL.Models;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using DAL;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
-    public class AppointmentsController : Controller
+    [AllowAnonymous]
+    public class SuppliersController : Controller
     {
         private readonly TodoFrenosDbContext _context;
-        AppointmentService appointmentService;
+        SupplierService supplierService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        
-        public AppointmentsController(TodoFrenosDbContext context, IConfiguration config)
+        public SuppliersController(TodoFrenosDbContext context, IConfiguration config, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            appointmentService = new AppointmentService(config);
-           
+            supplierService = new SupplierService(config);
+            _userManager = userManager;
         }
 
-        // GET: Appointments
         public async Task<IActionResult> Index()
         {
             try
             {
-                var appointments = await _context.Appointments
-                    .Include(a => a.User)
-                    .Where(a => a.AppointState != -1) // Filtrar estados eliminados
+                var suppliers = await _context.Suppliers
+                    .Where(s => s.SupplierState != -1) // Filtrar estados eliminados
                     .ToListAsync();
 
-                return View(appointments);
+                return View(suppliers);
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = $"Error al cargar las citas: {ex.Message}";
+                TempData["ErrorMessage"] = $"Error al cargar los proveedores: {ex.Message}";
                 return View(); // Devuelve la vista con un mensaje de error
             }
         }
 
-
-        // GET: Appointments/Details/5
+        // GET: Suppliers/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            Appointment appointment = await appointmentService.GetAppointment(id);
+            Suppliers supplier = await supplierService.GetSupplier(id);
             if (id == null)
             {
                 return NotFound();
             }
 
-
-
-            return View(appointment);
+            return View(supplier);
         }
 
-
+        // GET: Suppliers/Create
         public IActionResult Create()
         {
-
             return View();
         }
 
-
-
+        // POST: Suppliers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Appointment appointment)
+        [Route("Suppliers/Create")]
+        public async Task<IActionResult> CreateSupplier([Bind("Email,SupplierCreationDate,Cause,SupplierState")] Suppliers suppliers)
         {
             if (ModelState.IsValid)
             {
-                try
+                var existingUser = await _userManager.FindByEmailAsync(suppliers.Email);
+                if (existingUser == null)
                 {
-                    _context.Add(appointment);
-                    await _context.SaveChangesAsync();
+                    ModelState.AddModelError("Email", "Este correo electrónico no está registrado como usuario.");
+                    return View("Create", suppliers);
+                }
 
-                    TempData["SuccessMessage"] = "Solicitud de cita enviada correctamente.";
-                    return RedirectToAction(nameof(Create));
-                }
-                catch (Exception ex)
-                {
-                    TempData["ErrorMessage"] = "No se pudo registrar la cita. Por favor, inténtelo de nuevo.";
-                }
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Necesita iniciar sesión para agendar una cita";
+                _context.Add(suppliers);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Proveedor registrado correctamente.";
+                return RedirectToAction("Create");
             }
 
-            return View(appointment);
+            return View("Create", suppliers);
         }
-
 
 
         public async Task<IActionResult> Edit(long? id)
         {
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            Appointment appointment = await appointmentService.GetAppointment(id);
+            Suppliers supplier = await supplierService.GetSupplier(id);
 
-            if (appointment == null)
+            if (supplier == null)
             {
                 return NotFound();
             }
 
-            return View(appointment);
+            return View(supplier);
         }
 
-
+        // POST: Suppliers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id,  Appointment appointment)
+        public async Task<IActionResult> Edit(long id, Suppliers supplier)
         {
-            if (id != appointment.AppointId)
+            if (id != supplier.SupplierId)
             {
                 return NotFound();
             }
@@ -128,7 +119,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 try
                 {
-                    var result = await appointmentService.EditAppointment((long)id, appointment);
+                    var result = await supplierService.EditSupplier((long)id, supplier);
 
                     if (result != null)
                     {
@@ -137,7 +128,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AppointmentExists(appointment.AppointId))
+                    if (!SupplierExists(supplier.SupplierId))
                     {
                         return NotFound();
                     }
@@ -146,13 +137,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
                         throw;
                     }
                 }
-
             }
 
-            return View(appointment);
+            return View(supplier);
         }
 
-
+        // GET: Suppliers/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -160,47 +150,31 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 return NotFound();
             }
 
-            var resultado = await appointmentService.DeleteAppointment(id.Value);
+            var resultado = await supplierService.DeleteSupplier(id.Value);
 
             if (resultado)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            ModelState.AddModelError(string.Empty, "Error al inactivar la cita.");
-            var appointment = await appointmentService.GetAppointment(id);
+            ModelState.AddModelError(string.Empty, "Error al inactivar el proveedor.");
+            var supplier = await supplierService.GetSupplier(id);
 
-            return View(appointment);
+            return View(supplier);
         }
 
-        /*
-          [HttpPost, ActionName("Delete")]
-          [ValidateAntiForgeryToken]
-          public async Task<IActionResult> DeleteConfirmed(long id)
-          {
-              var appointment = await _context.Appointments.FindAsync(id);
-              if (appointment != null)
-              {
-                  _context.Appointments.Remove(appointment);
-              }
-
-              await _context.SaveChangesAsync();
-              return RedirectToAction(nameof(Index));
-          }
-         */
-
-        private bool AppointmentExists(long id)
+        private bool SupplierExists(long id)
         {
-            return _context.Appointments.Any(e => e.AppointId == id);
+            return _context.Suppliers.Any(e => e.SupplierId == id);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AcceptAppointment(long id)
+        public async Task<IActionResult> AcceptSupplier(long id)
         {
             try
             {
-                var result = await appointmentService.AcceptAppointment(id);
+                var result = await supplierService.AcceptSupplier(id);
                 if (result)
                 {
                     TempData["SuccessMessage"] = "Cita aceptada correctamente.";
@@ -220,11 +194,11 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RejectAppointment(long id)
+        public async Task<IActionResult> RejectSupplier(long id)
         {
             try
             {
-                var result = await appointmentService.RejectAppointment(id);
+                var result = await supplierService.RejectSupplier(id);
                 if (result)
                 {
                     TempData["SuccessMessage"] = "Cita rechazada correctamente.";
@@ -242,15 +216,14 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
         [HttpGet]
-        public IActionResult GetPendingAppointmentsCount()
+        public IActionResult GetPendingSuppliersCount()
         {
-            int pendingState = 0; 
-            var pendingCount = _context.Appointments.Count(a => a.AppointState == pendingState);
+            int pendingState = 0; // Define el estado pendiente
+            var pendingCount = _context.Suppliers.Count(s => s.SupplierState == pendingState);
             return Json(pendingCount);
         }
-
-
-
     }
 }

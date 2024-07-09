@@ -4,7 +4,7 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h2 style="text-align:center;">Cofirmar Eliminación de Vehículo</h2>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
@@ -48,4 +48,9 @@
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
+
+    <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+    <script>
+        history.pushState(null, null, '@Url.Action("Inicio", "Inicio")');
+    </script>
 </div>

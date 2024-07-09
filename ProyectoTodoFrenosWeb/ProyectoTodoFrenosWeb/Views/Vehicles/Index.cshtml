@@ -2,14 +2,12 @@
 
 @{
     ViewData["Title"] = "Index";
+    var userEmails = ViewBag.UserEmails as Dictionary<string, string>;
 }
 
 <div class="container mt-3">
     <h2>Gestión de Vehículo</h2>
     <p>Apartado donde se gestiona el progreso del servicio recivido del vehiculo de los clientes de TodoFrenos</p>
-    <div class="mb-2">
-        <a class="btn btn-agree" asp-action="Create"><i class="fa-solid fa-car"></i> <i class=" fa-solid fa-plus"></i></a>
-    </div>
     <div class="container-border-custom mb-2">
         <div class="table-responsive">
             <div id="dataTable_wrapper" class="dataTables_wrapper">
@@ -34,7 +32,7 @@
                                 {
                                     <tr>
                                         <td class="text-center align-middle">
-                                            @Html.DisplayFor(modelItem => item.UserId)
+                                            @(userEmails.ContainsKey(item.UserId) ? userEmails[item.UserId] : "Sin email")
                                         </td>
                                         <td class="text-center align-middle">
                                             @Html.DisplayFor(modelItem => item.Brand)
@@ -57,7 +55,8 @@
                                         </td>
                                         <td class="text-center align-middle">
                                             <a class="btn btn-modify" asp-action="Edit" asp-route-id="@item.VehicleId">Editar</a>
-                                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.VehicleId">Expediente</a>
+                                            @*<a class="btn btn-primary" asp-action="Details" asp-route-id="@item.VehicleId">Expediente</a>*@
+                                            <a class="btn btn-primary" href="@Url.Action("Index","VehicleInspections", new { id = @item.VehicleId })">Inspecciones</a>
                                             @if (item.CarState != 0)
                                             {
                                                 <button type="button" class="btn btn-inactive AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -98,6 +97,7 @@
         $("#VehicleId").val(vehicleId);
         $("#confirmDeleteButton").attr("href", "/Vehicles/Delete/" + vehicleId);
     });
+   
 </script>
 
 <!-- Modal -->

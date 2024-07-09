@@ -48,10 +48,13 @@ namespace DAL.Models
         public int OilChange { get;set;}
 
         [DisplayName("Fecha de Cambio")]
-        public DateTime DatePerformed { get; set; }
+        public DateTime? DatePerformed { get; set; }
 
         [DisplayName("Proximo Cambio")]
-        public DateTime NextChangeDue { get; set; }
+        public DateTime? NextChangeDue { get; set; }
+
+        [DisplayName("Recomendaciones")]
+        public string? Recommendations { get; set; }
 
         public virtual Vehicle? Vehicle { get; set; }
 
