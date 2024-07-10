@@ -1,4 +1,5 @@
 ﻿using DAL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,8 @@ using ProyectoTodoFrenosWeb.ViewModels;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
-    public class AdministracionController : Controller
+	[Authorize]
+	public class AdministracionController : Controller
     {
         private readonly RoleManager<IdentityRole> gestionRoles;
         private readonly UserManager<ApplicationUser> gestionUsuarios;
@@ -158,6 +160,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 var user = await gestionUsuarios.FindByIdAsync(model[i].UsuarioId);
 
                 IdentityResult result = null;
+
                 if (model[i].EstaSeleccionado && !(await gestionUsuarios.IsInRoleAsync(user, rol.Name)))
                 {
                     result = await gestionUsuarios.AddToRoleAsync(user, rol.Name);

@@ -7,23 +7,23 @@ namespace ProyectoTodoFrenosWeb.Controllers
 {
     public class UsuarioController : Controller
     {
-        private readonly AuthDbContext _authDbContext;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        
+        private readonly UserManager<ApplicationUser> gestionUsuarios;
+        private readonly RoleManager<IdentityRole> gestionRoles;
 
-        public UsuarioController(AuthDbContext authDbContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UsuarioController(UserManager<ApplicationUser> gestionUsuarios, RoleManager<IdentityRole> gestionRoles)
         {
-            _authDbContext = authDbContext;
-            _userManager = userManager;
-            _roleManager = roleManager;
+            this.gestionRoles = gestionRoles;
+            this.gestionUsuarios = gestionUsuarios;
         }
-
         [HttpGet]
-        public async Task<IActionResult> ListaUsuarios()
+        public IActionResult ListaUsuarios()
         {
-            
-            return View(await _authDbContext.Users.ToListAsync());
+            var usuarios = gestionUsuarios.Users;
+
+            return View(usuarios);
         }
+       
 
         [HttpGet]
         public IActionResult InicioSesion()
