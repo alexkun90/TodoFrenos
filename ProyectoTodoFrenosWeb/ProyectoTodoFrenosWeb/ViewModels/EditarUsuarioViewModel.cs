@@ -11,9 +11,18 @@ namespace ProyectoTodoFrenosWeb.ViewModels
         }
 
         public string Id { get; set; }
-
+        
         [Required]
         public string NombreUsuario { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string PrimApellido { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string SegunApellido { get; set; }
+        [Display(Name ="Estado")]
+        public bool Activo { get; set; } = true;
 
         [Required]
         [EmailAddress]

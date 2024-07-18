@@ -66,8 +66,22 @@
                             <td class="text-center align-middle">
                                 <div class="d-flex flex-column align-items-center">
                                     <a class="btn btn-modify mb-2" href="@Url.Action("Edit", new { id = item.ProductId })">Modificar</a>
-                                    <a class="btn btn-delete mb-2" href="@Url.Action("IndexCliente", "Products")">Detalles</a>
-                                    <a class="btn btn-delete" href="@Url.Action("Delete", new { id = item.ProductId })">Eliminar</a>
+                                    
+
+                                    @if (item.StateProdc != false)
+                                    {
+                                        <button type="button" class="btn btn-inactive AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                data-id="@item.ProductId" style="font:bold;font-size:18px">
+                                            Inactivar
+                                        </button>
+                                    }
+
+                                    @if (item.StateProdc != true)
+                                    {
+                                        <a class="btn btn-active-custom" href="@Url.Action("Activate","Products", new { id = @item.ProductId })">Activar</a>
+                                    }
+
+
                                 </div>
                             </td>
                         </tr>
@@ -79,3 +93,41 @@
 </div>
 
 
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myDataTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "info": false
+        });
+    });
+
+    $(".AbrirModal").click(function () {
+        var productId = $(this).attr("data-id");
+        $("#ProductId").val(productId);
+        $("#confirmDeleteButton").attr("href", "/Products/Delete/" + productId);
+    });
+
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Desea inactivar el vehículo seleccionado?
+            </div>
+            <div class="modal-footer">
+
+                <input type="hidden" id="ProductId" name="id" value="" />
+                <a id="confirmDeleteButton" href="#" class="btn btn-primary">Confirmar</a>
+            </div>
+        </div>
+    </div>
+</div>

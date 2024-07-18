@@ -149,7 +149,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
                 try
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var response = await client.DeleteAsync(apiUrl);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -168,5 +168,35 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             }
 
         }
+
+
+        public async Task<bool> ActivarProduct(long? Id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/Activate/{Id}";
+
+                try
+                {
+                    var response = await client.DeleteAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+
+        }
+
     }
 }
