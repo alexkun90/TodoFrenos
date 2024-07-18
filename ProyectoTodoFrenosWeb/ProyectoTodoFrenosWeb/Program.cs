@@ -1,3 +1,4 @@
+using OpenAI_API;
 using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using DAL;
@@ -5,10 +6,10 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ConexiBD") ?? throw new InvalidOperationException("Connection string 'ConexiBD' not found.");
-
+//builder.Services.AddSingleton(new OpenAIAPI(new APIAuthentication()));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+//builder.Services.AddSingleton<OpenAI_API>
 
 
 //Configuracion BD y el context

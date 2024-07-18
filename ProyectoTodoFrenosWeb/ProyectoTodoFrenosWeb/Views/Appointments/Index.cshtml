@@ -41,11 +41,11 @@
                                         {
                                             <form id="acceptForm-@appointment.AppointId" asp-action="AcceptAppointment" method="post">
                                                 <input type="hidden" name="id" value="@appointment.AppointId" />
-                                                <button type="submit" class="btn btn-success accept-btn" data-id="@appointment.AppointId">Aceptar</button>
+                                                <button type="submit" class="btn btn-active-custom accept-btn" data-id="@appointment.AppointId">Aceptar</button>
                                             </form>
                                             <form id="rejectForm-@appointment.AppointId" asp-action="RejectAppointment" method="post">
                                                 <input type="hidden" name="id" value="@appointment.AppointId" />
-                                                <button type="submit" class="btn btn-danger reject-btn" data-id="@appointment.AppointId">Rechazar</button>
+                                                <button type="submit" class="btn btn-delete reject-btn" data-id="@appointment.AppointId">Rechazar</button>
                                             </form>
                                         }
                                     </td>

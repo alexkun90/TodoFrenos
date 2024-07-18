@@ -75,8 +75,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 try
                 {
-                    _context.Add(appointment);
-                    await _context.SaveChangesAsync();
+                    var resultado = await appointmentService.CreateAppointment(appointment);
 
                     TempData["SuccessMessage"] = "Solicitud de cita enviada correctamente.";
                     return RedirectToAction(nameof(Create));

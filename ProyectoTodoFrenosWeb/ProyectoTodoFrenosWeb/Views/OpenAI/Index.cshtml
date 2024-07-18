@@ -1,0 +1,109 @@
+﻿@model List<string>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutChatBot.cshtml";
+}
+<div id="chat-container">
+    <div id="chat-header">
+        <h4>Asistencia Virtual Todo Frenos</h4>
+    </div>
+
+    <div id="start-menu">
+        <p class="ms-2">Hola, mucho gusto! Soy tu asistente virtual.</p>
+    </div>
+    <div id="start-menu">
+        <p class="ms-2">Te ofrezco este listado de las preguntas más frecuentes por nuestros clientes, selecciona la que gustes:</p>
+    </div>
+    <div id="question-menu">
+        <ul>
+            @foreach (var question in Model)
+            {
+                <li><button class="question-button" data-question="@question">@question</button></li>
+            }
+        </ul>
+    </div>
+
+    <div id="chat-box">
+        <div id="chat-messages"></div>
+    </div>
+</div>
+
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var dateAdded = false;
+
+        $(".question-button").on("click", function () {
+            if (!dateAdded) {
+                addDate();
+                dateAdded = true;
+            }
+            var question = $(this).data("question");
+            addUserQuestionMessage(question);
+            showLoadingMessage();
+            setTimeout(function () {
+                sendQuestionToBot(question);
+            }, getRandomDelay(1000, 1500)); 
+
+            $("#question-menu").hide();
+            $("#show-questions").hide();
+        });
+
+        $(document).on("click", "#show-questions", function () {
+            $("#question-menu").insertAfter("#chat-messages .bot-message:last").show();
+            $(this).remove();
+        });
+
+        function addUserQuestionMessage(question) {
+            $("#chat-messages").append('<div class="message-user question-message"><button class="question-button-disabled" disabled>' + question + '</button><i class="fa fa-check check-icon"></i></div>');
+            scrollToBottom();
+        }
+
+        function addUserMessage(message) {
+            $("#chat-messages").append('<div class="message-user"><div class="user-message">' + message + '</div></div>');
+            scrollToBottom();
+        }
+
+        function addBotMessage(message) {
+            $("#chat-messages").find('.loading-message').remove();
+            $("#chat-messages").append('<div class="message bot-message"><div class="bot-text">' + message + '<i class="fa-solid fa-circle-info bot-icon"></i></div></div>');
+            scrollToBottom();
+            showQuestionsButton();
+        }
+
+        function showLoadingMessage() {
+            $("#chat-messages").append('<div class="message bot-message loading-message"> cargando <i class="fa-regular fa-comment-dots"></i> </div>');
+            scrollToBottom();
+        }
+
+        function sendQuestionToBot(question) {
+            $.post('@Url.Action("GetAnswer", "OpenAI")', { question: question }, function (response) {
+                addBotMessage(response.answer);
+            });
+        }
+
+        function getRandomDelay(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function scrollToBottom() {
+            $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+        }
+
+        function showQuestionsButton() {
+            $("#chat-messages").append('<button id="show-questions" class="question-button">Mostrar preguntas frecuentes</button>');
+        }
+
+        function addDate() {
+            var date = getCurrentDate();
+            $("#chat-messages").append('<div class="date-indicator">' + date + '</div>');
+        }
+
+        function getCurrentDate() {
+            var date = new Date();
+            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+    });
+</script>
+

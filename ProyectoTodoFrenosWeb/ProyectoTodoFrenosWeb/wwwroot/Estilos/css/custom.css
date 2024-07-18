@@ -169,6 +169,7 @@
 .btn-delete {
     background-color: #e04b59 !important;
     color: #ffffff !important;
+    width: 100px;
 }
 
 .btn-delete:hover {
@@ -260,7 +261,7 @@
     font-size: 20px !important;
 }
 
-/*ChatBot*/
+/*ChatBot Visual*/
 .fixed-button {
     position: fixed;
     right: 5px;
@@ -296,3 +297,177 @@
     transform: translateY(-5px);
 }
 
+.action-column form {
+    display: inline-block; /* Hace que los formularios se muestren en línea */
+    margin-right: 10px; /* Espacio entre los formularios */
+}
+
+    .action-column form button {
+        vertical-align: top; /* Alineación vertical de los botones */
+    }
+
+/*ChatBot*/
+#chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    margin-bottom: 25%;
+}
+
+#chat-header {
+    background-color: #e2884b;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+#start-menu {
+    background-color: #f1f0f0;
+    padding: 0px;
+    border-bottom: 1px solid #ccc;
+    overflow-y: auto;
+    max-height: 20%;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-right: 20px;
+}
+
+#question-menu {
+    border-radius: 10px;
+    margin-top: 10px;
+    text-align: end;
+    margin-right: 20px;
+}
+
+    #question-menu ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+#chat-box {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+#chat-messages {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.date-indicator {
+    text-align: center;
+    margin: 10px 0;
+    font-weight: bold;
+    color: #888;
+}
+
+.message {
+    margin-right: 20px;
+    margin-left: 40px;
+    border-radius: 18px;
+}
+
+.message-user {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.user-message {
+    background-color: #f4745c;
+    margin-bottom: 10px;
+    width: auto;
+    text-align: left;
+    border-radius: 18px;
+    color: #fff;
+}
+
+.question-message .question-button-disabled {
+    /*background-color: #f4745c;*/
+    background-color: #e2884b;
+    color: #fff;
+    border-color: #f4745c;
+    border-radius: 18px;
+    margin-bottom: 10px;
+    width: auto;
+    text-align: left;
+    position: relative;
+    cursor: default;
+}
+
+.bot-message {
+    background-color: #f1f0f0;
+    align-self: flex-end;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    margin-bottom: 15px;
+    padding:5px;
+}
+
+.loading-message {
+    text-align: end;
+    align-self: flex-end;
+    font-style: italic;
+    background: none !important;
+    border-color: none !important;
+    border-bottom: none !important;
+}
+
+.user-label {
+    display: inline-block;
+    margin-right: 10px;
+    color: #888;
+}
+
+.bot-icon {
+    position: absolute;
+    bottom: -4px;
+    right: 5px;
+    color: #b6b6b6;
+    width: 20px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.question-button {
+    color: #e2884b;
+    border-color: #e2884b;
+    margin-bottom: 10px;
+    width: auto;
+    text-align: left;
+    border-radius: 18px;
+    background-color: #fff;
+}
+
+    .question-button:hover {
+        color: #fff;
+        background-color: #e2884b;
+    }
+
+    .question-button:focus {
+        outline: none;
+    }
+
+.check-icon {
+    color: #76abdd; 
+    margin-left: 5px;
+    font-size: 12px;
+}
+
+.date-indicator {
+    text-align: center;
+    margin: 10px 0;
+    font-weight: bold;
+    color: #888;
+}

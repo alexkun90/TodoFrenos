@@ -53,14 +53,12 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item-custom" href="@Url.Action("Servicios","Inicio")">Información General</a></li>
-                                @if (User.Identity.IsAuthenticated)
-                                {
+                                
                                     <li><a class="dropdown-item-custom" href="@Url.Action("Create","Appointments")">Gestionar Cita</a></li>
-                                }
-                                else
-                                {
+                                
+                                
                                     <li><a class="dropdown-item-custom" href="@Url.Action("Create","Suppliers")">Gestionar Proveedor</a></li>
-                                }
+                               
                             </ul>
                         </li>
 
