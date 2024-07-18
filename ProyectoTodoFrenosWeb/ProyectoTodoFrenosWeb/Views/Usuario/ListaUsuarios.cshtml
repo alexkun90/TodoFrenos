@@ -1,0 +1,123 @@
+﻿@model IEnumerable<EditarUsuarioViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-3">
+    <h2>Gestión de Usuario</h2>
+    <p>Apartado donde se gestiona la administración de los usuarios de TodoFrenos</p>
+    <div class="container-border-custom mb-2">
+        <div>
+            <a class="btn btn-agree mb-1" style="font-weight:bold" asp-area="" asp-action="CrearUsuario">Registrar Usuario</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="th-bg-custom">Nombre</th>
+                        
+                        <th class="th-bg-custom">Primer Apellido</th>
+                        
+                        <th class="th-bg-custom">Segun Apellido</th>
+                       
+                        <th class="th-bg-custom">Correo</th>
+                        
+                        <th class="th-bg-custom">Rol</th>
+                       
+                        <th class="th-bg-custom">Estado</th>
+                        <th class="th-bg-custom">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var usuario in Model)
+                    {
+                        <tr>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => usuario.NombreUsuario)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => usuario.PrimApellido)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => usuario.SegunApellido)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => usuario.Email)
+                            </td>
+                            <td class="text-center align-middle">
+                                @foreach (var rol in usuario.Roles)
+                                {
+                                    <span>@rol</span>
+                                }
+                                
+                            </td>
+                            <td class="text-center align-middle">
+                                @(usuario.Activo ? "Activo" : "Inactivo")
+                            </td>
+                            <td class="text-center align-middle">
+                                <div>
+                                    <a class="btn btn-modify mb-2" asp-action="EditarUsuario" asp-route-id="@usuario.Id">Modificar</a>
+
+
+                                    @if (usuario.Activo != false)
+                                    {
+                                        <button type="button" class="btn btn-inactive AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                data-id="@usuario.Id" style="font:bold;font-size:18px">
+                                            Inactivar
+                                        </button>
+                                    }
+
+                                    @if (usuario.Activo != true)
+                                    {
+                                        <a class="btn btn-active-custom" href="@Url.Action("Activate","Usuario", new { id = usuario.Id })">Activar</a>
+                                    }
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myDataTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "info": false
+        });
+    });
+
+    $(".AbrirModal").click(function () {
+        var Id = $(this).attr("data-id");
+        $("#Id").val(Id);
+        $("#confirmDeleteButton").attr("href", "/Usuario/Delete/" + Id);
+    });
+
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Desea inactivar el usuario seleccionado?
+            </div>
+            <div class="modal-footer">
+
+                <input type="hidden" id="Id" name="id" value="" />
+                <a id="confirmDeleteButton" href="#" class="btn btn-primary">Confirmar</a>
+            </div>
+        </div>
+    </div>
+</div>

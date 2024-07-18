@@ -64,8 +64,8 @@ namespace ProyectoTodoFrenosWeb.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-           /* ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
-           */
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+           
             return View();
         }
 
@@ -207,37 +207,47 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 return NotFound();
             }
 
-            Product product = await productService.GetProduct(id);
+            var resultado = await productService.DeleteProduct(id.Value);
 
            /* var product = await _context.Products
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.ProductId == id);*/
 
-            if (product == null)
+            if (resultado)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            ModelState.AddModelError(string.Empty, "Error al inactivar el vehiculo.");
+            var product = await productService.GetProduct(id);
+
+            
+            return View(product);
+        }
+
+        // GET: Products/Activate/5
+        public async Task<IActionResult> Activate(long? id)
+        {
+            if (id == null)
             {
                 return NotFound();
             }
 
-            return View(product);
-        }
+            var resultado = await productService.ActivarProduct(id.Value);
 
-        // POST: Products/DeleteConfirmed/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
-        {
-            var resultado = await productService.DeleteProduct(id);
+            /* var product = await _context.Products
+                 .Include(p => p.Category)
+                 .FirstOrDefaultAsync(m => m.ProductId == id);*/
 
             if (resultado)
             {
-                TempData["MensajeExito"] = "Producto desactivado exitosamente";
                 return RedirectToAction(nameof(Index));
             }
+            ModelState.AddModelError(string.Empty, "Error al activar el vehiculo.");
+            var product = await productService.GetProduct(id);
 
-            TempData["MensajeError"] = "Error al desactivar el producto";
-            return RedirectToAction(nameof(Delete), new { id = id });
+
+            return View(product);
         }
-
 
         private bool ProductExists(long id)
         {

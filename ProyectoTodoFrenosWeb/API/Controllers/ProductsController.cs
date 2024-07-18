@@ -100,6 +100,22 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [HttpDelete("Activate/{id}")]
+        public async Task<IActionResult> ActivarProduct(long id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            product.StateProdc = true;
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
         private bool ProductExists(long id)
         {
             return _context.Products.Any(e => e.ProductId == id);

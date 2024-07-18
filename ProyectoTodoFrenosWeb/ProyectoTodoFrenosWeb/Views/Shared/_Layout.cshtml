@@ -73,8 +73,10 @@
                         <li class="nav-item">
                         <a class="nav-link nav-link-a-custom" href=@Url.Action("ListaProductos","Producto")>Producto lista</a>
                         </li>*@
-                        <li class="nav-item dropdown">
-                            <a class="nav-link nav-link-a-custom dropdown-toggle-custom" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link nav-link-a-custom dropdown-toggle-custom" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Gestión
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -84,7 +86,7 @@
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","Appointments")>Citas</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("AdminPedidos","Pedidos")>Pédidos</a></li>
                             </ul>
-                        </li>
+                        </li>}
                         <li class="nav-item dropdown">
                             <a class="nav-link nav-link-a-custom dropdown-toggle-custom" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Nosotros
