@@ -8,19 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using DAL.Models;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using System.Security.Claims;
+using DAL;
+using Microsoft.AspNetCore.Identity;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
     public class AppointmentsController : Controller
     {
         private readonly TodoFrenosDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
         AppointmentService appointmentService;
-
         
-        public AppointmentsController(TodoFrenosDbContext context, IConfiguration config)
+
+        public AppointmentsController(TodoFrenosDbContext context, IConfiguration config, UserManager<ApplicationUser> _userManager)
         {
             _context = context;
             appointmentService = new AppointmentService(config);
+            this._userManager = _userManager;
            
         }
 
@@ -30,8 +34,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             try
             {
                 var appointments = await _context.Appointments
-                    .Include(a => a.User)
-                    .Where(a => a.AppointState != -1) // Filtrar estados eliminados
+                    .Include(a => a.User) // Filtrar estados eliminados
                     .ToListAsync();
 
                 return View(appointments);
@@ -71,6 +74,8 @@ namespace ProyectoTodoFrenosWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Appointment appointment)
         {
+            var userId =  _userManager.GetUserId(User);
+            appointment.UserId = userId;
             if (ModelState.IsValid)
             {
                 try
@@ -91,66 +96,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             }
 
             return View(appointment);
-        }
-
-
-
-        public async Task<IActionResult> Edit(long? id)
-        {
-
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Appointment appointment = await appointmentService.GetAppointment(id);
-
-            if (appointment == null)
-            {
-                return NotFound();
-            }
-
-            return View(appointment);
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id,  Appointment appointment)
-        {
-            if (id != appointment.AppointId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var result = await appointmentService.EditAppointment((long)id, appointment);
-
-                    if (result != null)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AppointmentExists(appointment.AppointId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-            }
-
-            return View(appointment);
-        }
-
+        }   
 
         public async Task<IActionResult> Delete(long? id)
         {
@@ -170,27 +116,6 @@ namespace ProyectoTodoFrenosWeb.Controllers
             var appointment = await appointmentService.GetAppointment(id);
 
             return View(appointment);
-        }
-
-        /*
-          [HttpPost, ActionName("Delete")]
-          [ValidateAntiForgeryToken]
-          public async Task<IActionResult> DeleteConfirmed(long id)
-          {
-              var appointment = await _context.Appointments.FindAsync(id);
-              if (appointment != null)
-              {
-                  _context.Appointments.Remove(appointment);
-              }
-
-              await _context.SaveChangesAsync();
-              return RedirectToAction(nameof(Index));
-          }
-         */
-
-        private bool AppointmentExists(long id)
-        {
-            return _context.Appointments.Any(e => e.AppointId == id);
         }
 
         [HttpPost]
@@ -241,6 +166,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /*Notificación de citas en layout*/
         [HttpGet]
         public IActionResult GetPendingAppointmentsCount()
         {

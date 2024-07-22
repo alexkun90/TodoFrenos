@@ -19,6 +19,12 @@
                                 @Html.DisplayFor(model => model.InspectorName)
                             </dd>
                             <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.Kilometraje)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.Kilometraje)
+                            </dd>
+                            <dt class="col-sm-2">
                                 @Html.DisplayNameFor(model => model.InspectionDate)
                             </dt>
                             <dd class="col-sm-10">
@@ -139,10 +145,10 @@
                                             @Html.DisplayFor(model => model.DatePerformed)
                                     </dd>
                                     <dt class="col-sm-2">
-                                            @Html.DisplayNameFor(model => model.NextChangeDue)
+                                            @Html.DisplayNameFor(model => model.OilChangeKilometraje)
                                     </dt>
                                     <dd class="col-sm-10">
-                                            @Html.DisplayFor(model => model.NextChangeDue)
+                                        @Html.DisplayFor(model => model.OilChangeKilometraje)
                                     </dd>
                                 }
                                 else if (Model.OilChange == 0)

@@ -117,7 +117,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                     if(vehicleInspection.OilChange == 0)
                     {
                         vehicleInspection.DatePerformed = null;
-                        vehicleInspection.NextChangeDue = null;
+                        vehicleInspection.OilChangeKilometraje = null;
                     }
 
                     var result = await service.EditVehicleInspection((long)id,vehicleInspection);

@@ -17,6 +17,10 @@
                 <label for="UserId" class="form-label">Propietario</label>
                 @Html.TextBoxFor(m => m.InspectorName, new { @class = "form-control", placeholder = "nombre del inspector", @required = "true" })
             </div>
+            <div class="mb-3">
+                <label for="Kilometraje" class="form-label">Kilometraje</label>
+                @Html.TextBoxFor(m => m.Kilometraje, new { @class = "form-control", placeholder = "kilometraje actual del vehículo", @required = "true" })
+            </div>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="mb-3">
@@ -150,8 +154,8 @@
                         @Html.TextBoxFor(m => m.DatePerformed, new { @class = "form-control", @type = "Date", @required = "false" })
                     </div>
                     <div class="mb-3">
-                        <label for="NextChangeDue" class="form-label">Próximo Cambio</label>
-                        @Html.TextBoxFor(m => m.NextChangeDue, new { @class = "form-control", @type = "Date", @required = "false" })
+                        <label for="OilChangeKilometraje" class="form-label">Próximo Cambio</label>
+                        @Html.TextBoxFor(m => m.OilChangeKilometraje, new { @class = "form-control", @type = "text", @required = "false" })
                     </div>
                 </div>
             </div>
@@ -193,9 +197,6 @@
         toggleExtraFields();
     }); 
 </script>
-@*
-
-*@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

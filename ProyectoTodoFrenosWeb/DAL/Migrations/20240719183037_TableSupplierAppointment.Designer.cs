@@ -4,6 +4,7 @@ using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(TodoFrenosDbContext))]
-    partial class TodoFrenosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240719183037_TableSupplierAppointment")]
+    partial class TableSupplierAppointment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,6 +105,12 @@ namespace DAL.Migrations
 
                     b.Property<DateTime?>("AppointCreationDate")
                         .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateOnly?>("AppointDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("AppointModifyDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("AppointState")
@@ -282,14 +291,17 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.SupplierAppointment", b =>
                 {
-                    b.Property<long>("SupplierAppointId")
+                    b.Property<int>("SupplierAppointId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("SupplierAppointId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierAppointId"));
 
                     b.Property<DateTime?>("AppointCreationDate")
                         .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("AppointModifyDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("AppointState")
@@ -300,11 +312,8 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SupplierEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("SupplierListId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("SupplierListId")
+                        .HasColumnType("int");
 
                     b.HasKey("SupplierAppointId");
 
@@ -315,11 +324,11 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.SupplierList", b =>
                 {
-                    b.Property<long>("SupplierListId")
+                    b.Property<int>("SupplierListId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("SupplierListId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierListId"));
 
                     b.Property<string>("SupplierEmail")
                         .HasColumnType("nvarchar(max)");
@@ -440,11 +449,13 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DAL.Models.Vehicle", null)
+                    b.HasOne("DAL.Models.Vehicle", "Vehicle")
                         .WithMany("Appointments")
                         .HasForeignKey("VehicleId");
 
                     b.Navigation("User");
+
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("DAL.Models.InvoiceDetail", b =>

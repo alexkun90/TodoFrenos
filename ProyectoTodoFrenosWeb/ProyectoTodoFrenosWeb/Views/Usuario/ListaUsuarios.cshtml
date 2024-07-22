@@ -55,25 +55,33 @@
                             <td class="text-center align-middle">
                                 @(usuario.Activo ? "Activo" : "Inactivo")
                             </td>
+                            
                             <td class="text-center align-middle">
-                                <div>
-                                    <a class="btn btn-modify mb-2" asp-action="EditarUsuario" asp-route-id="@usuario.Id">Modificar</a>
+                                @if (usuario.Id == ViewBag.CurrentUser.Id)
+                                {
+                                    <span>En sesión</span>
+                                }
+                                else
+                                {
+                                    <div>
+                                        <a class="btn btn-modify mb-2" asp-action="EditarUsuario" asp-route-id="@usuario.Id">Modificar</a>
 
 
-                                    @if (usuario.Activo != false)
-                                    {
-                                        <button type="button" class="btn btn-inactive AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                data-id="@usuario.Id" style="font:bold;font-size:18px">
-                                            Inactivar
-                                        </button>
-                                    }
+                                        @if (usuario.Activo != false)
+                                        {
+                                            <button type="button" class="btn btn-inactive AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                    data-id="@usuario.Id" style="font:bold;font-size:18px">
+                                                Inactivar
+                                            </button>
+                                        }
 
-                                    @if (usuario.Activo != true)
-                                    {
-                                        <a class="btn btn-active-custom" href="@Url.Action("Activate","Usuario", new { id = usuario.Id })">Activar</a>
-                                    }
+                                        @if (usuario.Activo != true)
+                                        {
+                                            <a class="btn btn-active-custom" href="@Url.Action("Activate","Usuario", new { id = usuario.Id })">Activar</a>
+                                        }
 
-                                </div>
+                                    </div>
+                                }
                             </td>
                         </tr>
                     }
@@ -82,6 +90,7 @@
         </div>
     </div>
 </div>
+
 
 <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
 <script>

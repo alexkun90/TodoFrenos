@@ -25,14 +25,12 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointments()
         {
             return await _context.Appointments.ToListAsync();
         }
 
-        // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Appointment>> GetAppointment(long id)
         {
@@ -44,68 +42,22 @@ namespace API.Controllers
             }
 
             return product;
-        }
+        }   
 
-        // PUT: api/Products/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAppointment(long id, Appointment appointment)
-        {
-            if (id != appointment.AppointId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(appointment).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-                return Ok(appointment);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AppointmentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
         {
-          
+            if (!ModelState.IsValid)
             {
-                DateTime today = DateTime.Now.Date;
-                DateTime tomorrow = today.AddDays(1);
-
-                if (appointment.AppointCreationDate == null || appointment.AppointCreationDate <= tomorrow)
-                {
-                    ModelState.AddModelError(nameof(appointment.AppointCreationDate), "La fecha de cita debe ser a partir de mañana.");
-                    return BadRequest(ModelState);
-                }
-
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                _context.Appointments.Add(appointment);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("GetAppointment", new { id = appointment.AppointId }, appointment);
+                return BadRequest(ModelState);
             }
-        }
 
+            _context.Appointments.Add(appointment);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetAppointment", new { id = appointment.AppointId }, appointment);
+            
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAppointment(long id)
@@ -116,28 +68,12 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            appointment.AppointState = 0;
-            _context.Appointments.Update(appointment);
+            _context.Appointments.Remove(appointment);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        [HttpDelete("Activate/{id}")]
-        public async Task<IActionResult> ActiveAppointment(long id)
-        {
-            var appoint = await _context.Appointments.FindAsync(id);
-            if (appoint == null)
-            {
-                return NotFound();
-            }
-
-            appoint.AppointState = 1;
-            _context.Appointments.Update(appoint);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
         [HttpPut("Accept/{id}")]
         public async Task<IActionResult> AcceptAppointment(long id)
         {
@@ -149,7 +85,7 @@ namespace API.Controllers
                     return NotFound(new { message = "Cita no encontrada." });
                 }
 
-                appointment.AppointState = 1; 
+                appointment.AppointState = 2; 
                 _context.Appointments.Update(appointment);
                 await _context.SaveChangesAsync();
 
@@ -172,7 +108,7 @@ namespace API.Controllers
                     return NotFound(new { message = "Cita no encontrada." });
                 }
 
-                appointment.AppointState = -1; 
+                appointment.AppointState = 0; 
                 _context.Appointments.Update(appointment);
                 await _context.SaveChangesAsync();
 
@@ -182,11 +118,6 @@ namespace API.Controllers
             {
                 return StatusCode(500, new { message = $"Error al rechazar la cita: {ex.Message}" });
             }
-        }
-
-        private bool AppointmentExists(long id)
-        {
-            return _context.Appointments.Any(e => e.AppointId == id);
         }
     }
 }

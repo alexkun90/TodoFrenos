@@ -52,13 +52,9 @@
                                 Servicios
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item-custom" href="@Url.Action("Servicios","Inicio")">Información General</a></li>
-                                
-                                    <li><a class="dropdown-item-custom" href="@Url.Action("Create","Appointments")">Gestionar Cita</a></li>
-                                
-                                
-                                    <li><a class="dropdown-item-custom" href="@Url.Action("Create","Suppliers")">Gestionar Proveedor</a></li>
-                               
+                                <li><a class="dropdown-item-custom" href="@Url.Action("Servicios","Inicio")">Información General</a></li> 
+                                <li><a class="dropdown-item-custom" href="@Url.Action("Create","Appointments")">Gestionar Cita</a></li>
+                                <li><a class="dropdown-item-custom" href="@Url.Action("Create","SupplierAppointment")">Gestionar Cita Proveedor</a></li>
                             </ul>
                         </li>
 
@@ -86,7 +82,8 @@
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","Appointments")>Citas</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("AdminPedidos","Pedidos")>Pédidos</a></li>
                             </ul>
-                        </li>}
+                        </li>
+                        }
                         <li class="nav-item dropdown">
                             <a class="nav-link nav-link-a-custom dropdown-toggle-custom" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Nosotros

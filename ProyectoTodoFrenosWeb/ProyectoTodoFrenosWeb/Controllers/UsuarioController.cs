@@ -41,6 +41,8 @@ namespace ProyectoTodoFrenosWeb.Controllers
                     Roles = roles
                 });
             }
+            var user = await gestionUsuarios.GetUserAsync(User);
+            ViewBag.CurrentUser = user;
 
             return View(usuariosConRoles);
         }

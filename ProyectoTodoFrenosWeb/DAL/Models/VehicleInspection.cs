@@ -50,8 +50,11 @@ namespace DAL.Models
         [DisplayName("Fecha de Cambio")]
         public DateTime? DatePerformed { get; set; }
 
-        [DisplayName("Proximo Cambio")]
-        public DateTime? NextChangeDue { get; set; }
+        [DisplayName("Kilometraje")]
+        public string? Kilometraje {  get; set; }
+        
+        [DisplayName("Cambio de aceite por Kilometraje")]
+        public string? OilChangeKilometraje { get; set; }
 
         [DisplayName("Recomendaciones")]
         public string? Recommendations { get; set; }

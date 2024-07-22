@@ -4,6 +4,7 @@ using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(TodoFrenosDbContext))]
-    partial class TodoFrenosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240719213244_UpdateTypeId")]
+    partial class UpdateTypeId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,6 +105,12 @@ namespace DAL.Migrations
 
                     b.Property<DateTime?>("AppointCreationDate")
                         .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateOnly?>("AppointDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("AppointModifyDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("AppointState")
@@ -292,15 +301,15 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("AppointModifyDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("AppointState")
                         .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Reason")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SupplierEmail")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("SupplierListId")
@@ -440,11 +449,13 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DAL.Models.Vehicle", null)
+                    b.HasOne("DAL.Models.Vehicle", "Vehicle")
                         .WithMany("Appointments")
                         .HasForeignKey("VehicleId");
 
                     b.Navigation("User");
+
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("DAL.Models.InvoiceDetail", b =>

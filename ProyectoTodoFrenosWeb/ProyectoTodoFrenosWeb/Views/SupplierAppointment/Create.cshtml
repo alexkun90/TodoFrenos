@@ -1,0 +1,48 @@
+﻿@model DAL.Models.SupplierAppointment
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
+    <div class="card rounded-3 p-4">
+        <h3 class="mb-3">Agregar Producto</h3>
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="SupplierEmail" class="form-label"></label>
+                <input asp-for="SupplierEmail" class="form-control" placeholder="correo eléctronico" />
+                <span asp-validation-for="SupplierEmail" class="text-danger"></span>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-5">
+                    <label asp-for="AppointCreationDate" class="form-label"></label>
+                    <input asp-for="AppointCreationDate" class="form-control" type="date" />
+                    <span asp-validation-for="AppointCreationDate" class="text-danger"></span>
+                </div>
+
+                @* <div class="col-md-5">
+                    <label asp-for="AppointModifyDate" class="form-label"></label>
+                    <input asp-for="AppointModifyDate" class="form-control" type="date" />
+                    <span asp-validation-for="AppointModifyDate" class="text-danger"></span>
+                </div> *@
+                
+                <div class="col-md-5">
+                    <label asp-for="Reason" class="form-label"></label>
+                    <input asp-for="Reason" class="form-control" />
+                    <span asp-validation-for="Reason" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-custom">Registrar Cita</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
