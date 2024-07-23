@@ -240,14 +240,14 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
+        /*
         [HttpGet]
         public IActionResult GetPendingAppointmentsCount()
         {
-            int pendingState = 0; 
-            var pendingCount = _context.Appointments.Count(a => a.AppointState == pendingState);
+            int pendingState = 0;
+            5107var pendingCount = _context.Appointments.Count(a => a.AppointState == pendingState);
             return Json(pendingCount);
-        }
+        }*/
 
 
 

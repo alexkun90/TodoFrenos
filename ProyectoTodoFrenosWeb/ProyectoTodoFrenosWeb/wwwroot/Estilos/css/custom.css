@@ -118,8 +118,8 @@
 
 /*Tables-------------------------------------------------------*/
 .th-bg-custom {
-    background-color: #333333 !important;
-    color: #e6e6e6 !important;
+    background-color: #ADB5BD !important;
+    color: #333333 !important;
     text-align: center !important;
 }
 
@@ -145,68 +145,83 @@
     border: 2px solid #ccc;
     padding: 20px;
 }
-
+#f18b4d
 .btn-agree {
+    background-color: transparent !important;
+    color: #f18b4d !important;
+    border: 2px solid #f18b4d !important;
+    transition: all 0.3s ease;
+}
+
+.btn-agree:hover {
     background-color: #f18b4d !important;
     color: #ffffff !important;
 }
 
-    .btn-agree:hover {
-        background-color: #e28248 !important;
-        color: #ffffff !important;
-    }
-
 .btn-modify {
-    background-color: #E2C275 !important;
-    color: #ffffff !important;
+    background-color: transparent !important;
+    color: #42a5f5 !important;
+    border: 2px solid #42a5f5 !important;
+    transition: all 0.3s ease;
+    
 }
 
     .btn-modify:hover {
-        background-color: #d0b36b !important;
+        background-color: #42a5f5 !important;
         color: #ffffff !important;
+        border: 2px solid #ffffff !important;
     }
 
 .btn-delete {
-    background-color: #e04b59 !important;
-    color: #ffffff !important;
-    width: 100px;
+    background-color: transparent !important;
+    color: #ef5350 !important;
+    border: 2px solid #ef5350 !important;
+    transition: all 0.3s ease;
 }
 
-.btn-delete:hover {
-    background-color: #c82333 !important;
-    color: #ffffff !important;
-}
+    .btn-delete:hover {
+        background-color: #ef5350 !important;
+        color: #ffffff !important;
+        border: 2px solid #ffffff !important;
+    }
 
 .btn-inactive {
-    background-color: #737d85 !important;
-    color: #ffffff !important;
-    width: 100px;
+    background-color: transparent !important;
+    color: #ef5350 !important;
+    border: 2px solid #ef5350 !important;
+    transition: all 0.3s ease;
 }
 
     .btn-inactive:hover {
-        background-color: #616970 !important;
+        background-color: #ef5350 !important;
         color: #ffffff !important;
+        border: 2px solid #ffffff !important;
     }
 
 .btn-active-custom {
-    background-color: #43a85a !important;
-    color: #ffffff !important;
-    width: 100px;
+    background-color: transparent !important;
+    color: #66BB6A !important;
+    border: 2px solid #66BB6A !important;
+    transition: all 0.3s ease;
 }
 
     .btn-active-custom:hover {
-        background-color: #419855 !important;
+        background-color: #66BB6A !important;
         color: #ffffff !important;
+        border: 2px solid #ffffff !important;
     }
 
 .btn-details {
-    background-color: #5092e4 !important;
-    color: #ffffff !important;
+    background-color: transparent !important;
+    color: #FFC107 !important;
+    border: 2px solid #FFC107 !important;
+    transition: all 0.3s ease;
 }
 
     .btn-details:hover {
-        background-color: #3772bb !important;
+        background-color: #FFC107 !important;
         color: #ffffff !important;
+        border: 2px solid #ffffff !important;
     }
 
 .btn-inspections {
