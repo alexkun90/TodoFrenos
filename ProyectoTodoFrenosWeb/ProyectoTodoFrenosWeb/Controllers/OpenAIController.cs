@@ -15,8 +15,11 @@ namespace ProyectoTodoFrenosWeb.Controllers
         {
             var questions = new List<string>
             {
-                "¿Cuál es tu horario?",
-                "¿Dónde están ubicados?"
+                "¿Cuál es el horario de atención del taller?",
+                "¿Qué tipos de pagos aceptan en el taller?",
+                "¿Cuáles son los servicios que ofrecen?",
+                "¿Cómo puedo programar una cita?",
+                "¿Dónde está ubicado el taller?"
             };
             return View(questions);
         }
@@ -26,9 +29,11 @@ namespace ProyectoTodoFrenosWeb.Controllers
         {
             var predefinedAnswers = new Dictionary<string, string>
         {
-            { "¿Cuál es tu horario?", "Nuestro horario es de 9am a 6pm de lunes a viernes." },
-            { "¿Dónde están ubicados?", "Estamos ubicados en la Calle Falsa 123, Springfield." },
-            // Añade más preguntas y respuestas predefinidas aquí
+            { "¿Cuál es el horario de atención del taller?", "El local está abiero al público de lunes a viernes 7:30 a.m. a 5:00 p.m. y sábado de 7:30 a.m. a 12:00 p.m." },
+            { "¿Qué tipos de pagos aceptan en el taller?", "Aceptamos pago en efectivo, tarjeta, sinpe movil y transferencia bancaria" },
+            { "¿Cuáles son los servicios que ofrecen?", "Nosotros ofrecemos: sistema de clutch, mecánica general, sistema de frenos, rescate en carretera 24hrs, mantenimiento, entre otros." },
+            { "¿Cómo puedo programar una cita?", "En el sistema contamos con un apartado de agendar citas. Lo seleccionas, llenas el formulario y pronto estaremos validando tu cita." },
+            { "¿Dónde está ubicado el taller?", "Estamos ubicados en 100 sur, 25 oeste de la entrada de emergencias Maternidad Carit." },
         };
 
             if (predefinedAnswers.ContainsKey(question))
