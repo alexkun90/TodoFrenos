@@ -55,9 +55,6 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 return NotFound();
             }
-
-
-
             return View(appointment);
         }
 

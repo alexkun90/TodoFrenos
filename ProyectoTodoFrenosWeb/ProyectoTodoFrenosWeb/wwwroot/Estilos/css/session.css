@@ -41,6 +41,8 @@ form .txt_field {
     border: none;
     background: none;
     outline: none;
+    border:none;
+    box-shadow: none;
 }
 
 .txt_field label {
@@ -74,6 +76,11 @@ form .txt_field {
 .txt_field input:focus ~ span::before,
 .txt_field input:valid ~ span::before {
     width: 100%;
+}
+
+.txt_field input:focus {
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 .pass {

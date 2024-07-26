@@ -6,9 +6,9 @@ namespace ProyectoTodoFrenosWeb.ViewModels
     {
         public RegistroModelo()
         {
-            
             Roles = new List<string>();
         }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }

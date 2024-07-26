@@ -116,14 +116,14 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<long?>("VehicleId")
-                        .HasColumnType("bigint");
+                    /*b.Property<long?>("VehicleId")
+                        .HasColumnType("bigint");*/
 
                     b.HasKey("AppointId");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("VehicleId");
+                    //b.HasIndex("VehicleId");
 
                     b.ToTable("Appointments");
                 });

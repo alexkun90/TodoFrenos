@@ -118,7 +118,7 @@
 
 /*Tables-------------------------------------------------------*/
 .th-bg-custom {
-    background-color: #ADB5BD !important;
+    background-color: #b7bfc7 !important;
     color: #333333 !important;
     text-align: center !important;
 }
@@ -145,7 +145,7 @@
     border: 2px solid #ccc;
     padding: 20px;
 }
-#f18b4d
+
 .btn-agree {
     background-color: transparent !important;
     color: #f18b4d !important;
@@ -187,13 +187,14 @@
 
 .btn-inactive {
     background-color: transparent !important;
-    color: #ef5350 !important;
-    border: 2px solid #ef5350 !important;
+    color: #646464 !important;
+    border: 2px solid #646464 !important;
+    width:95px;
     transition: all 0.3s ease;
 }
 
     .btn-inactive:hover {
-        background-color: #ef5350 !important;
+        background-color: #646464 !important;
         color: #ffffff !important;
         border: 2px solid #ffffff !important;
     }
@@ -202,6 +203,7 @@
     background-color: transparent !important;
     color: #66BB6A !important;
     border: 2px solid #66BB6A !important;
+    width: 95px;
     transition: all 0.3s ease;
 }
 
@@ -391,7 +393,7 @@
 .message-user {
     display: flex;
     align-items: center;
-    margin-right: 20px;
+    margin-right: 40px;
     margin-bottom: 10px;
 }
 
@@ -415,6 +417,7 @@
     text-align: left;
     position: relative;
     cursor: default;
+    padding-left:10px;
 }
 
 .bot-message {
@@ -423,7 +426,7 @@
     border-bottom: 1px solid #ccc;
     position: relative;
     margin-bottom: 15px;
-    padding:5px;
+    padding: 10px;
 }
 
 .loading-message {

@@ -53,8 +53,14 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item-custom" href="@Url.Action("Servicios","Inicio")">Información General</a></li> 
-                                <li><a class="dropdown-item-custom" href="@Url.Action("Create","Appointments")">Gestionar Cita</a></li>
-                                <li><a class="dropdown-item-custom" href="@Url.Action("Create","SupplierAppointment")">Gestionar Cita Proveedor</a></li>
+                                @if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
+                                {
+                                    <li><a class="dropdown-item-custom" href="@Url.Action("Create","Appointments")">Gestionar Cita</a></li>
+                                }
+                                @if (!SignInManager.IsSignedIn(User))
+                                {
+                                    <li><a class="dropdown-item-custom" href="@Url.Action("Create","SupplierAppointment")">Citas Proveedores</a></li>
+                                }
                             </ul>
                         </li>
 
@@ -76,7 +82,7 @@
                                 Gestión
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item-custom" href=@Url.Action("AdminUsuarios","Usuario")>Usuarios</a></li>
+                                <li><a class="dropdown-item-custom" href=@Url.Action("ListaUsuarios","Usuario")>Usuarios</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","Products")>Productos</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","Vehicles")>Vehiculos</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","Appointments")>Citas</a></li>

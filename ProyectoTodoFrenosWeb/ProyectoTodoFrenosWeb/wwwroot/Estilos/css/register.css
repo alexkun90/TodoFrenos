@@ -29,16 +29,17 @@
     }
 
 .center-card {
-    width: 100%;
-    max-width: 50%;
+    width: 500px;
+    max-width: 500px;
+    margin: 0 auto;
     position: relative;
     z-index: 2;
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .form-column {
@@ -98,6 +99,11 @@
     .txt_field input:focus ~ span::before,
     .txt_field input:valid ~ span::before {
         width: 100%;
+    }
+
+    .txt_field input:focus {
+        box-shadow: none;
+        outline: none;
     }
 
 input[type="submit"] {

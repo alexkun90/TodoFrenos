@@ -86,7 +86,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarRol(EditarRolViewModel model)
         {
-            var rol = await gestionRoles.FindByIdAsync (model.Id);
+            var rol = await gestionRoles.FindByIdAsync(model.Id);
             if (rol == null)
             {
                 ViewBag.ErrorMessage = $"Rol con el Id = {model.Id} no fue encontrado";
@@ -109,8 +109,8 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 return View(model);
             }
         }
-        
-        [HttpGet]    
+
+        [HttpGet]
         public async Task<IActionResult> EditarUsuarioRol(string rolId)
         {
             ViewBag.roleId = rolId;
@@ -131,7 +131,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                     UsuarioName = user.UserName
                 };
 
-                if (await gestionUsuarios.IsInRoleAsync(user,role.Name))
+                if (await gestionUsuarios.IsInRoleAsync(user, role.Name))
                 {
                     usuarioRolViewModel.EstaSeleccionado = true;
                 }
@@ -141,13 +141,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 }
                 model.Add(usuarioRolViewModel);
             }
-			return View(model);
-		}
+            return View(model);
+        }
 
         [HttpPost]
         public async Task<IActionResult> EditarUsuarioRol(List<UsuarioRolViewModel> model, string rolId)
         {
-            var rol = await gestionRoles.FindByIdAsync (rolId);
+            var rol = await gestionRoles.FindByIdAsync(rolId);
 
             if (rol == null)
             {
@@ -181,7 +181,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                         return RedirectToAction("EditarRol", new { Id = rolId });
                 }
             }
-            return RedirectToAction("EditarRol", new {Id = rolId});
+            return RedirectToAction("EditarRol", new { Id = rolId });
         }
     }
 }

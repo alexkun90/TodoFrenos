@@ -26,7 +26,7 @@
             <a class="btn btn-agree mb-1" style="font-weight:bold" asp-area="" asp-action="CrearUsuario">Registrar Usuario</a>
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table id="myDataTable" class="table table-bordered dataTable" style="width: 100%;">
                 <thead>
                     <tr>
                         <th class="th-bg-custom">Nombre</th>
@@ -77,13 +77,13 @@
                                 }
                                 else
                                 {
-                                    <div>
-                                        <a class="btn btn-modify btn-same-height mb-2" asp-action="EditarUsuario" asp-route-id="@usuario.Id">Modificar</a>
+                                    <div class="text-center align-middle">
+                                        <a class="btn btn-modify mb-2" asp-action="EditarUsuario" asp-route-id="@usuario.Id">Modificar</a>
 
 
                                         @if (usuario.Activo != false)
                                         {
-                                            <button type="button" class="btn btn-inactive btn-same-height AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                            <button type="button" class="btn btn-inactive mb-2 AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                     data-id="@usuario.Id" style="font:bold;font-size:18px">
                                                 Inactivar
                                             </button>
@@ -91,7 +91,7 @@
 
                                         @if (usuario.Activo != true)
                                         {
-                                            <a class="btn btn-active-custom btn-same-height" href="@Url.Action("Activate","Usuario", new { id = usuario.Id })">Activar</a>
+                                            <a class="btn btn-active-custom mb-2" href="@Url.Action("Activate","Usuario", new { id = usuario.Id })">Activar</a>
                                         }
 
                                     </div>

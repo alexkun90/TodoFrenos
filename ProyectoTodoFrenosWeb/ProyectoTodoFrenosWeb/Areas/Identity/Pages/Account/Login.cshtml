@@ -27,6 +27,7 @@
                         <label>Contraseña</label>
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
+                    <input type="submit" value="Iniciar Sesión" class="w-100 btn btn-lg btn-primary" /> 
                     @*<div class="pass">
                         <a style="text-decoration: none; color: #adadad;" href="@Url.Action("CodigoAcceso", "Usuario")">¿Olvidaste tu contraseña?</a>
                     </div>
@@ -36,11 +37,11 @@
                             @Html.DisplayNameFor(m => m.Input.RememberMe)
                         </label>
                     </div>*@
-                    <input type="submit" value="Iniciar Sesión" class="w-100 btn btn-lg btn-primary" />
-                    <div class="signup_link">
+                    
+                    @*<div class="signup_link">
                         ¿No tienes usuario?
                         <a href=@Url.Action("CrearUsuario","Usuario") style="color: #f18b4d;">Registrar</a>
-                    </div>
+                </div>*@
                     @*
                     <div>
                         <p>
