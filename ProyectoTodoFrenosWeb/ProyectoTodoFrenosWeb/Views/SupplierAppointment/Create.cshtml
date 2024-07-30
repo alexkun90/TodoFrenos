@@ -6,37 +6,38 @@
 
 <div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
     <div class="card rounded-3 p-4">
-        <h3 class="mb-3">Agregar Producto</h3>
+        <h3 class="mb-3">Agregar Cita</h3>
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <div class="mb-3">
-                <label asp-for="SupplierEmail" class="form-label"></label>
-                <input asp-for="SupplierEmail" class="form-control" placeholder="correo eléctronico" />
+                <label asp-for="SupplierEmail" class="form-label">Correo Electrónico</label>
+                <input asp-for="SupplierEmail" class="form-control" placeholder="correo electrónico" />
                 <span asp-validation-for="SupplierEmail" class="text-danger"></span>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-5">
-                    <label asp-for="AppointCreationDate" class="form-label"></label>
-                    <input asp-for="AppointCreationDate" class="form-control" type="date" />
+                    <label asp-for="AppointCreationDate" class="form-label">Fecha y Hora de Cita</label>
+                    <input asp-for="AppointCreationDate" id="appointCreationDate" class="form-control" type="datetime-local" />
                     <span asp-validation-for="AppointCreationDate" class="text-danger"></span>
                 </div>
 
-                @* <div class="col-md-5">
-                    <label asp-for="AppointModifyDate" class="form-label"></label>
-                    <input asp-for="AppointModifyDate" class="form-control" type="date" />
-                    <span asp-validation-for="AppointModifyDate" class="text-danger"></span>
-                </div> *@
-                
+                <!-- Descomentar si es necesario -->
+                @*<div class="col-md-5">
+                <label asp-for="AppointModifyDate" class="form-label">Fecha de Modificación</label>
+                <input asp-for="AppointModifyDate" class="form-control" type="date" />
+                <span asp-validation-for="AppointModifyDate" class="text-danger"></span>
+                </div>*@
+
                 <div class="col-md-5">
-                    <label asp-for="Reason" class="form-label"></label>
+                    <label asp-for="Reason" class="form-label">Motivo</label>
                     <input asp-for="Reason" class="form-control" />
                     <span asp-validation-for="Reason" class="text-danger"></span>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-custom">Registrar Cita</button>
+            <button type="submit" class="btn btn-agree">Registrar Cita</button>
         </form>
     </div>
 </div>
@@ -45,4 +46,31 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        $(document).ready(function () {
+            function setDateTimeLimits() {
+                var today = new Date();
+                today.setHours(0, 0, 0, 0); 
+                var minDateTimeStr = today.toISOString().slice(0, 16);
+                $('#appointCreationDate').attr('min', minDateTimeStr);
+
+                $('#appointCreationDate').removeAttr('max'); 
+
+                $('#appointCreationDate').on('change', function () {
+                    var selectedDate = new Date($(this).val());
+                    var minTime = new Date(selectedDate);
+                    minTime.setHours(7, 30, 0, 0);
+                    var maxTime = new Date(selectedDate);
+                    maxTime.setHours(17, 0, 0, 0); 
+
+                    if (selectedDate < minTime || selectedDate > maxTime) {
+                        alert("Nuestro horario de atención es de 7:30 a.m. a 5:00 p.m.");
+                        $(this).val(''); 
+                    }
+                });
+            }
+
+            setDateTimeLimits();
+        });
+    </script>
 }

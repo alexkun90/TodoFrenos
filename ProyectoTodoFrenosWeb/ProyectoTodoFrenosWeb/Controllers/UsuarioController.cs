@@ -139,8 +139,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
         public IActionResult CrearUsuario()
         {
             var roles = gestionRoles.Roles.Select(r => r.Name).ToList();
+            var modelo = new RegistroModelo
+            {
+                Roles = new List<string>()
+            };
             ViewBag.Roles = roles;
-            return View();
+            return View(modelo);
         }
 
 

@@ -11,7 +11,7 @@ public partial class Product
     [DisplayName("Producto")]
     public long ProductId { get; set; }
 
-    [DisplayName("Categoria")]
+    [DisplayName("Categoría")]
     public long? CategoryId { get; set; }
     [DisplayName("Nombre")]
     public string? ProductName { get; set; }
@@ -23,7 +23,7 @@ public partial class Product
     public bool StateProdc { get; set; } = true;
     [DisplayName("Imagen")]
     public byte[]? ImageProduct { get; set; }
-    [DisplayName("Categoria")]
+    [DisplayName("Categoría")]
     public virtual Category? Category { get; set; }
 
     public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; } = new List<InvoiceDetail>();

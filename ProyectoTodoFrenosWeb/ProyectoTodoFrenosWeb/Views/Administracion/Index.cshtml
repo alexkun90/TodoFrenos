@@ -1,41 +1,46 @@
 ﻿@model IEnumerable<IdentityRole>
 @{
-	ViewBag.Title = "Listado de roles";
+    ViewBag.Title = "Listado de roles";
 }
 
-	<h1>Listado de roles</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Listado de Roles</h1>
 
-@if (Model.Any())
-{
-	<a class="btn btn-primary mb-3" style="width:auto" asp-action="CrearRol"
-	asp-controller="Administracion">Crear nuevo rol</a>
+    <div class="text-center mb-4">
+        <a class="btn btn-agree" asp-action="CrearRol" asp-controller="Administracion">Crear Nuevo Rol</a>
+    </div>
 
-	foreach(var role in Model)
-	{
-		<div class="card mb-3">
-			<div class="card-header">
-				Role Id : @role.Id
-			</div>
-			<div class="card-body">
-				<h5 class="card-title">@role.Name</h5>
-			</div>
-			<div class="card-footer">
-				<a asp-controller="Administracion" asp-action="EditarRol" asp-route-id="@role.Id" class="btn btn-primary">Editar</a>
-				<a href="#" class="btn btn-danger">Borrar</a>
-			</div>
-		</div>
-	}
-}
-else
-{
-	<div class="card">
-		<div class="card-header">
-			Todavia no hy roles creados
-		</div>
-		<div class="card-body">
-			<h5 class="card-title">Usa este boton para crear un rol</h5>
-			<a class="btn btn-primary" style="width:auto"
-			asp-controller="Administracion" asp-action="CrearRol">Crear Rol</a>
-		</div>
-	</div>
-}
+    @if (Model.Any())
+    {
+        <div class="row">
+            @foreach (var role in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header th-bg-custom text-black">
+                            <h5 class="mb-0">Role Id: @role.Id</h5>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">@role.Name</h5>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a asp-controller="Administracion" asp-action="EditarRol" asp-route-id="@role.Id" class="btn btn-modify me-2">Editar</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="card text-center shadow-sm">
+            <div class="card-header bg-info text-white">
+                Todavía no hay roles creados
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Usa este botón para crear un rol</h5>
+                <a class="btn btn-primary" asp-controller="Administracion" asp-action="CrearRol">Crear Rol</a>
+            </div>
+        </div>
+    }
+</div>
