@@ -31,6 +31,14 @@ namespace API.Controllers
             return await _context.Appointments.ToListAsync();
         }
 
+        [HttpGet("MyAppointments/{id}")]
+        public async Task<ActionResult<IEnumerable<Appointment>>> GetMyAppointments(string id)
+        {
+            return await _context.Appointments
+                                     .Where(u => u.UserId == id && (u.AppointState == 2 || u.AppointState == 0))
+                                     .ToListAsync();
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Appointment>> GetAppointment(long id)
         {
@@ -113,6 +121,29 @@ namespace API.Controllers
                 await _context.SaveChangesAsync();
 
                 return Ok(new { message = "Cita rechazada correctamente." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Error al rechazar la cita: {ex.Message}" });
+            }
+        }
+
+        [HttpPut("Cancel/{id}")]
+        public async Task<IActionResult> CancelAppointment(long id)
+        {
+            try
+            {
+                var appointment = await _context.Appointments.FindAsync(id);
+                if (appointment == null)
+                {
+                    return NotFound(new { message = "Cita no encontrada." });
+                }
+
+                appointment.AppointState = 4;
+                _context.Appointments.Update(appointment);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Cita cancelada correctamente." });
             }
             catch (Exception ex)
             {

@@ -1,4 +1,4 @@
-﻿/*namespace ProyectoTodoFrenosWeb.ViewModels
+﻿namespace ProyectoTodoFrenosWeb.ViewModels
 {
     public class SmtpSettings
     {
@@ -10,4 +10,4 @@
         public string FromEmail { get; set; }
         public string FromName { get; set; }
     }
-}*/
+}

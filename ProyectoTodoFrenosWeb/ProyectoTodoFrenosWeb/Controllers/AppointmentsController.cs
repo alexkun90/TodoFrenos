@@ -10,6 +10,7 @@ using ProyectoTodoFrenosWeb.ConsumoServices;
 using System.Security.Claims;
 using DAL;
 using Microsoft.AspNetCore.Identity;
+using OpenAI_API.Moderation;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -115,6 +116,26 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(appointment);
         }
 
+        public async Task<IActionResult> DeleteMyAppontments(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var resultado = await appointmentService.DeleteAppointment(id.Value);
+
+            if (resultado)
+            {
+                return RedirectToAction(nameof(MyAppointments));
+            }
+
+            ModelState.AddModelError(string.Empty, "Error al inactivar la cita.");
+            var appointment = await appointmentService.GetAppointment(id);
+
+            return View(appointment);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AcceptAppointment(long id)
@@ -162,16 +183,50 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        /*
-        [HttpGet]
-        public IActionResult GetPendingAppointmentsCount()
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelAppointment(long id)
         {
-            int pendingState = 0;
-            5107var pendingCount = _context.Appointments.Count(a => a.AppointState == pendingState);
-            return Json(pendingCount);
-        }*/
+            try
+            {
+                var result = await appointmentService.CancelAppointment(id);
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Cita cancelada correctamente.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Hubo un problema al cancelar la cita.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Hubo un error al procesar la solicitud: {ex.Message}";
+            }
 
+            return RedirectToAction(nameof(MyAppointments));
+        }
 
+        public async Task<IActionResult> MyAppointments() { 
+            string Userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await appointmentService.GetMyAppointments(Userid);
+            return View(result);
+            
+            return View();
+        }
 
+    [HttpGet]
+    public IActionResult GetAppointmentsCount()
+    {
+        int acceptState = 2;
+        int rejectState = 0;
+        string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var appointmentCount = _context.Appointments.Count(a => (a.AppointState == acceptState || a.AppointState == rejectState) && a.UserId == userId);
+        return Json(appointmentCount);       
     }
+
+
+
+}
 }

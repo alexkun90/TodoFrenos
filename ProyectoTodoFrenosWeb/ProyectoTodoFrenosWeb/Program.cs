@@ -16,18 +16,18 @@ builder.Services.AddControllersWithViews();
 
 
 //Configuracion BD y el context
-
 builder.Services.AddDbContext<TodoFrenosDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 //Configuracion Indentity y el context
 builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AuthDbContext>()
-    .AddDefaultUI();
-   //.AddDefaultTokenProviders();
-/*builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
-builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();*/
+    .AddDefaultUI()
+    .AddDefaultTokenProviders();
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 
 //Configuracion para las paginas o vistas
 builder.Services.AddRazorPages();

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
 {
@@ -55,10 +56,21 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                /*if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToPage("./ForgotPasswordConfirmation");
+                }*/
+
+                var newPassword = GenerateRandomPassword();
+                var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
+
+                if (!result.Succeeded)
+                {
+                    // Manejar el error (puedes agregar lógica de manejo de errores aquí)
+                    ModelState.AddModelError(string.Empty, "Error al restablecer la contraseña.");
+                    return Page();
                 }
 
                 // For more information on how to enable account confirmation and password reset please
@@ -71,15 +83,37 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                var emailSubject = "Reset Password";
+                var emailMessage = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. " +
+                                   $"Your new temporary password is: <strong>{newPassword}</strong>";
+                await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailMessage);
+
+                /*await _emailSender.SendEmailAsync(
+                     Input.Email,
+                     "Reset Password",
+                     $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");*/
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
 
             return Page();
+        }
+
+        private string GenerateRandomPassword()
+        {
+            // Puedes ajustar las opciones para la generación de la contraseña aquí
+            const int length = 12;
+            const string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-";
+
+            var random = new Random();
+            var newPassword = new char[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                newPassword[i] = validChars[random.Next(validChars.Length)];
+            }
+
+            return new string(newPassword);
         }
     }
 }

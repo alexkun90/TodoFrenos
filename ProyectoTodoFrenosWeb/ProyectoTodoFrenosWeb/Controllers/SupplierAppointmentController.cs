@@ -74,7 +74,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
             if (resultado)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
 
             ModelState.AddModelError(string.Empty, "Error al inactivar la cita.");

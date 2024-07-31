@@ -43,6 +43,36 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
         }
 
+        public async Task<IEnumerable<Appointment>> GetMyAppointments(string Id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/MyAppointments/{Id}";
+
+                try
+                {
+                    var response = await client.GetAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Appointment>>(responseData);
+
+                        return result;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+
+        }
+
 
         //Details
         public async Task<Appointment> GetAppointment(long? Id)
@@ -168,10 +198,6 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
         }
 
-
-
-  
-
         public async Task<bool> AcceptAppointment(long? id)
         {
             using (var client = new HttpClient())
@@ -206,6 +232,22 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             }
         }
 
+        public async Task<bool> CancelAppointment(long? id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Cancel/{id}";
+                try
+                {
+                    var response = await client.PutAsync(apiUrl, null);
+                    return response.IsSuccessStatusCode;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
 
 
 

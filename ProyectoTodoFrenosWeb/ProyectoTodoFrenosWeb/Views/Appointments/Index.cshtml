@@ -33,6 +33,7 @@
                                             string estado = appointment.AppointState == 1 ? "Pendiente" :
                                             appointment.AppointState == 2 ? "Aceptado" :
                                             appointment.AppointState == 0 ? "Rechazado" :
+                                            appointment.AppointState == 4 ? "Cancelado" :
                                             "Sin estado";
                                         }
                                         @estado
@@ -54,7 +55,7 @@
                                         }
 
 
-                                        @if (appointment.AppointState == 0 || appointment.AppointState == 2)
+                                        @if (appointment.AppointState == 0 || appointment.AppointState == 2 || appointment.AppointState == 4)
                                         {
                                             <a class="btn btn-delete" style="width:auto!important;" href="@Url.Action("Delete","Appointments", new { id = @appointment.AppointId })">
                                                 <i class="fa-solid fa-trash-can"></i>

@@ -1,4 +1,4 @@
-﻿/*using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using ProyectoTodoFrenosWeb.ViewModels;
 using System.Net.Mail;
@@ -36,4 +36,4 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             await client.SendMailAsync(mailMessage);
         }
     }
-}*/
+}
