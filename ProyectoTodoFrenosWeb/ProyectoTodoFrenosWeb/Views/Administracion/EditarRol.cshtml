@@ -1,53 +1,58 @@
 ﻿@model EditarRolViewModel
+
 @{
-	ViewBag.Title = "Editar Rol";
+    ViewBag.Title = "Editar Rol";
 }
 
-	<h1>Editar Rol</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Editar Rol</h1>
 
-<form method="post" class="mt-3">
-	<div class="form-group row">
-		<label asp-for="Id" class="col-sm-2 col-form-label"></label>
-		<div class="col-sm-10">
-			<input asp-for="Id" disabled class="form-control" />
-		</div>
-	</div>
-	<div class="form-group row">
-		<label asp-for="RolName" class="col-sm-2 col-form-label"></label>
-		<div class="col-sm-10">
-			<input asp-for="RolName" class="form-control"/>
-			<span asp-validation-for="RolName" class="text-danger"></span>
-		</div>
-	</div>
+    <form method="post" class="needs-validation" novalidate>
+        <div class="form-group row mb-3">
+            <label asp-for="Id" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Id" disabled class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row mb-3">
+            <label asp-for="RolName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="RolName" class="form-control" />
+                <span asp-validation-for="RolName" class="text-danger"></span>
+            </div>
+        </div>
 
-	<div asp-validation-summary="All" class="text-danger"></div>
+        <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
-	<div class="form-group row">
-		<div class="col-sm-10">
-			<button type="submit" class="btn btn-primary" style="width:auto">Editar</button>
-			<a asp-action="Index" class="btn btn-primary" style="width:auto">Cancelar</a>
-		</div>
-	</div>
+        <div class="form-group row">
+            <div class="col-sm-10 offset-sm-2">
+                <button type="submit" class="btn btn-modify me-2" style="width:auto">Editar</button>
+                <a asp-action="Index" class="btn btn-delete" style="width:auto">Cancelar</a>
+            </div>
+        </div>
 
-	<div class="card">
-		<div class="card-header">
-			<h3>Usuarios en este rol</h3>
-		</div>
-		<div class="card-body">
-			@if (Model.Usuarios.Any())
-			{
-				for (int i = 0; i < Model.Usuarios.Count; i++)
-				{
-					<h5 class="card-title">@Model.Usuarios[i]</h5>
-				}
-			}
-			else
-			{
-				<h5 class="card-title">Ninguno por ahora</h5>
-			}
-		</div>
-		<div class="card-footer">
-			<a asp-controller="Administracion" asp-action="EditarUsuarioRol" asp-route-rolId="@Model.Id" class="btn btn-primary" style="width:auto">Crear o borrar usuario</a>	
-		</div>
-	</div>
-</form>
+        <div class="card mt-4 shadow-sm">
+            <div class="card-header th-bg-custom text-black">
+                <h3 class="mb-0">Usuarios en este rol</h3>
+            </div>
+            <div class="card-body">
+                @if (Model.Usuarios.Any())
+                {
+                    <ul class="list-group">
+                        @for (int i = 0; i < Model.Usuarios.Count; i++)
+                        {
+                            <li class="list-group-item">@Model.Usuarios[i]</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <h5 class="card-title text-muted">Ninguno por ahora</h5>
+                }
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="Administracion" asp-action="EditarUsuarioRol" asp-route-rolId="@Model.Id" class="btn btn-agree" style="width:auto">Crear o borrar usuario</a>
+            </div>
+        </div>
+    </form>
+</div>

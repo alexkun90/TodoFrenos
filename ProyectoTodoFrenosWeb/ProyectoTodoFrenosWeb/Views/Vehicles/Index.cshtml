@@ -56,7 +56,7 @@
                                         <td class="text-center align-middle">
                                             <a class="btn btn-modify" asp-action="Edit" asp-route-id="@item.VehicleId">Editar</a>
                                             @*<a class="btn btn-primary" asp-action="Details" asp-route-id="@item.VehicleId">Expediente</a>*@
-                                            <a class="btn btn-primary" href="@Url.Action("Index","VehicleInspections", new { id = @item.VehicleId })">Inspecciones</a>
+                                            <a class="btn btn-inspections" href="@Url.Action("Index","VehicleInspections", new { id = @item.VehicleId })">Inspecciones</a>
                                             @if (item.CarState != 0)
                                             {
                                                 <button type="button" class="btn btn-inactive AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"

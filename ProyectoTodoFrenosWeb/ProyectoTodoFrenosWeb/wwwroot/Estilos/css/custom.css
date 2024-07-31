@@ -154,28 +154,27 @@ html, body {
 
 .btn-agree {
     background-color: transparent !important;
+    color: #42a5f5 !important;
+    border: 2px solid #42a5f5 !important;
+    transition: all 0.3s ease;
+}
+
+    .btn-agree:hover {
+        background-color: #42a5f5 !important;
+        color: #ffffff !important;
+    }
+
+.btn-modify {
+    background-color: transparent !important;
     color: #f18b4d !important;
     border: 2px solid #f18b4d !important;
     transition: all 0.3s ease;
 }
 
-.btn-agree:hover {
-    background-color: #f18b4d !important;
-    color: #ffffff !important;
-}
-
-.btn-modify {
-    background-color: transparent !important;
-    color: #42a5f5 !important;
-    border: 2px solid #42a5f5 !important;
-    transition: all 0.3s ease;
-    
-}
-
     .btn-modify:hover {
-        background-color: #42a5f5 !important;
+        background-color: #f18b4d !important;
         color: #ffffff !important;
-        border: 2px solid #ffffff !important;
+        border: 2px solid #f18b4d !important;
     }
 
 .btn-delete {
@@ -229,17 +228,20 @@ html, body {
     .btn-details:hover {
         background-color: #FFC107 !important;
         color: #ffffff !important;
-        border: 2px solid #ffffff !important;
+        border: 2px solid #FFC107 !important;
     }
 
 .btn-inspections {
-    background-color: #5560e2 !important;
-    color: #ffffff !important;
+    background-color: transparent !important;
+    color: #6D28D9 !important;
+    border: 2px solid #6D28D9 !important;
+    transition: all 0.3s ease;
 }
 
     .btn-inspections:hover {
-        background-color: #424ba7 !important;
+        background-color: #6D28D9 !important;
         color: #ffffff !important;
+        border: 2px solid #6D28D9 !important;
     }
 
 /*Dropdown Fleca*/
@@ -495,3 +497,34 @@ html, body {
     font-weight: bold;
     color: #888;
 }
+
+.card {
+    border-radius: 15px;
+}
+
+.card-img-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    border-color: #4a90e2;
+}
+
+    .btn-primary:hover {
+        background-color: #357abd;
+        border-color: #357abd;
+    }
