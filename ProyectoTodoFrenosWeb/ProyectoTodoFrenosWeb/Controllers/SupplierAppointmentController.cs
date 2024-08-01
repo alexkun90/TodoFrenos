@@ -55,7 +55,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 var resultado = await supplierAppointmentservice.CreateSupplierAppointment(supplierAppointment);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
 
             return View(supplierAppointment);

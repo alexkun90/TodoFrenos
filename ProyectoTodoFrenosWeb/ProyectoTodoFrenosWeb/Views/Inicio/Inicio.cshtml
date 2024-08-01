@@ -105,16 +105,13 @@
     </section>
 </div>
 
-<div id="chat-panel" style="display:none; position: fixed; right: 5px; top: 60%; transform: translateY(-30%); 
-      width: 380px; height: 65%; background-color: white; border-left: 1px solid #fff; ">
-
-    <div style="background: #e2884b;width:100%;">
-        <button onclick="closeChat()" style=" color:#fff;background-color:#e2884b;border:none;">
+<div id="chat-panel" style="display:none; position: fixed; right: 5px; top: 60%; transform: translateY(-30%); width: 400px; height: 70%; background-color: white; border-left: 1px solid #fff;">
+    <div style="background: #e2884b; width: 100%; padding: 5px; text-align: right;">
+        <button onclick="closeChat()" style="color: #fff; background-color: #e2884b; border: none;">
             <i class="fa-solid fa-x"></i>
         </button>
     </div>
-    <iframe src="/OpenAI/Index" style="width: 100%; height: 100%; border: none; border-radius: 0 0 15px 15px;"></iframe>
-    
+    <iframe id="chat-frame" src="/OpenAI/Index" style="width: 100%; height: calc(100% - 30px); border: none; border-radius: 0 0 15px 15px;"></iframe>
 </div>
 
 <script>
@@ -125,8 +122,6 @@
     function closeChat() {
         document.getElementById('chat-panel').style.display = 'none';
     }
-
-
 </script>
 
 

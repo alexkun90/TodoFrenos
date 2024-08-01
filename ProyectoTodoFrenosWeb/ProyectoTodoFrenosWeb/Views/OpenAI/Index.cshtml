@@ -44,15 +44,14 @@
             showLoadingMessage();
             setTimeout(function () {
                 sendQuestionToBot(question);
-            }, getRandomDelay(1000, 1500)); 
+            }, getRandomDelay(1000, 1500));
 
             $("#question-menu").hide();
             $("#show-questions").hide();
         });
 
         $(document).on("click", "#show-questions", function () {
-            $("#question-menu").insertAfter("#chat-messages .bot-message:last").show();
-            $(this).remove();
+            resetChat();
         });
 
         function addUserQuestionMessage(question) {
@@ -103,6 +102,12 @@
         function getCurrentDate() {
             var date = new Date();
             return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        function resetChat() {
+            $("#chat-messages").empty();
+            $("#question-menu").show();
+            dateAdded = false;
         }
     });
 </script>
