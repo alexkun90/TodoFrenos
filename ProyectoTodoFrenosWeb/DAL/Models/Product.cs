@@ -28,5 +28,5 @@ public partial class Product
 
     public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; } = new List<InvoiceDetail>();
 
-    public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = new List<ShoppingCart>();
+    //public virtual ICollection<CartItem> CartItems { get; set; }
 }

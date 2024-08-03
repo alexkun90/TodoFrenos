@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ProyectoTodoFrenosWeb.ViewModels.CartItemViewModel>
+@{
+    ViewData["Title"] = "Carrito de Compras";
+}
+
+<div class="container m-5">
+    @if (Model == null || !Model.Any())
+    {
+        <h1>Carrito vacío</h1>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    @if (item.ImageProduct != null && item.ImageProduct.Length > 0)
+                    {
+                        <div class="col-md-2">
+                            <img class="card-img rounded-0 img-fluid" alt="Imagen" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.ImageProduct))" style="width:200px !important; height:150px!important" />
+                        </div>
+                        <div class="col-md-10">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <h5 class="card-title">@item.ProductName</h5>
+                                    <p class="card-text">₡@item.Price</p>
+                                    <!-- Si quieres mostrar el stock, descomenta la siguiente línea -->
+                                    <!-- <p class="card-text">Stock: @item.Stock</p> -->
+                                </div>
+                                @using (Html.BeginForm("UpdateQuantity", "ShoppingCarts", FormMethod.Post, new { onsubmit = "return validateQuantity(this);" }))
+                                {
+                                    <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" class="form-control" name="quantity" value="@item.Quantity" min="1" max="@item.Stock" oninput="validateInput(this)" style="max-width: 80px;" />
+                                        <button class="btn btn-outline-secondary ms-2" type="submit">Actualizar cantidad</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                        
+                    
+                </div>
+            </div>
+        }
+    }
+</div>
+        
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+        function validateInput(input) {
+            // Elimina caracteres no numéricos
+            input.value = input.value.replace(/[^0-9]/g, '');
+
+            // Verifica que el valor no sea mayor al máximo permitido
+            if (parseInt(input.value) > parseInt(input.max)) {
+                input.value = input.max;
+            }
+        }
+
+        function validateQuantity(form) {
+            var quantity = parseInt(form.quantity.value);
+            var maxQuantity = parseInt(form.quantity.max);
+            var minQuantity = parseInt(form.quantity.min);
+            
+            if (quantity > maxQuantity) {
+                alert("La cantidad no puede ser mayor al stock disponible.");
+                return false;
+            }
+            if (quantity < minQuantity) {
+                alert("La cantidad no puede ser menor a 1.");
+                return false;
+            }
+            return true;
+        }
+</script>

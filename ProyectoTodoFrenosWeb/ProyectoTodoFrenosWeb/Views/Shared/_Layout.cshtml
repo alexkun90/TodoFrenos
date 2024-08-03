@@ -57,17 +57,28 @@
                                 {
                                     <li><a class="dropdown-item-custom" href="@Url.Action("Create","Appointments")">Gestionar Cita</a></li>
                                 }
-                                @if (!SignInManager.IsSignedIn(User))
-                                {
-                                    <li><a class="dropdown-item-custom" href="@Url.Action("Create","SupplierAppointment")">Citas Proveedores</a></li>
-                                }
                             </ul>
                         </li>
 
-
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-a-custom" href=@Url.Action("MyVehicles","Vehicles")>Vehículos</a>
-                        </li>
+                        @if (!SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link nav-link-a-custom dropdown-toggle-custom" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Proveedores
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item-custom" href="@Url.Action("Create","SupplierAppointment")">Gestionar Cita</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-a-custom" href=@Url.Action("MyVehicles","Vehicles")>Vehículos</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link nav-link-a-custom" href=@Url.Action("IndexCliente","Products")>Productos</a>
                         </li>
@@ -125,6 +136,12 @@
                         <a class="nav-icon position-relative text-decoration-none m-2" href="@Url.Action("MyAppointments", "Appointments")">
                             <i class="fa fa-fw fa-calendar text-dark mr-1"></i>
                             <span id="pendingAppointmentsCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0</span>
+                        </a>
+                        
+                        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                        <a class="nav-icon position-relative text-decoration-none m-2" href=@Url.Action("Index","ShoppingCarts",new { id = userId })>
+                            <i class="fa-solid fa-cart-shopping text-dark mr-1" ></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0></span>
                         </a>
                     }
                 </div>

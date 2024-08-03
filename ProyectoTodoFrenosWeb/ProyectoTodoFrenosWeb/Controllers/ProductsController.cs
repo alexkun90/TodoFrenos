@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.Models;
 using ProyectoTodoFrenosWeb.ConsumoServices;
+using System.Security.Claims;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -15,11 +16,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
         private readonly TodoFrenosDbContext _context;
 
         ProductService productService;
+        ShoppingCartService shoppingCartService;
 
         public ProductsController(TodoFrenosDbContext context, IConfiguration config)
         {
             _context = context;
             productService = new ProductService(config);
+            shoppingCartService = new ShoppingCartService(config);
         }
 
         // GET: Products
@@ -247,6 +250,14 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
 
             return View(product);
+        }
+
+        public async Task<IActionResult> AddToCart(long productId, int quantity)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Obtener el UserId del usuario logueado
+            var message = await shoppingCartService.AddToCart(userId, productId, quantity);
+            TempData["Message"] = message; // Mostrar el mensaje en la vista actual
+            return RedirectToAction("IndexCliente");
         }
 
         private bool ProductExists(long id)

@@ -529,3 +529,15 @@ html, body {
         background-color: #357abd;
         border-color: #357abd;
     }
+
+.btn-AddCart {
+    background-color: #f18b4d !important;
+    color: #fff !important;
+    width: 50px !important;
+    height: 50px !important;
+    transition: all 0.3s ease;
+}
+    .btn-AddCart:hover {
+        background-color: #000 !important;
+        color: #fff !important;
+    }

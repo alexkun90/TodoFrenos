@@ -8,14 +8,18 @@ using System.Threading.Tasks;
 
 namespace DAL.Models
 {
-    public class ShoppingCart
+    public class CartItem
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long CartItemId { get; set; }
+        
+        [ForeignKey("ShoppingCart")]
         public long CartId { get; set; }
-        public string UserId { get; set; } = null!;
-        public DateTime DateAdd { get; set; }
-        public ApplicationUser? User { get; set; }
-        public virtual ICollection<CartItem> CartItems { get; set; }
+        public long ProductId { get; set; }
+        public int Quantity { get; set; }
+        public virtual Product? Product { get; set; }
+        public virtual ShoppingCart? ShoppingCart { get; set; }
+
     }
 }
