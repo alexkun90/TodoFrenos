@@ -105,13 +105,14 @@
     </section>
 </div>
 
-<div id="chat-panel" style="display:none; position: fixed; right: 5px; top: 60%; transform: translateY(-30%); width: 400px; height: 70%; background-color: white; border-left: 1px solid #fff;">
-    <div style="background: #e2884b; width: 100%; padding: 5px; text-align: right;">
-        <button onclick="closeChat()" style="color: #fff; background-color: #e2884b; border: none;">
-            <i class="fa-solid fa-x"></i>
+<div id="chat-panel" style="display:none; position: fixed; right: 10px; bottom: 10px; width: 350px; height: 80%; background-color: #fff; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;">
+    <div style="background: #ff7a29; width: 100%; padding: 10px; color: white; font-weight: bold; font-size: 16px; display: flex; justify-content: space-between; align-items: center;">
+        <span>Asistencia Virtual</span>
+        <button onclick="closeChat()" style="background-color: transparent; border: none; color: white; font-size: 18px; cursor: pointer; line-height: 1;">
+            <i class="fa-solid fa-x close-chat"></i>
         </button>
     </div>
-    <iframe id="chat-frame" src="/OpenAI/Index" style="width: 100%; height: calc(100% - 30px); border: none; border-radius: 0 0 15px 15px;"></iframe>
+    <iframe id="chat-frame" src="/OpenAI/Index" style="width: 100%; height: calc(100% - 40px); border: none; border-radius: 0 0 8px 8px;"></iframe>
 </div>
 
 <script>

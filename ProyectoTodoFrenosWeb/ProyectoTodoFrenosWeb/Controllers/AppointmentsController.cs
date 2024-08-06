@@ -35,7 +35,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             try
             {
                 var appointments = await _context.Appointments
-                    .Include(a => a.User) // Filtrar estados eliminados
+                    .Include(a => a.User) 
                     .ToListAsync();
 
                 return View(appointments);
@@ -43,7 +43,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Error al cargar las citas: {ex.Message}";
-                return View(); // Devuelve la vista con un mensaje de error
+                return View(); 
             }
         }
 

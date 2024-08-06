@@ -1,42 +1,55 @@
 ﻿@page
 @model EmailModel
 @{
-    ViewData["Title"] = "Manage Email";
+    ViewData["Title"] = "Gestionar Correo Electrónico";
     ViewData["ActivePage"] = ManageNavPages.Email;
 }
+<link href="~/estilos/css/custom.css" rel="stylesheet" />
 
-<h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="email-form" method="post">
-            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
-            @if (Model.IsEmailConfirmed)
-            {
-                <div class="form-floating mb-3 input-group">
-                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
+<div class="container mt-4">
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    <div class="card">
+        <div class="card-header th-bg-custom ">
+            <h5 class="mb-0">Configuración de Correo Electrónico</h5>
+        </div>
+        <div class="card-body">
+            <form id="email-form" method="post">
+                <div asp-validation-summary="All" class="text-danger mb-3" role="alert"></div>
+
+                @if (Model.IsEmailConfirmed)
+                {
+                    <div class="form-floating mb-3 input-group">
+                        <input asp-for="Email" class="form-control" placeholder="Tu dirección de correo electrónico" disabled />
                         <div class="input-group-append">
                             <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
                         </div>
-                    <label asp-for="Email" class="form-label"></label>
-                </div>
-            }
-            else
-            {
+                        <label asp-for="Email" class="form-label">Correo electrónico</label>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-floating mb-3">
+                        <input asp-for="Email" class="form-control" placeholder="Tu dirección de correo electrónico" disabled />
+                        <label asp-for="Email" class="form-label">Correo electrónico</label>
+                        <br />
+                        <div class="d-flex justify-content-between">
+                            <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-agree btn-new">Enviar correo de verificación</button>
+                        </div>
+                    </div>
+                }
+
                 <div class="form-floating mb-3">
-                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
-                    <label asp-for="Email" class="form-label"></label>
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                    <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Ingresa la nueva dirección de correo electrónico" />
+                    <label asp-for="Input.NewEmail" class="form-label">Nuevo correo electrónico</label>
+                    <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
                 </div>
-            }
-            <div class="form-floating mb-3">
-                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Please enter new email." />
-                <label asp-for="Input.NewEmail" class="form-label"></label>
-                <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
-            </div>
-            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-primary">Change email</button>
-        </form>
+
+                <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-agree w-100 btn-lg">Cambiar Correo Electrónico</button>
+            </form>
+        </div>
     </div>
+    <br />
 </div>
 
 @section Scripts {

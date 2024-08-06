@@ -1,0 +1,45 @@
+﻿@model DAL.Models.SupplierAppointment
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container mt-5">
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <div id="dataTable_wrapper" class="dataTables_wrapper">
+                <div class="col-sm-12">
+                    <div>
+                        <h4>Detalle de la Cita</h4>
+                        <hr />
+                        <dt class="col-sm-2">
+                            Fecha y Hora de Cita
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Model.AppointCreationDate?.ToString("dd/MM/yyyy HH:mm")
+                        </dd>
+                        <dt class="col-sm-2">
+                            Motivo
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Reason)
+                        </dd>
+                        <dt class="col-sm-2">
+                            Estado
+                        </dt>
+                        <dd class="col-sm-10">
+                            @{
+                                string estado = Model.AppointState == 1 ? "Pendiente" :
+                                Model.AppointState == 2 ? "Aceptado" :
+                                Model.AppointState == 0 ? "Rechazado" :
+                                "Sin estado";
+                            }
+                            @estado
+                        </dd>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

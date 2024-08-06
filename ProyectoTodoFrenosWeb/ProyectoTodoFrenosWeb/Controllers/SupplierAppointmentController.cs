@@ -47,20 +47,35 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
             if (supplierList == null)
             {
-                ModelState.AddModelError("Email", "El correo electrónico no está registrado en la lista de provedores.");
+                ModelState.AddModelError("Email", "El correo electrónico no está registrado en la lista de proveedores.");
+                TempData["ErrorMessage"] = "El correo electrónico no está registrado en la lista de proveedores.";
                 return View(supplierAppointment);
             }
+
             supplierAppointment.SupplierListId = supplierList.SupplierListId;
+
             if (ModelState.IsValid)
             {
-                var resultado = await supplierAppointmentservice.CreateSupplierAppointment(supplierAppointment);
+                try
+                {
+                    var resultado = await supplierAppointmentservice.CreateSupplierAppointment(supplierAppointment);
 
-                return RedirectToAction(nameof(Create));
+                    TempData["SuccessMessage"] = "Solicitud de cita enviada correctamente.";
+                    return RedirectToAction(nameof(Create));
+                }
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = "No se pudo registrar la cita. Por favor, inténtelo de nuevo.";
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "La información del formulario no es válida. Por favor, revise los errores.";
             }
 
             return View(supplierAppointment);
         }
-      
+
 
         // GET: SupplierAppointmentController/Delete/5
         public async Task<IActionResult> Delete(long? id)
