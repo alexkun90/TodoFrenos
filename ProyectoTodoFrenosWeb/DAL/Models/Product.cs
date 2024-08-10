@@ -26,7 +26,5 @@ public partial class Product
     [DisplayName("Categoría")]
     public virtual Category? Category { get; set; }
 
-    public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; } = new List<InvoiceDetail>();
-
     //public virtual ICollection<CartItem> CartItems { get; set; }
 }

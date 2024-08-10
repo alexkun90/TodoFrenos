@@ -23,8 +23,6 @@ public partial class TodoFrenosDbContext : DbContext
 
     public virtual DbSet<Appointment> Appointments { get; set; }
     public virtual DbSet<Category> Categories { get; set; }
-    public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
-    public virtual DbSet<InvoiceMaster> InvoiceMasters { get; set; }
     public virtual DbSet<Product> Products { get; set; }
     public virtual DbSet<Vehicle> Vehicles { get; set; }
     public virtual DbSet<VehicleInspection>VehicleInspections { get; set; }
