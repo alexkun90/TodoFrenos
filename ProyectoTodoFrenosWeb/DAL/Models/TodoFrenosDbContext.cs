@@ -32,6 +32,8 @@ public partial class TodoFrenosDbContext : DbContext
     public virtual DbSet<SupplierAppointment> SupplierAppointments { get; set; }
     public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; }
     public virtual DbSet<CartItem> CartItems { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
     /* 
      protected override void OnModelCreating(ModelBuilder modelBuilder)

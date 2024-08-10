@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ProyectoTodoFrenosWeb.ViewModels.OrderDetailViewModel>
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h2>Order Details</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order Detail ID</th>
+                <th>Order ID</th>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Price with Tax</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.OrderDetailId</td>
+                    <td>@item.OrderId</td>
+                    <td>@item.ProductId</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Price?.ToString("C")</td>
+                    <td>@item.PriceWithTax?.ToString("C")</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Subtotal?.ToString("C")</td>
+                    <td>@item.Total?.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No details found for this order.</p>
+}
+

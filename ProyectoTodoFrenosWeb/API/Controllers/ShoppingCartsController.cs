@@ -27,7 +27,7 @@ namespace API.Controllers
         {
             var cart = await _context.ShoppingCarts
                 .Include(c => c.CartItems)
-                    .ThenInclude(ci => ci.Product)
+                .ThenInclude(ci => ci.Product)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
 
             if (cart == null || !cart.CartItems.Any())
@@ -38,11 +38,13 @@ namespace API.Controllers
             var cartItems = cart.CartItems.Select(ci => new
             {
                 ci.CartItemId,
+                ci.CartId,
+                ci.ProductId,
                 ci.Product.ProductName,
-                ci.Product.Price,
+                ci.Product.Price, 
                 ci.Quantity,
                 ci.Product.Stock,
-                ci.Product.ImageProduct
+                ci.Product.ImageProduct                
             }).ToList();
 
             return Ok(cartItems);
@@ -108,7 +110,48 @@ namespace API.Controllers
             return Ok(new { message = "Producto añadido al carrito" });
         }
 
-        
 
+        [HttpDelete("DeleteProductCart/{cartItemId}/{productId}")]
+        public async Task<IActionResult> DeleteProductCart(long cartItemId, long productId)
+        {
+            var cartItem = await _context.CartItems
+                .Include(ci => ci.Product)
+                .Include(ci => ci.ShoppingCart)
+                .SingleOrDefaultAsync(ci => ci.CartItemId == cartItemId);
+
+            if (cartItem == null)
+            {
+                return NotFound();
+            }
+
+            if (cartItem.ProductId != productId)
+            {
+                return BadRequest("El ID del producto no coincide con el CartItem proporcionado."); // ID del producto no coincide
+            }
+
+            _context.CartItems.Remove(cartItem);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpDelete("ClearCart/{cartId}")]
+        public async Task<IActionResult> ClearCart(long cartId)
+        {
+            var shoppingCart = await _context.ShoppingCarts
+                .Include(sc => sc.CartItems)
+                .SingleOrDefaultAsync(sc => sc.CartId == cartId);
+
+            if (shoppingCart == null)
+            {
+                return NotFound();
+            }
+
+            _context.CartItems.RemoveRange(shoppingCart.CartItems);
+            _context.ShoppingCarts.Remove(shoppingCart);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

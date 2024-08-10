@@ -115,6 +115,30 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [HttpPut("UpdateStock/{productId}/{quantityToReduce}")]
+        public async Task<IActionResult> UpdateStock(long productId, int quantityToReduce)
+        {
+            var product = await _context.Products
+                .SingleOrDefaultAsync(p => p.ProductId == productId);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            if (quantityToReduce > product.Stock)
+            {
+                return BadRequest("La cantidad a restar excede el stock disponible.");
+            }
+
+            product.Stock -= quantityToReduce;
+
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+
+            return Ok(product);
+        }
+
 
         private bool ProductExists(long id)
         {

@@ -66,52 +66,6 @@
         }
     </div>
 
-
-@* <div class="container mt-3">
-    <h2>Mis Citas</h2>
-    <p>Apartado donde se gestionan las citas de TodoFrenos</p>
-    <div class="container-border-custom mb-2">
-        <div class="table-responsive">
-            <div id="dataTable_wrapper" class="dataTables_wrapper">
-                <div class="col-sm-12">
-                    <h3>Citas</h3>
-                    <table id="myDataTable" class="table table-bordered dataTable" style="width: 100%;">
-                        <thead>
-                            <tr>
-                                <th class="th-bg-custom">Fecha de Cita</th>
-                                <th class="th-bg-custom">Estado</th>
-                                <th class="th-bg-custom action-column-header">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var appointment in Model)
-                            {
-                                <tr id="appointment-@appointment.AppointId" class="appointment-row @(appointment.AppointState == 0 ? "has-actions" : "")">
-                                    <td>@appointment.AppointCreationDate?.ToString("dd/MM/yyyy")</td>
-                                    <td class="text-center align-middle">
-                                        @{
-                                            string estado = appointment.AppointState == 1 ? "Pendiente" :
-                                            appointment.AppointState == 2 ? "Aceptado" :
-                                            appointment.AppointState == 0 ? "Rechazado" :
-                                            "Sin estado";
-                                        }
-                                        @estado
-                                    </td>
-                                    <td class="text-center align-middle action-column">
-                                        <a class="btn btn-delete" style="width:auto!important;" href="@Url.Action("Delete","Appointments", new { id = @appointment.AppointId })">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> *@
-
 <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
 <script>
         $(".AbrirModal").click(function () {

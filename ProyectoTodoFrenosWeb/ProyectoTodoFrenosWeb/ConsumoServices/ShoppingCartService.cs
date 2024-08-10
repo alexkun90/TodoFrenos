@@ -54,7 +54,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                 {
                     UserId = userId,
                     ProductId = productId,
-                    Quantity = quantity
+                    Quantity = quantity,
                 };
                 var body = JsonConvert.SerializeObject(cartItemDto);
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -93,6 +93,60 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                 var response = await client.PutAsync(apiUrl, content);
 
                 return response.IsSuccessStatusCode;
+            }
+        }
+
+        public async Task<bool> DeleteProductCart(long cartItemId, long productId)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value + $"/DeleteProductCart/{cartItemId}/{productId}";
+
+                try
+                {
+                    var response = await client.DeleteAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public async Task<bool> ClearCart(long cartId)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value + $"/ClearCart/{cartId}";
+
+                try
+                {
+                    var response = await client.DeleteAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
     }

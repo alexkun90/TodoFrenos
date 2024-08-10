@@ -38,6 +38,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
         public async Task<IActionResult> IndexCliente()
         {
             var productos = await productService.GetProduct();
+            var priceWithTax = new Dictionary<long, decimal?>();
+            foreach(var i in productos)
+            {
+                priceWithTax.Add(i.ProductId, i.Price * 0.13m);//esa m al final indica que es decimal el 0.13
+            }
+            ViewBag.PriceWithTaxes = priceWithTax;
             return View(productos);
 
         }

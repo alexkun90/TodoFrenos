@@ -216,17 +216,14 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View();
         }
 
-    [HttpGet]
-    public IActionResult GetAppointmentsCount()
-    {
-        int acceptState = 2;
-        int rejectState = 0;
-        string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var appointmentCount = _context.Appointments.Count(a => (a.AppointState == acceptState || a.AppointState == rejectState) && a.UserId == userId);
-        return Json(appointmentCount);       
+        [HttpGet]
+        public IActionResult GetAppointmentsCount()
+        {
+            int acceptState = 2;
+            int rejectState = 0;
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var appointmentCount = _context.Appointments.Count(a => (a.AppointState == acceptState || a.AppointState == rejectState) && a.UserId == userId);
+            return Json(appointmentCount);       
+        }
     }
-
-
-
-}
 }

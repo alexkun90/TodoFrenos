@@ -4,6 +4,7 @@ using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(TodoFrenosDbContext))]
-    partial class TodoFrenosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240807215649_TablesOrders")]
+    partial class TablesOrders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,7 +145,7 @@ namespace DAL.Migrations
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("Quantity")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("CartItemId");
@@ -291,19 +294,16 @@ namespace DAL.Migrations
                     b.Property<long>("OrderId")
                         .HasColumnType("bigint");
 
-                    b.Property<decimal?>("PriceWithTax")
+                    b.Property<decimal>("PriceWithTax")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("Quantity")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Total")
+                    b.Property<decimal>("Subtotal")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("OrderDetailId");

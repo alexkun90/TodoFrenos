@@ -198,5 +198,31 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
         }
 
+        public async Task<bool> UpdateStock(long productId, int quantityToReduce)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/UpdateStock/{productId}/{quantityToReduce}";
+
+                try
+                {
+                    var response = await client.PutAsync(apiUrl, null);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
     }
 }

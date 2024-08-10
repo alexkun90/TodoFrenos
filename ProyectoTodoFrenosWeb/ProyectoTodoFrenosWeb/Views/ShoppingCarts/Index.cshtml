@@ -10,67 +10,200 @@
     }
     else
     {
-        @foreach (var item in Model)
-        {
-            <div class="card mb-3">
-                <div class="row no-gutters">
-                    @if (item.ImageProduct != null && item.ImageProduct.Length > 0)
-                    {
-                        <div class="col-md-2">
-                            <img class="card-img rounded-0 img-fluid" alt="Imagen" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.ImageProduct))" style="width:200px !important; height:150px!important" />
-                        </div>
-                        <div class="col-md-10">
-                            <div class="card-body d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <h5 class="card-title">@item.ProductName</h5>
-                                    <p class="card-text">₡@item.Price</p>
-                                    <!-- Si quieres mostrar el stock, descomenta la siguiente línea -->
-                                    <!-- <p class="card-text">Stock: @item.Stock</p> -->
+        <div class="row">
+            <div class="col-md-8">
+                @foreach (var item in Model)
+                {
+                    <div class="card mb-3">
+                        <div class="row no-gutters">
+                            @if (item.ImageProduct != null && item.ImageProduct.Length > 0)
+                            {
+                                <div class="col-md-3">
+                                    <img class="card-img rounded-0 img-fluid" alt="Imagen" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.ImageProduct))" style="width:250px !important; height:150px!important" />
                                 </div>
-                                @using (Html.BeginForm("UpdateQuantity", "ShoppingCarts", FormMethod.Post, new { onsubmit = "return validateQuantity(this);" }))
-                                {
-                                    <input type="hidden" name="cartItemId" value="@item.CartItemId" />
-                                    <div class="d-flex align-items-center">
-                                        <input type="number" class="form-control" name="quantity" value="@item.Quantity" min="1" max="@item.Stock" oninput="validateInput(this)" style="max-width: 80px;" />
-                                        <button class="btn btn-outline-secondary ms-2" type="submit">Actualizar cantidad</button>
+                                <div class="col-md-9">
+                                    <div class="card-body d-flex align-items-center">
+                                        <div class="me-2">
+                                            <h5 class="card-title">@item.ProductName</h5>
+                                            <p class="card-text price-with-q" data-base-price="@item.Price">₡@item.Price</p>
+                                            <p class="card-text">Stock: @item.Stock</p>
+                                            @* <p class="card-text">ID: @item.ProductId</p>
+                                            <p class="card-text">CartID: @item.CartId</p> *@
+                                        </div>
+                                        <form>
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                                            <div class="d-flex align-items-center">
+                                                <input type="number" class="form-control" name="quantity" value="@item.Quantity" min="1" max="@item.Stock"
+                                                       onchange="updateQuantity(this)" data-cart-item-id="@item.CartItemId" data-max-stock="@item.Stock" style="max-width: 80px;" />
+                                            </div>
+                                        </form>
+                                        <form action="@Url.Action("DeleteProductCart", "ShoppingCarts")" method="post">
+                                            <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                                            <input type="hidden" name="productId" value="@item.ProductId" />
+                                            <button type="submit" class="btn btn-delete">Eliminar</button>
+                                        </form>
                                     </div>
-                                }
-                            </div>
+                                </div>
+                            }
                         </div>
-                    }
-                        
-                    
+                    </div>
+                }
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        Resumen de la Orden
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Productos</h5>
+                        <ul class="list-group mb-3" id="order-summary">
+                            @foreach (var item in Model)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        @item.ProductName <span class="product-quantity" data-cart-item-id="@item.CartItemId">(@item.Quantity)</span>                                
+                                    </div>
+                                     <span class="product-price" data-cart-item-id="@item.CartItemId">
+
+                                        ₡@(item.Price * item.Quantity)
+                                     
+                                     </span>
+                                    
+                                </li>
+                            }
+                        </ul>
+                        <div>
+                            <p>Subtotal: ₡<span id="subtotal"></span></p>
+                            <p>IVA (13%): ₡<span id="tax"></span></p>
+                            <p>Total: ₡<span id="total"></span></p>
+                        </div>
+
+                        <form id="order-form" asp-action="ConfirmOrder" asp-controller="Orders" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="userId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+                            <input type="hidden" name="cardId" value="@Model.FirstOrDefault().CartId" />
+
+                            @for (var i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                <input type="hidden" name="cartItems[@i].ProductId" value="@item.ProductId" />
+                                <input type="hidden" name="cartItems[@i].CartItemId" value="@item.CartItemId" />
+                                <input type="hidden" name="cartItems[@i].Quantity" value="@item.Quantity" />
+                                <input type="hidden" name="cartItems[@i].Price" value="@item.Price" />
+                            }
+
+                            <button type="submit" class="btn btn-agree">Ordenar Carrito</button>
+                        </form>
+
+                    </div>
                 </div>
             </div>
-        }
+        </div>
     }
 </div>
-        
+
 <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
 <script>
-        function validateInput(input) {
-            // Elimina caracteres no numéricos
-            input.value = input.value.replace(/[^0-9]/g, '');
+    //Validación de que no ponga letras ni caracteres
+    function validateInput(input) {
+        // Elimina caracteres no numéricos
+        input.value = input.value.replace(/[^0-9]/g, '');
 
-            // Verifica que el valor no sea mayor al máximo permitido
-            if (parseInt(input.value) > parseInt(input.max)) {
-                input.value = input.max;
-            }
+        // Verifica que el valor no sea mayor al máximo permitido
+        if (parseInt(input.value) > parseInt(input.max)) {
+            input.value = input.max;
+        }
+    }
+
+    //Validación para que no ingrese una cantidad superior al stock del producto
+    function validateQuantity(input) {
+        var quantity = parseInt(input.value);
+        var maxQuantity = parseInt(input.getAttribute('data-max-stock'));
+
+        if (quantity > maxQuantity) {
+            alert("La cantidad seleccionada es superior al stock de este producto");
+            return false;
+        }
+        return true;
+    }
+
+    //Actualiza la cantidad de la base de datos
+    function updateQuantity(element) {
+        if (!validateQuantity(element)) {
+            return;
         }
 
-        function validateQuantity(form) {
-            var quantity = parseInt(form.quantity.value);
-            var maxQuantity = parseInt(form.quantity.max);
-            var minQuantity = parseInt(form.quantity.min);
-            
-            if (quantity > maxQuantity) {
-                alert("La cantidad no puede ser mayor al stock disponible.");
-                return false;
+        var cartItemId = element.getAttribute('data-cart-item-id');
+        var quantity = element.value;
+        var basePrice = parseFloat(element.closest('.card-body').querySelector('.price-with-q').getAttribute('data-base-price'));
+
+        // Actualiza el precio total en la vista
+        var newTotalPrice = (basePrice * quantity).toFixed(2);
+
+        // Actualiza el resumen de la orden
+        document.querySelector(`.product-quantity[data-cart-item-id="${cartItemId}"]`).textContent = `(${quantity})`;
+        document.querySelector(`.product-price[data-cart-item-id="${cartItemId}"]`).textContent = '₡' + newTotalPrice;
+
+        updateOrderSummary();
+
+        var data = {
+            CartItemId: cartItemId,
+            Quantity: quantity
+        };
+
+        fetch('@Url.Action("UpdateQuantity", "ShoppingCarts")', {
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al actualizar la cantidad.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!data.success) {
+                    alert('Error al actualizar la cantidad.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al actualizar la cantidad.');
+            });
+    }
+
+    //Da los datos del resumen de orden
+    document.addEventListener('DOMContentLoaded', function () {
+        updateOrderSummary();
+    });
+
+    function updateOrderSummary() {
+        var items = document.querySelectorAll('.card-body');
+        var subtotal = 0;
+
+        items.forEach(function (item) {
+            var priceElement = item.querySelector('.price-with-q');
+            var quantityElement = item.querySelector('input[name="quantity"]');
+
+            if (priceElement && quantityElement) {
+                var price = parseFloat(priceElement.getAttribute('data-base-price'));
+                var quantity = parseInt(quantityElement.value);
+                subtotal += price * quantity;
             }
-            if (quantity < minQuantity) {
-                alert("La cantidad no puede ser menor a 1.");
-                return false;
-            }
-            return true;
-        }
+        });
+
+        var tax = subtotal * 0.13;
+        var total = subtotal + tax;
+
+        document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+        document.getElementById('tax').textContent = tax.toFixed(2);
+        document.getElementById('total').textContent = total.toFixed(2);
+    }
+
+    
 </script>

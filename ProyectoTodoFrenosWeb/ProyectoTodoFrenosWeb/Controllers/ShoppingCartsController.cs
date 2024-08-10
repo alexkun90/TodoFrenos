@@ -18,16 +18,16 @@ namespace ProyectoTodoFrenosWeb.Controllers
     public class ShoppingCartsController : Controller
     {
         ShoppingCartService _shoppingCartService;
+        ProductService _productService;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ShoppingCartsController(IConfiguration config, UserManager<ApplicationUser> userManager)
         {
             _shoppingCartService = new ShoppingCartService(config);
+            _productService = new ProductService(config);
             _userManager = userManager;
         }
 
-        //Método para obtener el usuario en sesión
-        // GET: ShoppingCarts
         public async Task<IActionResult> Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -38,22 +38,33 @@ namespace ProyectoTodoFrenosWeb.Controllers
             }
             return View(cartItems);
         }
-
-        // POST: ShoppingCarts/Create
-        [HttpPost]
-        public async Task<IActionResult> UpdateQuantity(long cartItemId, int quantity)
+        
+        public async Task<IActionResult> UpdateQuantity([FromBody] UpdateQuantityDTO model)
         {
-            var success = await _shoppingCartService.UpdateQuantity(cartItemId, quantity);
-            if (success)
-            {
-                TempData["Message"] = "Cantidad actualizada con éxito.";
-            }
-            else
-            {
-                TempData["Message"] = "Error al actualizar la cantidad.";
-            }
-            return RedirectToAction("Index");
+            var success = await _shoppingCartService.UpdateQuantity(model.CartItemId, model.Quantity);
+            return Json(new { success });
+
+            
         }
+
+        public async Task<IActionResult> DeleteProductCart(long cartItemId, long productId)
+        {
+            if (cartItemId <= 0 || productId <= 0)
+            {
+                return NotFound();
+            }
+
+            var resultado = await _shoppingCartService.DeleteProductCart(cartItemId, productId);
+
+            if (resultado)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            ModelState.AddModelError(string.Empty, "Error al inactivar la cita.");
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
 
