@@ -14,6 +14,13 @@
             </div>
             <div class="card-body">
                 <form id="account" method="post">
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @TempData["ErrorMessage"]
+                       
+                    </div>
+                }
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                     <div class="txt_field">
                         <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" required />
@@ -27,6 +34,9 @@
                         <label>Contraseña</label>
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
+                <div class="pass mt-2">
+                    <a style="text-decoration: none; color: #adadad;" href="@Url.Page("/Account/ForgotPassword")">¿Olvidaste tu contraseña?</a>
+                </div>
                     <input type="submit" value="Iniciar Sesión" class="w-100 btn btn-lg btn-primary" /> 
                     @*<div class="pass">
                         <a style="text-decoration: none; color: #adadad;" href="@Url.Action("CodigoAcceso", "Usuario")">¿Olvidaste tu contraseña?</a>

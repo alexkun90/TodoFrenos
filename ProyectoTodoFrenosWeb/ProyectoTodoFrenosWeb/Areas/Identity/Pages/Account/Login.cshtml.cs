@@ -144,7 +144,7 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    TempData["ErrorMessage"] = "Correo electrónico o contraseña incorrectos. Por favor, verifica tus datos e intenta nuevamente.";
                     return Page();
                 }
             }

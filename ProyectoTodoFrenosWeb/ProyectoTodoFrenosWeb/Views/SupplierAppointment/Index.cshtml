@@ -2,32 +2,59 @@
 
 @{
     ViewData["Title"] = "Index";
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
 }
-<div class="container mt-3">
-    <h2>Gestión de Citas Proveedores</h2>
-    <p>Apartado donde se gestionan las citas de TodoFrenos</p>
+
+<div class="container mt-5">
+    <h2 style="text-align:center;">Gestión de Citas Proveedores</h2>
+    <p style="text-align:center;">Apartado donde se gestionan las citas de TodoFrenos</p>
+
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @successMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @errorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="mb-2">
+        <a asp-action="Create" class="btn btn-agree mb-1">
+            Nueva Cita
+            <i class="ms-1 fa-solid fa-file-lines"></i>
+        </a>
+    </div>
+
     <div class="container-border-custom mb-2">
         <div class="table-responsive">
             <div id="dataTable_wrapper" class="dataTables_wrapper">
                 <div class="col-sm-12">
                     <h3>Citas Proveedores</h3>
-                    <table id="appointmentTable" class="table table-bordered dataTable" style="width: 100%;">
+                    <table id="myDataTable" class="table table-bordered dataTable" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th class="th-bg-custom">Email</th>
                                 <th class="th-bg-custom">Fecha de Cita</th>
                                 <th class="th-bg-custom">Motivo</th>
                                 <th class="th-bg-custom">Estado</th>
-                                <th class="th-bg-custom action-column-header" style="width:auto!important">Acciones</th>
+                                <th class="th-bg-custom">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 <tr id="appointment-@item.SupplierAppointId" class="appointment-row @(item.AppointState == 0 ? "has-actions" : "")">
-                                    <td>@item.SupplierEmail</td>
-                                    <td>@item.AppointCreationDate?.ToString("dd/MM/yyyy HH:mm")</td>
-                                    <td>@item.Reason</td>
+                                    <td class="text-center align-middle">@item.SupplierEmail</td>
+                                    <td class="text-center align-middle">@item.AppointCreationDate?.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td class="text-center align-middle">@item.Reason</td>
                                     <td class="text-center align-middle">
                                         @{
                                             string estado = item.AppointState == 1 ? "Pendiente" :
@@ -37,27 +64,19 @@
                                         }
                                         @estado
                                     </td>
-                                    <td class="text-center align-middle action-column">
+                                    <td class="text-center align-middle">
+                                        <a class="btn btn-details" asp-action="Details" asp-route-id="@item.SupplierAppointId">Detalles</a>
 
                                         @if (item.AppointState == 1)
                                         {
-                                            <form id="acceptForm-@item.SupplierAppointId" asp-action="AcceptSupplierAppointment" method="post">
+                                            <form id="acceptForm-@item.SupplierAppointId" asp-action="AcceptSupplierAppointment" method="post" class="d-inline">
                                                 <input type="hidden" name="id" value="@item.SupplierAppointId" />
-                                                <button type="submit" class="btn btn-active-custom accept-btn" data-id="@item.SupplierAppointId">Aceptar</button>
+                                                <button type="submit" class="btn btn-active-custom" data-id="@item.SupplierAppointId">Aceptar</button>
                                             </form>
-                                        }
-                                        @if (item.AppointState == 1)
-                                        {
-                                            <form id="rejectForm-@item.SupplierAppointId" asp-action="RejectSupplierAppointment" method="post">
+                                            <form id="rejectForm-@item.SupplierAppointId" asp-action="RejectSupplierAppointment" method="post" class="d-inline">
                                                 <input type="hidden" name="id" value="@item.SupplierAppointId" />
                                                 <button type="submit" class="btn btn-delete" data-id="@item.SupplierAppointId">Rechazar</button>
                                             </form>
-                                        }
-                                        @if (item.AppointState == 0 || item.AppointState == 2)
-                                        {
-                                            <a class="btn btn-delete" style="width:auto!important;" href="@Url.Action("Delete","SupplierAppointment", new { id = @item.SupplierAppointId })">
-                                                <i class="fa-solid fa-trash-can"></i>
-                                            </a>
                                         }
                                     </td>
                                 </tr>
@@ -70,61 +89,18 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
 <script>
     $(document).ready(function () {
-
-        var table = $('#appointmentTable').DataTable({
+        $('#myDataTable').DataTable({
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
             },
             "info": false,
+            "order": [[1, "asc"]],
             "columnDefs": [
-                { "orderable": false, "targets": [5] } 
+                { "type": "datetime", "targets": 1 }
             ]
         });
-
-    // Mostrar u ocultar la columna de acciones según sea necesario
-    /*var actionColumnVisible = $('#appointmentTable tbody tr.has-actions').length > 0;
-    table.column('.action-column-header').visible(actionColumnVisible);*/
-
-    // Manejo de acciones de aceptar y rechazar citas
-    /*$(document).on('click', '.accept-btn', function (e) {
-        e.preventDefault();
-        var form = $(this).closest('form');
-        var row = form.closest('tr');
-        $.ajax({
-            url: form.attr('action'),
-            method: form.attr('method'),
-            data: form.serialize(),
-            success: function (response) {
-                row.find('.action-column').fadeOut();
-                // Recargar la página para actualizar la tabla
-                location.reload();
-            },
-            error: function () {
-                alert('Hubo un error al aceptar la cita.');
-            }
-        });
     });
-
-    $(document).on('click', '.reject-btn', function (e) {
-        e.preventDefault();
-        var form = $(this).closest('form');
-        var row = form.closest('tr');
-        $.ajax({
-            url: form.attr('action'),
-            method: form.attr('method'),
-            data: form.serialize(),
-            success: function (response) {
-                row.find('.action-column').fadeOut();
-                // Recargar la página para actualizar la tabla
-                location.reload();
-            },
-            error: function () {
-                alert('Hubo un error al rechazar la cita.');
-            }
-        });
-    });
-    });*/
 </script>

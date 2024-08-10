@@ -86,13 +86,6 @@
                                                     <button type="submit" class="btn btn-delete" data-id="@appointment.AppointId">Rechazar</button>
                                                 </form>
                                             }
-
-                                            @if (appointment.AppointState == 0 || appointment.AppointState == 2)
-                                            {
-                                                <a class="btn btn-delete" asp-action="Delete" asp-route-id="@appointment.AppointId">
-                                                    <i class="fa-solid fa-trash-can"></i>
-                                                </a>
-                                            }
                                         </td>
                                     </tr>
                                 }
@@ -112,7 +105,11 @@
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
             },
-            "info": false
+            "info": false,
+            "order": [[1, "asc"]],
+            "columnDefs": [
+                { "type": "datetime", "targets": 1 } 
+            ]
         });
     });
 </script>

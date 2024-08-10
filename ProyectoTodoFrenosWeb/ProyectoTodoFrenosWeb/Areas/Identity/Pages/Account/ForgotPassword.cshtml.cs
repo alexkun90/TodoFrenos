@@ -84,8 +84,8 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
                     protocol: Request.Scheme);
 
                 var emailSubject = "Reset Password";
-                var emailMessage = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. " +
-                                   $"Your new temporary password is: <strong>{newPassword}</strong>";
+                var emailMessage = $"Para reestablecer su contraseña acceda <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Aquí</a>. " + "\n"+
+                                   $"Su contraseña temporal es: <strong>{newPassword}</strong>";
                 await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailMessage);
 
                 /*await _emailSender.SendEmailAsync(

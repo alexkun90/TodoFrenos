@@ -4,17 +4,13 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutChatBot.cshtml";
 }
-<div id="chat-container">
-    <div id="chat-header">
-        <h4>Asistencia Virtual Todo Frenos</h4>
+
+<div>
+    <div id="start-menu">
+        <p class="greeting-text">Hola, mucho gusto! Soy tu asistente virtual.</p>
+        <p class="info-text">Selecciona una pregunta:</p>
     </div>
 
-    <div id="start-menu">
-        <p class="ms-2">Hola, mucho gusto! Soy tu asistente virtual.</p>
-    </div>
-    <div id="start-menu">
-        <p class="ms-2">Te ofrezco este listado de las preguntas más frecuentes por nuestros clientes, selecciona la que gustes:</p>
-    </div>
     <div id="question-menu">
         <ul>
             @foreach (var question in Model)
@@ -35,6 +31,9 @@
         var dateAdded = false;
 
         $(".question-button").on("click", function () {
+            // Ocultar el mensaje de saludo e instrucciones
+            $("#start-menu").hide();
+
             if (!dateAdded) {
                 addDate();
                 dateAdded = true;
@@ -47,7 +46,6 @@
             }, getRandomDelay(1000, 1500));
 
             $("#question-menu").hide();
-            $("#show-questions").hide();
         });
 
         $(document).on("click", "#show-questions", function () {
@@ -55,24 +53,20 @@
         });
 
         function addUserQuestionMessage(question) {
-            $("#chat-messages").append('<div class="message-user question-message"><button class="question-button-disabled" disabled>' + question + '</button><i class="fa fa-check check-icon"></i></div>');
-            scrollToBottom();
-        }
-
-        function addUserMessage(message) {
-            $("#chat-messages").append('<div class="message-user"><div class="user-message">' + message + '</div></div>');
+            var currentTime = getCurrentTime();
+            $("#chat-messages").append('<div class="message user-message"><div class="message-content">' + question + '</div><div class="message-time">' + currentTime + '</div></div>');
             scrollToBottom();
         }
 
         function addBotMessage(message) {
+            var currentTime = getCurrentTime();
             $("#chat-messages").find('.loading-message').remove();
-            $("#chat-messages").append('<div class="message bot-message"><div class="bot-text">' + message + '<i class="fa-solid fa-circle-info bot-icon"></i></div></div>');
+            $("#chat-messages").append('<div class="message bot-message"><div class="message-content">' + message + '</div><div class="message-time">' + currentTime + '</div><button id="show-questions" class="show-more-icon" title="Ver más preguntas"><i class="fa fa-plus"></i></button></div>');
             scrollToBottom();
-            showQuestionsButton();
         }
 
         function showLoadingMessage() {
-            $("#chat-messages").append('<div class="message bot-message loading-message"> cargando <i class="fa-regular fa-comment-dots"></i> </div>');
+            $("#chat-messages").append('<div class="message bot-message loading-message"> Cargando <i class="fa-regular fa-comment-dots"></i> </div>');
             scrollToBottom();
         }
 
@@ -90,25 +84,28 @@
             $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
         }
 
-        function showQuestionsButton() {
-            $("#chat-messages").append('<button id="show-questions" class="question-button">Mostrar preguntas frecuentes</button>');
+        function resetChat() {
+            $("#chat-messages").empty();
+            $("#question-menu").show();
+            $("#start-menu").show(); 
+            dateAdded = false;
         }
 
         function addDate() {
-            var date = getCurrentDate();
-            $("#chat-messages").append('<div class="date-indicator">' + date + '</div>');
+            var dateTime = getCurrentDate();
+            $("#chat-messages").append('<div class="date-indicator">' + dateTime + '</div>');
         }
 
         function getCurrentDate() {
             var date = new Date();
-            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+            var optionsDate = { day: 'numeric', month: 'long', year: 'numeric' };
+            return date.toLocaleDateString('es-ES', optionsDate);
         }
 
-        function resetChat() {
-            $("#chat-messages").empty();
-            $("#question-menu").show();
-            dateAdded = false;
+        function getCurrentTime() {
+            var date = new Date();
+            var optionsTime = { hour: 'numeric', minute: '2-digit', hour12: true };
+            return date.toLocaleTimeString('es-ES', optionsTime);
         }
     });
 </script>
-

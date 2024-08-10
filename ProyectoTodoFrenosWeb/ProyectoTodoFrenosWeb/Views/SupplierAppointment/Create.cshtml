@@ -6,6 +6,20 @@
 
 <div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
     <div class="card rounded-3 p-4">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
         <h3 class="mb-3">Agregar Cita</h3>
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
@@ -23,13 +37,6 @@
                     <span asp-validation-for="AppointCreationDate" class="text-danger"></span>
                 </div>
 
-                <!-- Descomentar si es necesario -->
-                @*<div class="col-md-5">
-                <label asp-for="AppointModifyDate" class="form-label">Fecha de Modificación</label>
-                <input asp-for="AppointModifyDate" class="form-control" type="date" />
-                <span asp-validation-for="AppointModifyDate" class="text-danger"></span>
-                </div>*@
-
                 <div class="col-md-5">
                     <label asp-for="Reason" class="form-label">Motivo</label>
                     <input asp-for="Reason" class="form-control" />
@@ -43,29 +50,27 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function () {
             function setDateTimeLimits() {
                 var today = new Date();
-                today.setHours(0, 0, 0, 0); 
+                today.setHours(0, 0, 0, 0);
                 var minDateTimeStr = today.toISOString().slice(0, 16);
                 $('#appointCreationDate').attr('min', minDateTimeStr);
 
-                $('#appointCreationDate').removeAttr('max'); 
+                $('#appointCreationDate').removeAttr('max');
 
                 $('#appointCreationDate').on('change', function () {
                     var selectedDate = new Date($(this).val());
                     var minTime = new Date(selectedDate);
                     minTime.setHours(7, 30, 0, 0);
                     var maxTime = new Date(selectedDate);
-                    maxTime.setHours(17, 0, 0, 0); 
+                    maxTime.setHours(17, 0, 0, 0);
 
                     if (selectedDate < minTime || selectedDate > maxTime) {
                         alert("Nuestro horario de atención es de 7:30 a.m. a 5:00 p.m.");
-                        $(this).val(''); 
+                        $(this).val('');
                     }
                 });
             }
