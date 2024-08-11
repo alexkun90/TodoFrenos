@@ -1,0 +1,42 @@
+﻿@model DAL.Models.Nomina
+
+@{
+    ViewBag.Title = "Calcular Total de Nómina";
+}
+
+<div class="container mt-5">
+    <h2>Calcular Total de Nómina</h2>
+    <hr />
+   
+    <form method="post" asp-action="CalcularTotal">
+        <div class="form-group">
+            
+            <div class="form-group">
+                <label asp-for="NominaId" class="control-label"></label>
+                <select asp-for="NominaId" class="form-control" asp-items="ViewBag.NominaId">
+                    <option value="">Select Nomina</option>
+                </select>
+                <span asp-validation-for="NominaId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Calcular Total</button>
+        </div>
+
+        @if (Model != null)
+        {
+            <div class="form-group">
+                <label for="Total">Total de Nómina</label>
+                <input type="text" class="form-control" id="Total" value="@Model.TotalNomina" readonly />
+            </div>
+        }
+    </form>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger mt-3">
+            @TempData["Error"]
+        </div>
+    }
+</div>

@@ -1,0 +1,78 @@
+﻿@model DAL.Models.DetallesNomina
+
+@{
+    ViewData["Title"] = "Create DetallesNomina";
+}
+
+<h2>Create DetallesNomina</h2>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="Create" method="post">
+                <div class="form-group">
+                    <label asp-for="EmpleadoId" class="control-label"></label>
+                    <select asp-for="EmpleadoId" class="form-control" asp-items="ViewBag.EmpleadoId">
+                        <option value="">Select Employee</option>
+                    </select>
+                    <span asp-validation-for="EmpleadoId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NominaId" class="control-label"></label>
+                    <select asp-for="NominaId" class="form-control" asp-items="ViewBag.NominaId">
+                        <option value="">Select Nomina</option>
+                    </select>
+                    <span asp-validation-for="NominaId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CantidadHoras" class="control-label"></label>
+                    <input asp-for="CantidadHoras" class="form-control" />
+                    <span asp-validation-for="CantidadHoras" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Hora" class="control-label"></label>
+                    <input asp-for="Hora" class="form-control" />
+                    <span asp-validation-for="Hora" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CantidadHorasExtra" class="control-label"></label>
+                    <input asp-for="CantidadHorasExtra" class="form-control" />
+                    <span asp-validation-for="CantidadHorasExtra" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="HorasExtra" class="control-label"></label>
+                    <input asp-for="HorasExtra" class="form-control" />
+                    <span asp-validation-for="HorasExtra" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Ccss" class="control-label"></label>
+                    <input asp-for="Ccss" class="form-control" />
+                    <span asp-validation-for="Ccss" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Vales" class="control-label"></label>
+                    <input asp-for="Vales" class="form-control" />
+                    <span asp-validation-for="Vales" class="text-danger"></span>
+                </div>
+               
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger mt-3">
+            @TempData["Error"]
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

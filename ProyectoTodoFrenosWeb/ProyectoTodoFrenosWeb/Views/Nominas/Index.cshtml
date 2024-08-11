@@ -1,0 +1,91 @@
+﻿@model IEnumerable<DAL.Models.Nomina>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+@if (TempData["MenasajeExito"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["MenasajeExito"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+    <a asp-action="CalcularTotal">CalcularTotal</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaFinaliza)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaCreacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalNomina)
+            </th>
+            <th class="th-bg-custom">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFinaliza)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalNomina)
+            </td>
+                <td class="text-center align-middle">
+                    @(item.Estado ? "Activo" : "Inactivo")
+                </td>
+                 <td class="text-center align-middle">
+                                <div class="d-flex flex-column align-items-center">
+                                    <a class="btn btn-modify mb-2" href="@Url.Action("Edit", new { id = item.NominaId })">Modificar</a>
+                                    <a class="btn btn-modify mb-2" href="@Url.Action("Details", new { id = item.NominaId })">Detalles</a>
+
+                                    @if (item.Estado != false)
+                                    {
+                                        <a class="btn btn-active-custom" href="@Url.Action("Delete","Nominas", new { id = @item.NominaId })">Desactivar</a>
+
+                                    }
+
+                                    @if (item.Estado != true)
+                                    {
+                                        <a class="btn btn-active-custom" href="@Url.Action("Activate","Nominas", new { id = @item.NominaId })">Activar</a>
+                                    }
+
+
+                                </div>
+                            </td>
+                       </tr>
+}
+    </tbody>
+    @if (TempData["MensajeExito1"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["MensajeExito1"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+</table>
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>

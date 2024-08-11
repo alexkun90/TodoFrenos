@@ -1,0 +1,85 @@
+﻿@model IEnumerable<DAL.Models.Empleado>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Puesto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaIngreso)
+            </th>
+            <th class="th-bg-custom">Estado</th>
+
+            <th class="th-bg-custom">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Puesto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngreso)
+            </td>
+                <td class="text-center align-middle">
+                    @(item.Estado ? "Activo" : "Inactivo")
+                </td>
+                <td class="text-center align-middle">
+                    <div class="d-flex flex-column align-items-center">
+                        <a class="btn btn-modify mb-2" href="@Url.Action("Edit", new { id = item.Id })">Modificar</a>
+
+
+                        @if (item.Estado != false)
+                        {
+                            <a class="btn btn-active-custom" href="@Url.Action("Delete","Empleados", new { id = @item.Id })">Desactivar</a>
+                        }
+
+                        @if (item.Estado != true)
+                        {
+                            <a class="btn btn-active-custom" href="@Url.Action("Activate","Empleados", new { id = @item.Id })">Activar</a>
+                        }
+
+
+                    </div>
+                </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
