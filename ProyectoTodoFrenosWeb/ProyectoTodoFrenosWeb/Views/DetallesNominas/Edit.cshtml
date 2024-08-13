@@ -1,98 +1,97 @@
 ﻿@model DAL.Models.DetallesNomina
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Detalles de Nómina";
 }
 
-<h1>Edit</h1>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Editar Detalles de Nómina</h2>
+    <hr />
 
-<h4>DetallesNomina</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="DetalleId" />
-            <input type="hidden" asp-for="NominaId" />
-            <input type="hidden" asp-for="EmpleadoId" />
-            <div class="form-group">
-                <label asp-for="SalarioBase" class="control-label"></label>
-                <input asp-for="SalarioBase" class="form-control" />
-                <span asp-validation-for="SalarioBase" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Semanal" class="control-label"></label>
-                <input asp-for="Semanal" class="form-control" />
-                <span asp-validation-for="Semanal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Mensual" class="control-label"></label>
-                <input asp-for="Mensual" class="form-control" />
-                <span asp-validation-for="Mensual" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Diario" class="control-label"></label>
-                <input asp-for="Diario" class="form-control" />
-                <span asp-validation-for="Diario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Hora" class="control-label"></label>
-                <input asp-for="Hora" class="form-control" />
-                <span asp-validation-for="Hora" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CantidadHoras" class="control-label"></label>
-                <input asp-for="CantidadHoras" class="form-control" />
-                <span asp-validation-for="CantidadHoras" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HorasExtra" class="control-label"></label>
-                <input asp-for="HorasExtra" class="form-control" />
-                <span asp-validation-for="HorasExtra" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CantidadHorasExtra" class="control-label"></label>
-                <input asp-for="CantidadHorasExtra" class="form-control" />
-                <span asp-validation-for="CantidadHorasExtra" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ccss" class="control-label"></label>
-                <input asp-for="Ccss" class="form-control" />
-                <span asp-validation-for="Ccss" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Vales" class="control-label"></label>
-                <input asp-for="Vales" class="form-control" />
-                <span asp-validation-for="Vales" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pago" class="control-label"></label>
-                <input asp-for="Pago" class="form-control" />
-                <span asp-validation-for="Pago" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Estado" class="control-label"></label>
-                <div class="form-check">
-                    <input type="radio" asp-for="Estado" value="true" class="form-check-input" />
-                    <label class="form-check-label">Activo</label>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <input type="hidden" asp-for="DetalleId" />
+                        <input type="hidden" asp-for="NominaId" />
+                        <input type="hidden" asp-for="EmpleadoId" />
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Semanal" class="form-label">Semanal</label>
+                            <input asp-for="Semanal" class="form-control" />
+                            <span asp-validation-for="Semanal" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Mensual" class="form-label">Mensual</label>
+                            <input asp-for="Mensual" class="form-control" />
+                            <span asp-validation-for="Mensual" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Diario" class="form-label">Diario</label>
+                            <input asp-for="Diario" class="form-control" />
+                            <span asp-validation-for="Diario" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Hora" class="form-label">Hora</label>
+                            <input asp-for="Hora" class="form-control" />
+                            <span asp-validation-for="Hora" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="CantidadHoras" class="form-label">Cantidad de Horas</label>
+                            <input asp-for="CantidadHoras" class="form-control" />
+                            <span asp-validation-for="CantidadHoras" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="HorasExtra" class="form-label">Horas Extra</label>
+                            <input asp-for="HorasExtra" class="form-control" />
+                            <span asp-validation-for="HorasExtra" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="CantidadHorasExtra" class="form-label">Cantidad de Horas Extra</label>
+                            <input asp-for="CantidadHorasExtra" class="form-control" />
+                            <span asp-validation-for="CantidadHorasExtra" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Ccss" class="form-label">CCSS</label>
+                            <input asp-for="Ccss" class="form-control" />
+                            <span asp-validation-for="Ccss" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Vales" class="form-label">Vales</label>
+                            <input asp-for="Vales" class="form-control" />
+                            <span asp-validation-for="Vales" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Pago" class="form-label">Pago</label>
+                            <input asp-for="Pago" class="form-control" />
+                            <span asp-validation-for="Pago" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <input type="submit" value="Guardar" class="btn btn-agree w-100" />
+                        </div>
+                    </form>
                 </div>
-                <div class="form-check">
-                    <input type="radio" asp-for="Estado" value="false" class="form-check-input" />
-                    <label class="form-check-label">Inactivo</label>
-                </div>
-                <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+    <br />
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -34,7 +34,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             var cartItems = await _shoppingCartService.GetCartItems(userId);
             if (!cartItems.Any())
             {
-                TempData["Message"] = "Tu carrito está vacío.";
+                TempData["Messages"] = "Tu carrito está vacío.";
             }
             return View(cartItems);
         }

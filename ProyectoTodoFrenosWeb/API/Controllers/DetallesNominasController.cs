@@ -128,10 +128,10 @@ namespace API.Controllers
         private void RealizarCalculos(DetallesNomina detallesNomina)
         {
             // Verificar si el empleado está activo
-            if (detallesNomina.Empleado.Estado != true || detallesNomina.Nomina.Estado != true)
+            /*if (detallesNomina.Empleado.Estado != true || detallesNomina.Nomina.Estado != true)
             {
                 return; // Salir del método si el estado no es True
-            }
+            }*/
 
             if (detallesNomina.CantidadHoras.HasValue && detallesNomina.Hora.HasValue)
             {

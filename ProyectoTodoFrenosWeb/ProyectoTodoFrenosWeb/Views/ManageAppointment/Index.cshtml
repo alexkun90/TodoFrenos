@@ -5,13 +5,13 @@
 <div class="container mt-5">
     <h1 class="text-center mb-5">Administrar Citas</h1>
 
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <div class="card shadow-sm">
-                <img <img class="card-img-top" src="~/estilos/img/usuarios1.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title text-center">Citas de Usuarios</h5>
-                    <p class="card-text text-center">Administra las citas de los usuarios eficientemente</p>
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm" style="max-width: 18rem; margin: 0 auto;">
+                <div class="card-body text-center">
+                    <i class="fas fa-user-tag fa-4x mb-3 text-primary"></i> 
+                    <h5 class="card-title">Citas de Usuarios</h5>
+                    <p class="card-text">Administra las citas de los usuarios eficientemente</p>
                 </div>
                 <div class="card-footer text-center">
                     <a asp-controller="Appointments" asp-action="Index" class="btn btn-agree">Ir a citas de usuarios</a>
@@ -19,12 +19,12 @@
             </div>
         </div>
 
-        <div class="col-md-6 mb-4">
-            <div class="card shadow-sm">
-                <img <img class="card-img-top" src="~/estilos/img/supplier.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title text-center">Citas de Proveedores</h5>
-                    <p class="card-text text-center">Administra las citas de los proveedores eficientemente</p>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm" style="max-width: 18rem; margin: 0 auto;">
+                <div class="card-body text-center">
+                    <i class="fas fa-store-alt fa-4x mb-3 text-success"></i> 
+                    <h5 class="card-title">Citas de Proveedores</h5>
+                    <p class="card-text">Administra las citas de los proveedores eficientemente</p>
                 </div>
                 <div class="card-footer text-center">
                     <a asp-controller="SupplierAppointment" asp-action="Index" class="btn btn-agree">Ir a citas de proveedores</a>
@@ -33,6 +33,3 @@
         </div>
     </div>
 </div>
-
-
-

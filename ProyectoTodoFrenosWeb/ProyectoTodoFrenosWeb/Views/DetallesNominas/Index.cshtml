@@ -1,133 +1,92 @@
 ﻿@model IEnumerable<DAL.Models.DetallesNomina>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Detalles de Nómina";
+    var successMessage = TempData["MensajeExito"] as string;
 }
 
-<h1>Index</h1>
-@if (TempData["MenasajeExito"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["MenasajeExito"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="container mt-5">
+    <h2 style="text-align:center;">Detalles de Nómina</h2>
+
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @successMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+    }
+
+    <div class="mb-2">
+        <a asp-action="Create" class="btn btn-agree mb-1">
+            Crear Nuevo
+            <i class="ms-1 fa-solid fa-file-lines"></i>
+        </a>
     </div>
-}
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.SalarioBase)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Semanal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mensual)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Diario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hora)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CantidadHoras)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HorasExtra)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CantidadHorasExtra)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ccss)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Vales)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pago)
-            </th>
-            <th class="th-bg-custom">Estado</th>
-            <th>
-                @Html.DisplayNameFor(model => model.Empleado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nomina)
-            </th>
-            <th class="th-bg-custom">Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SalarioBase)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Semanal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mensual)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Diario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hora)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantidadHoras)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HorasExtra)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantidadHorasExtra)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ccss)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vales)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pago)
-            </td>
-                <td class="text-center align-middle">
-                    @(item.Estado ? "Activo" : "Inactivo")
-                </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Empleado.Nombre)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Nomina.FechaCreacion)
-            </td>
-                <td class="text-center align-middle">
-                    <div class="d-flex flex-column align-items-center">
-                        <a class="btn btn-modify mb-2" href="@Url.Action("Edit", new { id = item.DetalleId })">Modificar</a>
 
-
-                        @if (item.Estado != false)
-                        {
-                            <a class="btn btn-active-custom" href="@Url.Action("Delete","DetallesNominas", new { id = @item.DetalleId })">Desactivar</a>
-                        }
-
-                        @if (item.Estado != true)
-                        {
-                            <a class="btn btn-active-custom" href="@Url.Action("Activate","DetallesNominas", new { id = @item.DetalleId })">Activar</a>
-                        }
-
-
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <div id="dataTable_wrapper" class="dataTables_wrapper">
+                <div class="col-sm-12">
+                    <div class="col-sm-12">
+                        <table id="myDataTable" class="table table-bordered dataTable" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="th-bg-custom">Semanal</th>
+                                    <th class="th-bg-custom">Mensual</th>
+                                    <th class="th-bg-custom">Diario</th>
+                                    <th class="th-bg-custom">Hora</th>
+                                    <th class="th-bg-custom">Cantidad de Horas</th>
+                                    <th class="th-bg-custom">Horas Extra</th>
+                                    <th class="th-bg-custom">Cantidad de Horas Extra</th>
+                                    <th class="th-bg-custom">CCSS</th>
+                                    <th class="th-bg-custom">Vales</th>
+                                    <th class="th-bg-custom">Pago</th>
+                                    <th class="th-bg-custom">Estado</th>
+                                    <th class="th-bg-custom">Empleado</th>
+                                    <th class="th-bg-custom">Nómina</th>
+                                    <th class="th-bg-custom">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center align-middle">@item.Semanal</td>
+                                        <td class="text-center align-middle">@item.Mensual</td>
+                                        <td class="text-center align-middle">@item.Diario</td>
+                                        <td class="text-center align-middle">@item.Hora</td>
+                                        <td class="text-center align-middle">@item.CantidadHoras</td>
+                                        <td class="text-center align-middle">@item.HorasExtra</td>
+                                        <td class="text-center align-middle">@item.CantidadHorasExtra</td>
+                                        <td class="text-center align-middle">@item.Ccss</td>
+                                        <td class="text-center align-middle">@item.Vales</td>
+                                        <td class="text-center align-middle">@item.Pago</td>
+                                        <td class="text-center align-middle">
+                                            @(item.Estado ? "Activo" : "Inactivo")
+                                        </td>
+                                        <td class="text-center align-middle">@item.Empleado.Nombre</td>
+                                        <td class="text-center align-middle">@item.Nomina.FechaCreacion?.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center align-middle">
+                                            <a class="btn btn-modify" asp-action="Edit" asp-route-id="@item.DetalleId">Modificar</a>
+                                           
+                                            @if (item.Estado)
+                                            {
+                                                <a class="btn btn-inactive" href="@Url.Action("Delete", "DetallesNominas", new { id = item.DetalleId })">Inactivar</a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-active-custom" href="@Url.Action("Activate", "DetallesNominas", new { id = item.DetalleId })">Activar</a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
-                </td>
-        </tr>
-}
-    </tbody>
-</table>
-
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="~/estilos/js/jquery-1.11.0.min.js"></script>

@@ -1,38 +1,66 @@
 ﻿@model DAL.Models.Nomina
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Nómina";
+    var today = DateTime.Today.ToString("yyyy-MM-dd"); // Obtener la fecha de hoy en formato YYYY-MM-DD
 }
 
-<h1>Create</h1>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Crear Nómina</h2>
+    <hr />
 
-<h4>Nomina</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FechaInicio" class="form-label"></label>
-                <input asp-for="FechaInicio" class="form-control" type="date" />
-                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="FechaInicio" class="form-label">Fecha de Inicio</label>
+                            <input asp-for="FechaInicio" class="form-control" type="date" id="FechaInicio" min="@today" />
+                            <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="FechaFinaliza" class="form-label">Fecha de Finalización</label>
+                            <input asp-for="FechaFinaliza" class="form-control" type="date" id="FechaFinaliza" readonly />
+                            <span asp-validation-for="FechaFinaliza" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <input type="submit" value="Crear" class="btn btn-agree w-100" />
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="FechaFinaliza" class="control-label"></label>
-                <input asp-for="FechaFinaliza" class="form-control" type="date" />
-                <span asp-validation-for="FechaFinaliza" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+    <br />
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById('FechaInicio').addEventListener('change', function () {
+            var fechaInicio = new Date(this.value);
+            var fechaFinaliza = document.getElementById('FechaFinaliza');
+
+            // Calcula la fecha específica para la finalización (8 días después)
+            var fechaUnica = new Date(fechaInicio);
+            fechaUnica.setDate(fechaInicio.getDate() + 8);
+
+            // Convertir la fecha única a formato YYYY-MM-DD
+            var year = fechaUnica.getFullYear();
+            var month = (fechaUnica.getMonth() + 1).toString().padStart(2, '0');
+            var day = fechaUnica.getDate().toString().padStart(2, '0');
+            var uniqueDateString = year + '-' + month + '-' + day;
+
+            // Establecer automáticamente la fecha de finalización
+            fechaFinaliza.value = uniqueDateString;
+        });
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

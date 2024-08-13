@@ -1,33 +1,36 @@
 ﻿@model DAL.Models.Appointment
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles de Cita";
 }
 
 <div class="container mt-5">
-    <div class="container-border-custom mb-2">
-        <div class="table-responsive">
-            <div id="dataTable_wrapper" class="dataTables_wrapper">
-                <div class="col-sm-12">
-                    <div>
-                        <h4>Detalle de la Cita</h4>
-                        <hr />
-                        <dt class="col-sm-2">
+    <h2 class="text-center mb-4">Detalles de Cita</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">
                             Fecha y Hora de Cita
                         </dt>
-                        <dd class="col-sm-10">
+                        <dd class="col-sm-8">
                             @Model.AppointCreationDate?.ToString("dd/MM/yyyy HH:mm")
                         </dd>
-                        <dt class="col-sm-2">
+
+                        <dt class="col-sm-4">
                             Motivo
                         </dt>
-                        <dd class="col-sm-10">
+                        <dd class="col-sm-8">
                             @Html.DisplayFor(model => model.Reason)
                         </dd>
-                        <dt class="col-sm-2">
+
+                        <dt class="col-sm-4">
                             Estado
                         </dt>
-                        <dd class="col-sm-10">
+                        <dd class="col-sm-8">
                             @{
                                 string estado = Model.AppointState == 1 ? "Pendiente" :
                                 Model.AppointState == 2 ? "Aceptado" :
@@ -36,10 +39,10 @@
                             }
                             @estado
                         </dd>
-
-                    </div>
+                    </dl>
                 </div>
             </div>
         </div>
     </div>
+    <br />
 </div>

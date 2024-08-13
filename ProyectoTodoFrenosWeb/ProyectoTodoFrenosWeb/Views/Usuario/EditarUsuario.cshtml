@@ -4,9 +4,13 @@
     ViewData["Title"] = "Modificar Usuario";
 }
 
-<div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
-    <div class="card shadow-lg rounded-3 p-4 w-75">
-        <h3 class="mb-3 text-center">Editar Usuario</h3>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Editar Empleado</h2>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
         @using (Html.BeginForm("EditarUsuario", "Usuario", FormMethod.Post))
         {
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
@@ -60,10 +64,12 @@
             </div>
 
             <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary">Confirmar Cambios</button>
-                <a asp-action="ListaUsuarios" class="btn btn-secondary">Volver a la Lista</a>
+                            <button type="submit" class="btn btn-agree w-100">Confirmar Cambios</button>
             </div>
         }
+    </div>
+    </div>
+    <br />
     </div>
 </div>
 

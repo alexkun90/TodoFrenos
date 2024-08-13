@@ -4,82 +4,95 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Lista de Empleados</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Cedula)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellido1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellido2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Puesto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaIngreso)
-            </th>
-            <th class="th-bg-custom">Estado</th>
+    <p>
+        <a asp-action="Create" class="btn btn-agree">
+            Crear Nuevo
+            <i class="ms-1 fa-solid fa-user-plus"></i>
+        </a>
+    </p>
 
-            <th class="th-bg-custom">Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cedula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Puesto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaIngreso)
-            </td>
-                <td class="text-center align-middle">
-                    @(item.Estado ? "Activo" : "Inactivo")
-                </td>
-                <td class="text-center align-middle">
-                    <div class="d-flex flex-column align-items-center">
-                        <a class="btn btn-modify mb-2" href="@Url.Action("Edit", new { id = item.Id })">Modificar</a>
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <table class="table table-bordered dataTable" id="myDataTable" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="th-bg-custom">@Html.DisplayNameFor(model => model.Cedula)</th>
+                        <th class="th-bg-custom">@Html.DisplayNameFor(model => model.Nombre)</th>
+                        <th class="th-bg-custom">@Html.DisplayNameFor(model => model.Apellido1)</th>
+                        <th class="th-bg-custom">@Html.DisplayNameFor(model => model.Apellido2)</th>
+                        <th class="th-bg-custom">@Html.DisplayNameFor(model => model.Puesto)</th>
+                        <th class="th-bg-custom">@Html.DisplayNameFor(model => model.FechaIngreso)</th>
+                        <th class="th-bg-custom">Estado</th>
+                        <th class="th-bg-custom">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Cedula)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Apellido1)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Apellido2)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Puesto)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.FechaIngreso)
+                            </td>
+                            <td class="text-center align-middle">
+                                @(item.Estado ? "Activo" : "Inactivo")
+                            </td>
+                            <td class="text-center align-middle">
+                                <div class="d-flex flex-column align-items-center">
+                                    <a class="btn btn-modify mb-2" href="@Url.Action("Edit", new { id = item.Id })">Modificar</a>
+                                    @if (item.Estado)
+                                    {
+                                        <a class="btn btn-inactive" href="@Url.Action("Delete", "Empleados", new { id = item.Id })">Inactivar</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-active-custom" href="@Url.Action("Activate", "Empleados", new { id = item.Id })">Activar</a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-
-                        @if (item.Estado != false)
-                        {
-                            <a class="btn btn-active-custom" href="@Url.Action("Delete","Empleados", new { id = @item.Id })">Desactivar</a>
-                        }
-
-                        @if (item.Estado != true)
-                        {
-                            <a class="btn btn-active-custom" href="@Url.Action("Activate","Empleados", new { id = @item.Id })">Activar</a>
-                        }
-
-
-                    </div>
-                </td>
-        </tr>
-}
-    </tbody>
-</table>
-
+<script src="~/estilos/js/jquery-3.6.0.min.js"></script>
+<script src="~/estilos/js/jquery.dataTables.min.js"></script>
+<script src="~/estilos/js/dataTables.bootstrap5.min.js"></script>
 <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myDataTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "info": false,
+            "order": [[5, "desc"]], // Ordenar por la columna de "Fecha de Ingreso" en orden descendente
+            "columnDefs": [
+                {
+                    "targets": [5], // La columna de fecha
+                    "type": "date-eu"
+                }
+            ]
+        });
+    });
+</script>
