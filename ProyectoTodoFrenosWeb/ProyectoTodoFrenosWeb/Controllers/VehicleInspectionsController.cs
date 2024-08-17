@@ -13,14 +13,11 @@ namespace ProyectoTodoFrenosWeb.Controllers
     //[ResponseCache(NoStore = true, Location = ResponseCacheLocation.None, Duration = 0, VaryByQueryKeys = new[] { "*" })]
     public class VehicleInspectionsController : Controller
     {
-        private readonly TodoFrenosDbContext _context;
-
         VehicleInspectionService service;
         VehicleService serviceVehicle;
 
         public VehicleInspectionsController(TodoFrenosDbContext context, IConfiguration config)
         {
-            _context = context;
             this.service = new VehicleInspectionService(config);
             this.serviceVehicle = new VehicleService(config);
         }
@@ -126,19 +123,11 @@ namespace ProyectoTodoFrenosWeb.Controllers
                         return RedirectToAction(nameof(Index), new { id = vehicleInspection.VehicleId });
                     }
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!VehicleInspectionExists(vehicleInspection.VehicleInspectionId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                catch (Exception)
+                {          
+                    throw;   
                 }
             }
-            //ViewData["VehicleId"] = new SelectList(_context.Vehicles, "VehicleId", "Plate", vehicleInspection.VehicleId);
             return View(vehicleInspection);
         }
 
@@ -173,11 +162,6 @@ namespace ProyectoTodoFrenosWeb.Controllers
             ModelState.AddModelError(string.Empty, "Error deleting vehicle. Please try again.");
             var vehicleInspection = await service.GetVehicleInspection(id);
             return View("Delete", vehicleInspection);
-        }
-
-        private bool VehicleInspectionExists(long id)
-        {
-            return _context.VehicleInspections.Any(e => e.VehicleInspectionId == id);
         }
     }
 }
