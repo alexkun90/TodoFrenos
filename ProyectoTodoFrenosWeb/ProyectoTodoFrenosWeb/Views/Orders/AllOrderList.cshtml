@@ -1,68 +1,82 @@
 ﻿@model IEnumerable<DAL.Models.Order>
 
 @{
-    ViewData["Title"] = "AllOrderList";
+    ViewData["Title"] = "Lista de Pedidos";
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
 }
 
-<h1>OrderList</h1>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Lista de Pedidos</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CodigoOrder)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RetirementDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubTotal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tax)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CodigoOrder)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RetirementDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SubTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tax)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Total)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserId)
-                </td>
-                <td>
-                    <a href="@Url.Action("OrderDetailList","Orders", new { orderId = item.OrderId })">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @successMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @errorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <div id="dataTable_wrapper" class="dataTables_wrapper">
+                <div class="col-sm-12">
+                    <table id="myDataTable" class="table table-bordered dataTable" style="width: 100%;">
+                        <thead class="table-primary">
+                            <tr>
+                                <th class="th-bg-custom">Código de Pedido</th>
+                                <th class="th-bg-custom">Fecha de Pedido</th>
+                                <th class="th-bg-custom">Fecha de Retiro</th>
+                                <th class="th-bg-custom">SubTotal</th>
+                                <th class="th-bg-custom">Impuesto</th>
+                                <th class="th-bg-custom">Total</th>
+                                <th class="th-bg-custom">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center align-middle">@item.CodigoOrder</td>
+                                    <td class="text-center align-middle">@item.OrderDate</td>
+                                    <td class="text-center align-middle">@item.RetirementDate</td>
+                                    <td class="text-center align-middle">@item.SubTotal.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
+                                    <td class="text-center align-middle">@item.Tax.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
+                                    <td class="text-center align-middle">@item.Total.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
+                                    <td class="text-center align-middle">
+                                        <a class="btn btn-details btn-sm" href="@Url.Action("OrderDetailList","Orders", new { orderId = item.OrderId })">Detalles</a>
+                                        @*<a class="btn btn-delete btn-sm" asp-action="Delete" asp-route-id="@item.OrderId">Eliminar</a>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myDataTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "info": false,
+            "order": [[1, "asc"]],
+            "columnDefs": [
+                { "type": "datetime", "targets": 1 }
+            ]
+        });
+    });
+</script>

@@ -30,8 +30,8 @@
         </li>
     }
     <li class="nav-item">
-        <a class="nav-link d-flex align-items-center @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">
-            <i class="bi bi-shield-check me-2"></i> Autenticación de Dos Factores
+        <a class="nav-link d-flex align-items-center @ManageNavPages.OrderListNavClass(ViewContext)" id="order-list" asp-controller="Orders" asp-action="OrderList">
+            <i class="bi bi-list me-2"></i> Lista de Pedidos
         </a>
     </li>
 </ul>
@@ -50,8 +50,8 @@
         }
 
         .nav-pills .nav-link:hover {
-            background-color: #b7bfc7; 
-            color: #4f5d75; 
+            background-color: #b7bfc7;
+            color: #4f5d75;
         }
 
     .nav-item {

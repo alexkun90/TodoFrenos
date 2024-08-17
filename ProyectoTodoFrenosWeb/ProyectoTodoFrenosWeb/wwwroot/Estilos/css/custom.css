@@ -195,7 +195,6 @@ html, body {
     background-color: transparent !important;
     color: #646464 !important;
     border: 2px solid #646464 !important;
-    width:95px;
     transition: all 0.3s ease;
 }
 
@@ -332,95 +331,7 @@ html, body {
         vertical-align: top; /* Alineaci�n vertical de los botones */
     }
 
-/*ChatBot*/
-html, body {
-        height: 100%;
-        margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f2f5;
-    }
-
-    #chat-container {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        max-width: 600px;
-        margin: auto;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        overflow: hidden;
-    }
-
-    #chat-header {
-        background-color: #004a80;
-        color: white;
-        padding: 15px;
-        text-align: center;
-        font-weight: 600;
-        border-bottom: 2px solid #003366;
-    }
-
-    #start-menu {
-        padding: 15px;
-        background-color: #f8f9fa;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .greeting-text, .info-text {
-        margin: 0;
-        padding: 8px 0;
-        font-size: 16px;
-    }
-
-    #question-menu {
-        padding: 10px;
-        background-color: #ffffff;
-        border-top: 1px solid #ddd;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        overflow-y: auto;
-        max-height: 150px;
-    }
-
-        #question-menu ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        #question-menu li {
-            margin: 0;
-        }
-
-    .question-button {
-        background-color: #004a80;
-        color: white;
-        border: none;
-        padding: 10px;
-        border-radius: 6px;
-        cursor: pointer;
-        width: 100%; 
-        max-width: 100px; 
-        text-align: center;
-        font-size: 14px;
-        font-weight: 500;
-        box-sizing: border-box; 
-        transition: background-color 0.3s ease;
-    }
-
-        .question-button:hover {
-            background-color: #003366;
-        }
-
-    .btn-primary:hover {
-        background-color: #357abd;
-        border-color: #357abd;
-    }
-
+/*Producto Diseño*/
 .btn-AddCart {
     background-color: #f18b4d !important;
     color: #fff !important;
@@ -428,7 +339,56 @@ html, body {
     height: 50px !important;
     transition: all 0.3s ease;
 }
+
     .btn-AddCart:hover {
         background-color: #000 !important;
         color: #fff !important;
     }
+
+.card-img {
+    object-fit: cover; /* Asegura que la imagen cubra el contenedor sin distorsionarse */
+    width: 100%;
+    height: 100%; /* Ajusta la altura según el diseño deseado */
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    border: 1px solid #ddd; /* Añade un borde si es necesario para ver el tamaño de la tarjeta */
+    border-radius: 0.25rem; /* Ajusta el radio del borde si es necesario */
+}
+
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.product-wap {
+    margin-bottom: 3 rem; /* Espacio entre tarjetas */
+}
+
+.card-img-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    bottom: 0;
+}
+
+.card-img-container {
+    height: 140px; /* Asegura que el contenedor de la imagen tenga la altura correcta */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa; /* Color de fondo para la imagen cuando no hay imagen */
+    overflow: hidden; /* Oculta cualquier contenido que se desborde del contenedor */
+}
+
+.card-body {
+    border-top: 1px solid #ddd; /* Opcional: Añade un borde superior si es necesario */
+}
+

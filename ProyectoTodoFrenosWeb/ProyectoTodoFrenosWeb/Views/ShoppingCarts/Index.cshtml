@@ -3,10 +3,33 @@
     ViewData["Title"] = "Carrito de Compras";
 }
 
+<style>
+    .product-quantity {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px; 
+        height: 30px; 
+        background-color: #ff8000; 
+        color: white; 
+        border-radius: 50%; 
+        font-size: 14px; 
+        font-weight: bold;
+        text-align: center;
+        line-height: 30px; 
+        margin-left: 5px; 
+    }
+</style>
+
 <div class="container m-5">
     @if (Model == null || !Model.Any())
     {
-        <h1>Carrito vacío</h1>
+        <div class="text-center mt-5">
+            <i class="fas fa-shopping-cart fa-3x mb-3" style="color: #ff8000;"></i>
+            <h1 style="color: #333333; font-family: 'Arial', sans-serif;">Tu carrito está vacío</h1>
+            <p style="color: #666666; font-size: 18px;">Parece que no has agregado ningún producto a tu carrito todavía.</p>
+            <a asp-controller="Products" asp-action="IndexCliente" class="btn btn-agree mt-4">Ver Productos</a>
+        </div>
     }
     else
     {
@@ -14,7 +37,16 @@
             <div class="col-md-8">
                 @foreach (var item in Model)
                 {
-                    <div class="card mb-3">
+                    <div class="card mb-3 position-relative">
+                        <div class="position-absolute top-0 end-0 m-2">
+                            <form action="@Url.Action("DeleteProductCart", "ShoppingCarts")" method="post" class="d-inline">
+                                <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button type="submit" class="btn btn-delete" title="Eliminar">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </div>
                         <div class="row no-gutters">
                             @if (item.ImageProduct != null && item.ImageProduct.Length > 0)
                             {
@@ -26,9 +58,8 @@
                                         <div class="me-2">
                                             <h5 class="card-title">@item.ProductName</h5>
                                             <p class="card-text price-with-q" data-base-price="@item.Price">₡@item.Price</p>
-                                            <p class="card-text">Stock: @item.Stock</p>
                                             @* <p class="card-text">ID: @item.ProductId</p>
-                                            <p class="card-text">CartID: @item.CartId</p> *@
+                                <p class="card-text">CartID: @item.CartId</p> *@
                                         </div>
                                         <form>
                                             @Html.AntiForgeryToken()
@@ -37,11 +68,6 @@
                                                 <input type="number" class="form-control" name="quantity" value="@item.Quantity" min="1" max="@item.Stock"
                                                        onchange="updateQuantity(this)" data-cart-item-id="@item.CartItemId" data-max-stock="@item.Stock" style="max-width: 80px;" />
                                             </div>
-                                        </form>
-                                        <form action="@Url.Action("DeleteProductCart", "ShoppingCarts")" method="post">
-                                            <input type="hidden" name="cartItemId" value="@item.CartItemId" />
-                                            <input type="hidden" name="productId" value="@item.ProductId" />
-                                            <button type="submit" class="btn btn-delete">Eliminar</button>
                                         </form>
                                     </div>
                                 </div>
@@ -52,7 +78,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header" style="background-color: #007bff; color: white; padding: 10px 15px; font-size: 18px; font-weight: bold;">
                         Resumen de la Orden
                     </div>
                     <div class="card-body">
@@ -62,14 +88,11 @@
                             {
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        @item.ProductName <span class="product-quantity" data-cart-item-id="@item.CartItemId">(@item.Quantity)</span>                                
+                                        @item.ProductName <span class="product-quantity" data-cart-item-id="@item.CartItemId">@item.Quantity</span>
                                     </div>
-                                     <span class="product-price" data-cart-item-id="@item.CartItemId">
-
+                                    <span class="product-price" data-cart-item-id="@item.CartItemId">
                                         ₡@(item.Price * item.Quantity)
-                                     
-                                     </span>
-                                    
+                                    </span>
                                 </li>
                             }
                         </ul>
@@ -142,7 +165,7 @@
         var newTotalPrice = (basePrice * quantity).toFixed(2);
 
         // Actualiza el resumen de la orden
-        document.querySelector(`.product-quantity[data-cart-item-id="${cartItemId}"]`).textContent = `(${quantity})`;
+        document.querySelector(`.product-quantity[data-cart-item-id="${cartItemId}"]`).textContent = `${quantity}`;
         document.querySelector(`.product-price[data-cart-item-id="${cartItemId}"]`).textContent = '₡' + newTotalPrice;
 
         updateOrderSummary();
@@ -153,7 +176,7 @@
         };
 
         fetch('@Url.Action("UpdateQuantity", "ShoppingCarts")', {
-            method: 'PUT', 
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
@@ -204,6 +227,4 @@
         document.getElementById('tax').textContent = tax.toFixed(2);
         document.getElementById('total').textContent = total.toFixed(2);
     }
-
-    
 </script>

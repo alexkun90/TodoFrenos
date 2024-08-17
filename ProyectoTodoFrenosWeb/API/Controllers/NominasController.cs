@@ -106,8 +106,8 @@ namespace API.Controllers
 
             // Filtrar los detalles de nómina para incluir solo aquellos con el empleado activo
             var detallesNominaActivos = nomina.DetallesNominas
-                                              .Where(d => d.Empleado.Estado == true)
-                                              .ToList();
+                                  .Where(d => d.Empleado.Estado == true && d.Estado == true)
+                                  .ToList();
 
             if (!detallesNominaActivos.Any())
             {

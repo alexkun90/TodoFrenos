@@ -183,7 +183,6 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
                     if (resultado != null)
                     {
-                        TempData["MenasajeExito"] = "Se edito el producto exitosamente";
                         return RedirectToAction(nameof(Index));
                     }
 
@@ -258,11 +257,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(product);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCart(long productId, int quantity)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Obtener el UserId del usuario logueado
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var message = await shoppingCartService.AddToCart(userId, productId, quantity);
-            TempData["Message"] = message; // Mostrar el mensaje en la vista actual
+            TempData["Message"] = message; 
             return RedirectToAction("IndexCliente");
         }
 

@@ -60,13 +60,14 @@ namespace FrontEnd.Controllers
             {
                 var nomina = await nominaService.CalcularTotal(nominaId);
 
-                if (nomina == null)
+                if (nomina != null)
                 {
-                    TempData["Error"] = "No se pudo calcular el total de la nómina porque la nómina no fue encontrada o está inactiva.";
+                    TempData["MensajeExito1"] = "Se calculó el total de la nómina exitosamente.";
+                    
                     return RedirectToAction("Index"); // Redireccionar al index en caso de error
                 }
 
-                TempData["MensajeExito1"] = "Se calculó el total de la nómina exitosamente.";
+                TempData["Error"] = "No se pudo calcular el total de la nómina porque la nómina no fue encontrada o está inactiva.";
             }
             catch (Exception ex)
             {

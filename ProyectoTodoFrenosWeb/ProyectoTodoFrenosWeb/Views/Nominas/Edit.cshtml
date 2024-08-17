@@ -1,49 +1,59 @@
 ﻿@model DAL.Models.Nomina
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Nómina";
 }
 
-<h1>Edit</h1>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Editar Nómina</h2>
+    <hr />
 
-<h4>Nomina</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="NominaId" />
-            <div class="form-group">
-                <label asp-for="FechaInicio" class="control-label"></label>
-                <input asp-for="FechaInicio" class="form-control" />
-                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Edit" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <input type="hidden" asp-for="NominaId" />
+
+                        <div class="form-group mb-3">
+                            <label asp-for="FechaInicio" class="form-label">Fecha de Inicio</label>
+                            <input asp-for="FechaInicio" class="form-control" type="date" />
+                            <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="FechaFinaliza" class="form-label">Fecha de Finalización</label>
+                            <input asp-for="FechaFinaliza" class="form-control" type="date" />
+                            <span asp-validation-for="FechaFinaliza" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="FechaCreacion" class="form-label">Fecha de Creación</label>
+                            <input asp-for="FechaCreacion" class="form-control" type="date" />
+                            <span asp-validation-for="FechaCreacion" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="TotalNomina" class="form-label">Total de Nómina</label>
+                            <input asp-for="TotalNomina" class="form-control" />
+                            <span asp-validation-for="TotalNomina" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <input type="submit" value="Guardar" class="btn btn-agree w-100" />
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="FechaFinaliza" class="control-label"></label>
-                <input asp-for="FechaFinaliza" class="form-control" />
-                <span asp-validation-for="FechaFinaliza" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaCreacion" class="control-label"></label>
-                <input asp-for="FechaCreacion" class="form-control" />
-                <span asp-validation-for="FechaCreacion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalNomina" class="control-label"></label>
-                <input asp-for="TotalNomina" class="form-control" />
-                <span asp-validation-for="TotalNomina" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+    <br />
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
