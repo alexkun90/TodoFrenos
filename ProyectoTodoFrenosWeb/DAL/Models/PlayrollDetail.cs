@@ -16,9 +16,10 @@ namespace DAL.Models
         
         [ForeignKey("Employee")]
         public long EmployeeId { get; set; }
-        public int HorasExtras { get; set; }
-        public int DiasVacaciones { get; set; }
-        public decimal Incapacidad { get; set; }
+        public int? HorasExtras { get; set; }
+        public int? DiasVacaciones { get; set; }
+        public int? Incapacidad { get; set; }
+        public string? TipoIncapacidad { get; set; }
         public DateTime? FechaInicio { get; set; }
         public DateTime? FechaFin { get; set; }
         public decimal? SalarioBruto { get; set; }
