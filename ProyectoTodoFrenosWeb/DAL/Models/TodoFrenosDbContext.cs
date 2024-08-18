@@ -32,11 +32,22 @@ public partial class TodoFrenosDbContext : DbContext
     public virtual DbSet<CartItem> CartItems { get; set; }
     public virtual DbSet<Order> Orders { get; set; }
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+
     public virtual DbSet<DetallesNomina> DetallesNominas { get; set; }
-
     public virtual DbSet<Empleado> Empleados { get; set; }
-
     public virtual DbSet<Nomina> Nominas { get; set; }
+
+    //Nueva Nomina Planilla
+    public virtual DbSet<Employee> Employees { get; set; }
+    public virtual DbSet<Asistence> Asistences { get; set; }
+    public virtual DbSet<Vacation> Vacations { get; set; }
+    public virtual DbSet<DisabilityEmployee> DisabilityEmployees { get; set;}
+    public virtual DbSet<Deducciones> Deducciones { get; set; }
+    public virtual DbSet<Playroll> Playrolls { get; set; }
+    public virtual DbSet<PlanillaEmpleado> PlanillaEmpleados { get;set; }
+    public virtual DbSet<HistoryPlayroll> HistoryPlayrolls { get; set; }
+    public virtual DbSet<HistoricoPlanilla> HistoricoPlanilla { get; set; }
+
 
     /* 
      protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,0 +1,91 @@
+﻿@model IEnumerable<DAL.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Lista de Empleados</h2>
+
+    <p>
+        <a asp-action="Create" class="btn btn-agree">
+            Crear Nuevo
+            <i class="ms-1 fa-solid fa-user-plus"></i>
+        </a>
+    </p>
+
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <table class="table table-bordered dataTable" id="myDataTable" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="th-bg-custom">Cédula</th>
+                        <th class="th-bg-custom">Nombre Completo</th>
+                        <th class="th-bg-custom">Puesto</th>
+                        <th class="th-bg-custom">FechaNacimiento</th>
+                        <th class="th-bg-custom">Estado</th>
+                        <th class="th-bg-custom">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Cedula)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.NombreEmpleado) @Html.DisplayFor(modelItem => item.ApellidoEmpleado)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Puesto)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.FechaNacimiento)
+                            </td>
+                            <td class="text-center align-middle">
+                                @(item.EstadoEmpleado ? "Activo" : "Inactivo")
+                            </td>
+                            <td class="text-center align-middle">
+                                <div class="d-flex flex-column align-items-center">
+                                    <a class="btn btn-modify mb-2" href="@Url.Action("Details", new { id = item.EmpleadoId })">Detalles</a>
+                                    <a class="btn btn-modify mb-2" href="@Url.Action("Index","Asistence", new { id = item.EmpleadoId })">Asistencias</a>
+                                    @if (item.EstadoEmpleado)
+                                    {
+                                        <a class="btn btn-inactive" href="@Url.Action("Delete", "Empleados", new { id = item.EmpleadoId })">Inactivar</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-active-custom" href="@Url.Action("Activate", "Empleados", new { id = item.EmpleadoId })">Activar</a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/estilos/js/jquery-3.6.0.min.js"></script>
+<script src="~/estilos/js/jquery.dataTables.min.js"></script>
+<script src="~/estilos/js/dataTables.bootstrap5.min.js"></script>
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myDataTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "info": false,
+            "order": [[5, "desc"]], // Ordenar por la columna de "Fecha de Ingreso" en orden descendente
+            "columnDefs": [
+                {
+                    "targets": [5], // La columna de fecha
+                    "type": "date-eu"
+                }
+            ]
+        });
+    });
+</script>

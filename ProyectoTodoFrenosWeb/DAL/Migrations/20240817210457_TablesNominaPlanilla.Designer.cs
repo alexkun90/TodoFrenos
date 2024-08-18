@@ -4,6 +4,7 @@ using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(TodoFrenosDbContext))]
-    partial class TodoFrenosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240817210457_TablesNominaPlanilla")]
+    partial class TablesNominaPlanilla
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,24 +141,24 @@ namespace DAL.Migrations
                     b.Property<long>("EmpleadoId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("EmployeeEmpleadoId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("HoraLlegada")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("HoraLlegada")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("HoraSalida")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("HoraSalida")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("TipoAsistencia")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TipoAsistencia")
+                        .HasColumnType("int");
 
                     b.HasKey("AsistenciaId");
 
-                    b.HasIndex("EmpleadoId");
+                    b.HasIndex("EmployeeEmpleadoId");
 
                     b.ToTable("Asistences");
                 });
@@ -315,6 +318,9 @@ namespace DAL.Migrations
                     b.Property<long>("EmpleadoId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("EmployeeEmpleadoId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("Entidad")
                         .HasColumnType("int");
 
@@ -326,7 +332,7 @@ namespace DAL.Migrations
 
                     b.HasKey("IncapacidadId");
 
-                    b.HasIndex("EmpleadoId");
+                    b.HasIndex("EmployeeEmpleadoId");
 
                     b.ToTable("DisabilityEmployees");
                 });
@@ -401,9 +407,6 @@ namespace DAL.Migrations
                     b.Property<string>("Genero")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("HorasTrabajadas")
-                        .HasColumnType("int");
-
                     b.Property<string>("NombreEmpleado")
                         .HasColumnType("nvarchar(max)");
 
@@ -456,9 +459,12 @@ namespace DAL.Migrations
                     b.Property<long>("NominaId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("PlayrollNominaId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("HistoricoNominaId");
 
-                    b.HasIndex("NominaId");
+                    b.HasIndex("PlayrollNominaId");
 
                     b.ToTable("HistoryPlayrolls");
                 });
@@ -571,10 +577,22 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PlanillaEmpleadoId"));
 
-                    b.Property<DateTime>("FechaPago")
+                    b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("HorasExtras")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HorasTrabajadas")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Incapacidades")
+                        .HasColumnType("int");
+
                     b.Property<long>("NominaId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PlayrollNominaId")
                         .HasColumnType("bigint");
 
                     b.Property<decimal>("SalarioNetoFinal")
@@ -582,7 +600,7 @@ namespace DAL.Migrations
 
                     b.HasKey("PlanillaEmpleadoId");
 
-                    b.HasIndex("NominaId");
+                    b.HasIndex("PlayrollNominaId");
 
                     b.ToTable("PlanillaEmpleados");
                 });
@@ -598,27 +616,29 @@ namespace DAL.Migrations
                     b.Property<long>("DeduccionId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("DiasVacaciones")
-                        .HasColumnType("int");
+                    b.Property<long?>("DeduccionesDeduccionId")
+                        .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("FechaFin")
+                    b.Property<long>("EmpleadoId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("EmployeeEmpleadoId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("FechaFin")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("FechaInicio")
+                    b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("HorasExtras")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Incapacidad")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("SalarioNeto")
+                    b.Property<decimal>("SalarioNeto")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("NominaId");
 
-                    b.HasIndex("DeduccionId");
+                    b.HasIndex("DeduccionesDeduccionId");
+
+                    b.HasIndex("EmployeeEmpleadoId");
 
                     b.ToTable("Playrolls");
                 });
@@ -741,6 +761,9 @@ namespace DAL.Migrations
                     b.Property<long>("EmpleadoId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("EmployeeEmpleadoId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("FechaFin")
                         .HasColumnType("datetime2");
 
@@ -749,7 +772,7 @@ namespace DAL.Migrations
 
                     b.HasKey("VacationId");
 
-                    b.HasIndex("EmpleadoId");
+                    b.HasIndex("EmployeeEmpleadoId");
 
                     b.ToTable("Vacations");
                 });
@@ -873,9 +896,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmpleadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeEmpleadoId");
 
                     b.Navigation("Employee");
                 });
@@ -929,9 +950,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmpleadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeEmpleadoId");
 
                     b.Navigation("Employee");
                 });
@@ -951,9 +970,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Playroll", "Playroll")
                         .WithMany()
-                        .HasForeignKey("NominaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlayrollNominaId");
 
                     b.Navigation("Playroll");
                 });
@@ -992,9 +1009,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Playroll", "Playroll")
                         .WithMany()
-                        .HasForeignKey("NominaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlayrollNominaId");
 
                     b.Navigation("Playroll");
                 });
@@ -1003,11 +1018,15 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Deducciones", "Deducciones")
                         .WithMany()
-                        .HasForeignKey("DeduccionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DeduccionesDeduccionId");
+
+                    b.HasOne("DAL.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeEmpleadoId");
 
                     b.Navigation("Deducciones");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("DAL.Models.Product", b =>
@@ -1045,9 +1064,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmpleadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeEmpleadoId");
 
                     b.Navigation("Employee");
                 });

@@ -1,0 +1,99 @@
+﻿@model DAL.Models.Employee
+
+@{
+    ViewData["Title"] = "Crear Empleado";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Crear Nuevo Empleado</h2>
+    <hr />
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Cedula" class="form-label">Cédula</label>
+                            <input asp-for="Cedula" class="form-control" type="text" />
+                            <span asp-validation-for="Cedula" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="NombreEmpleado" class="form-label">Nombre</label>
+                            <input asp-for="NombreEmpleado" class="form-control" type="text" />
+                            <span asp-validation-for="NombreEmpleado" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="ApellidoEmpleado" class="form-label">Apellidos</label>
+                            <input asp-for="ApellidoEmpleado" class="form-control" type="text" />
+                            <span asp-validation-for="ApellidoEmpleado" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="FechaContrato" class="form-label">Fecha Contrato</label>
+                            <input asp-for="FechaContrato" class="form-control" type="Date" />
+                            <span asp-validation-for="FechaContrato" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="SalarioBase" class="form-label">Salario Base</label>
+                            <input asp-for="SalarioBase" class="form-control" type="number" />
+                            <span asp-validation-for="SalarioBase" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="PlusesSalariales" class="form-label">Pluses Salariales</label>
+                            <input asp-for="PlusesSalariales" class="form-control" type="number" />
+                            <span asp-validation-for="PlusesSalariales" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Puesto" class="form-label">Puesto</label>
+                            <input asp-for="Puesto" class="form-control" type="text" />
+                            <span asp-validation-for="Puesto" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="FechaNacimiento" class="form-label">Fecha Nacimiento</label>
+                            <input asp-for="FechaNacimiento" class="form-control" type="date" />
+                            <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Direccion" class="form-label">Direccion</label>
+                            <input asp-for="Direccion" class="form-control" type="text" />
+                            <span asp-validation-for="Direccion" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="EstadoCivil" class="form-label">Estado Civil</label>
+                            <input asp-for="EstadoCivil" class="form-control" type="text" />
+                            <span asp-validation-for="EstadoCivil" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Genero" class="form-label">Genero</label>
+                            <input asp-for="Genero" class="form-control" type="text" />
+                            <span asp-validation-for="Genero" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="ContactoEmergencia" class="form-label">ContactoEmergencia</label>
+                            <input asp-for="ContactoEmergencia" class="form-control" type="text" />
+                            <span asp-validation-for="ContactoEmergencia" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <input type="submit" value="Crear" class="btn btn-agree w-100" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

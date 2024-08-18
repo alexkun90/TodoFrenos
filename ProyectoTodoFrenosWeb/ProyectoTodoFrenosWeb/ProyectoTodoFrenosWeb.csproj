@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controllers\EmployeeController.cs~RFd87ef84.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\Estilos\css\bootstrap.min.css" />
     <None Include="wwwroot\Estilos\css\custom.css" />
     <None Include="wwwroot\Estilos\css\fontawesome.css" />
@@ -78,7 +82,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
     <PackageReference Include="OpenAI" Version="1.11.0" />
   </ItemGroup>
 

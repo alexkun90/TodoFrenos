@@ -4,6 +4,7 @@ using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(TodoFrenosDbContext))]
-    partial class TodoFrenosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240818010746_UpdateSystemNominaPlanilla")]
+    partial class UpdateSystemNominaPlanilla
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -401,9 +404,6 @@ namespace DAL.Migrations
                     b.Property<string>("Genero")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("HorasTrabajadas")
-                        .HasColumnType("int");
-
                     b.Property<string>("NombreEmpleado")
                         .HasColumnType("nvarchar(max)");
 
@@ -571,8 +571,17 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PlanillaEmpleadoId"));
 
-                    b.Property<DateTime>("FechaPago")
+                    b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("HorasExtras")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HorasTrabajadas")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Incapacidades")
+                        .HasColumnType("int");
 
                     b.Property<long>("NominaId")
                         .HasColumnType("bigint");
@@ -598,22 +607,13 @@ namespace DAL.Migrations
                     b.Property<long>("DeduccionId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("DiasVacaciones")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("FechaFin")
+                    b.Property<DateTime>("FechaFin")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("FechaInicio")
+                    b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("HorasExtras")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Incapacidad")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("SalarioNeto")
+                    b.Property<decimal>("SalarioNeto")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("NominaId");
