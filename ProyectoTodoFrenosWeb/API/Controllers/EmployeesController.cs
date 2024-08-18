@@ -56,7 +56,7 @@ namespace API.Controllers
             return CreatedAtAction("GetEmployee", new { id = employee.EmpleadoId }, employee);
         }
 
-        /*
+        
         // PUT: api/Employees/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -66,12 +66,18 @@ namespace API.Controllers
             {
                 return BadRequest();
             }
-
+            var cedulaExist = await _context.Employees
+                             .FirstOrDefaultAsync(e => e.Cedula == employee.Cedula);
+            if (cedulaExist != null)
+            {
+                return Conflict("Está cedula de empleado ya está anteriormente registrada");
+            }
             _context.Entry(employee).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
+                return Ok(employee);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -87,20 +93,33 @@ namespace API.Controllers
 
             return NoContent();
         }
-        */
-
 
         // DELETE: api/Employees/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(long id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
+            var empleados = await _context.Employees.FindAsync(id);
+            if (empleados == null)
             {
                 return NotFound();
             }
+            empleados.EstadoEmpleado = false;
+            _context.Employees.Update(empleados);
+            await _context.SaveChangesAsync();
 
-            _context.Employees.Remove(employee);
+            return NoContent();
+        }
+
+        [HttpDelete("Activate/{id}")]
+        public async Task<IActionResult> ActivateEmployee(long id)
+        {
+            var empleados = await _context.Employees.FindAsync(id);
+            if (empleados == null)
+            {
+                return NotFound();
+            }
+            empleados.EstadoEmpleado = true;
+            _context.Employees.Update(empleados);
             await _context.SaveChangesAsync();
 
             return NoContent();

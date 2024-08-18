@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Employees\Create.cshtml" />
+    <None Include="Views\Employees\Details.cshtml" />
+    <None Include="Views\Employees\Index.cshtml" />
     <None Include="wwwroot\Estilos\css\bootstrap.min.css" />
     <None Include="wwwroot\Estilos\css\custom.css" />
     <None Include="wwwroot\Estilos\css\fontawesome.css" />

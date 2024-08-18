@@ -96,7 +96,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     }
                     else if (response.StatusCode == HttpStatusCode.Conflict)
                     {
-                        throw new Exception("La cedula ingresada le pertenece a otro empleado");
+                        throw new Exception("La cedula ingresada le pertenece a otro employee");
                     }
                     else
                     {
@@ -109,5 +109,91 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                 }
             }
         }
+
+        //Editar
+        public async Task<Employee> EditEmployee(long Id, Employee employee)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value + $"/{Id}";
+
+                try
+                {
+                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(employee);
+                    var content = new StringContent(body, Encoding.UTF8, "application/json");
+                    var response = await client.PutAsync(apiUrl, content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(responseData);
+                        return result;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+        //Delete
+        public async Task<bool> DeleteEmployee(long? Id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value + $"/{Id}";
+                try
+                {
+                    var response = await client.DeleteAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        //Active
+        public async Task<bool> ActivateEmployee(long? Id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value + $"/Activate/{Id}";
+                try
+                {
+
+                    var response = await client.DeleteAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+
     }
 }
