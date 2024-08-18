@@ -7,13 +7,17 @@ namespace ProyectoTodoFrenosWeb.Controllers
     public class PlayrollController : Controller
     {
         PlayrollService service;
+        EmployeeService employeeService;
         public PlayrollController(IConfiguration config)
         {
             service = new PlayrollService(config);
+            employeeService = new EmployeeService(config);
         }
-        public IActionResult Create()
+        public IActionResult Create(long empleadoid)
         {
-            return View();
+            var model = new PlayrollDetail { EmployeeId = empleadoid,
+                                            SalarioBruto = 0};
+            return View(model);
         }
 
         [HttpPost]
@@ -24,7 +28,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 try
                 {
-                    var resultado = await service.CreatePlayroll(model);
+                    var resultado = await service.CreatePlayroll(model.EmployeeId, model);
 
                     if (resultado != null)
                     {

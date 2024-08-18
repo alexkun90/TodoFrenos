@@ -46,19 +46,15 @@ namespace API.Controllers
         [HttpPost("{employeeId}")]
         public async Task<IActionResult> CreateFullNomina(long employeeId, PlayrollDetail playrollDetail)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var employee = await _context.Employees.FindAsync(employeeId);
             if (employee == null)
             {
                 return NotFound();
             }
-            var salarioDiario = employee.SalarioBase + employee.CantDiasLaborales;
+            var salarioDiario = employee.SalarioBase / employee.CantDiasLaborales;
             
             decimal? montoIncapacidad = 0;
+
             if(playrollDetail.TipoIncapacidad == "CCSS" && playrollDetail.Incapacidad <= 3)
             {
                 montoIncapacidad = playrollDetail.Incapacidad * (salarioDiario * 0.50m);
@@ -75,8 +71,10 @@ namespace API.Controllers
             {
                 montoIncapacidad = ((playrollDetail.Incapacidad - 45) * salarioDiario * 0.67m) + (45 * (salarioDiario * 0.60m));
             }
-
-            playrollDetail.EmployeeId = employeeId;
+            else if(playrollDetail.TipoIncapacidad == null && playrollDetail.Incapacidad == 0)
+            {
+                montoIncapacidad = 0;
+            }
             
             playrollDetail.SalarioBruto = 
                 employee.SalarioBase + employee.PlusesSalariales 
@@ -87,7 +85,8 @@ namespace API.Controllers
             _context.PlayrollDetails.Add(playrollDetail);
             await _context.SaveChangesAsync(); 
             
-            var monto = playrollDetail.SalarioBruto;
+            var monto = playrollDetail.SalarioBruto; 
+            
             decimal? impuestoR = 0m;
 
             if (monto <= 929000m)

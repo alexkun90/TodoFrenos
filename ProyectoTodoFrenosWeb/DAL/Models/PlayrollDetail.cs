@@ -12,8 +12,7 @@ namespace DAL.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long NominaDetalleId { get; set; }      
-        
+        public long NominaDetalleId { get; set; }          
         [ForeignKey("Employee")]
         public long EmployeeId { get; set; }
         public int? HorasExtras { get; set; }

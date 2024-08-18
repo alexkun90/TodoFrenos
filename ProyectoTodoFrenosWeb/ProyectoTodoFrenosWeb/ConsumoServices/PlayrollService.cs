@@ -12,11 +12,11 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             this._config = config;
         }
 
-        public async Task<PlayrollDetail> CreatePlayroll(PlayrollDetail model)
+        public async Task<PlayrollDetail> CreatePlayroll(long employeeId, PlayrollDetail model)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Playroll").Value;
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Playroll").Value + $"/{employeeId}";
 
                 try
                 {

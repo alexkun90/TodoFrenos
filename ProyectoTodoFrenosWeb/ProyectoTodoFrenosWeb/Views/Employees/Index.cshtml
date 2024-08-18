@@ -50,14 +50,15 @@
                                 <div class="d-flex flex-column align-items-center">
                                     <a class="btn btn-modify mb-2" href="@Url.Action("Details", new { id = item.EmpleadoId })">Detalles</a>
                                     <a class="btn btn-modify mb-2" href="@Url.Action("Index","Asistence", new { id = item.EmpleadoId })">Asistencias</a>
-                                    @if (item.EstadoEmpleado)
+                                    <a class="btn btn-modify mb-2" href="@Url.Action("Create","Playroll", new { empleadoid  = item.EmpleadoId })">Crear Nomina</a>
+                                   @*  @if (item.EstadoEmpleado)
                                     {
                                         <a class="btn btn-inactive" href="@Url.Action("Delete", "Empleados", new { id = item.EmpleadoId })">Inactivar</a>
                                     }
                                     else
                                     {
                                         <a class="btn btn-active-custom" href="@Url.Action("Activate", "Empleados", new { id = item.EmpleadoId })">Activar</a>
-                                    }
+                                    } *@
                                 </div>
                             </td>
                         </tr>
