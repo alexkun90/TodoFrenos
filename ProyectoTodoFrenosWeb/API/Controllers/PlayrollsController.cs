@@ -41,7 +41,7 @@ namespace API.Controllers
             return playroll;
         }
 
-        // POST: api/Deducciones
+         //POST: api/Deducciones
         [HttpPost]
         public async Task<ActionResult<Deducciones>> PostDeducciones(long employeeId, Deducciones deducciones)
         {
@@ -90,7 +90,7 @@ namespace API.Controllers
             return CreatedAtAction("GetDeduccion", new { id = deducciones.DeduccionId }, deducciones);
         }
 
-        // POST: api/Playrolls
+      /*  // POST: api/Playrolls
         [HttpPost]
         public async Task<ActionResult<Playroll>> PostPlayroll(Playroll playroll)
         {
@@ -110,7 +110,7 @@ namespace API.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPlayroll", new { id = playroll.NominaId }, playroll);
-        }
+        }*/
 
         
     }

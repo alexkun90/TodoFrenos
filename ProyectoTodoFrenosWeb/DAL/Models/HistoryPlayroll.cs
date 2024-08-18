@@ -13,6 +13,7 @@ namespace DAL.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long HistoricoNominaId { get; set; }
+
         [ForeignKey("Playroll")]
         public long NominaId { get; set; }
         public DateTime FechaCreacion { get; set; }

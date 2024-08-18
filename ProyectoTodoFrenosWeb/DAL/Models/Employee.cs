@@ -19,6 +19,7 @@ namespace DAL.Models
         public  string? ApellidoEmpleado { get; set; }       
         public DateTime? FechaContrato { get; set; }
         public int? HorasTrabajadas { get; set; }
+        public int? CantDiasLaborales { get; set; }
         public decimal? SalarioBase { get; set; }
         public decimal? PlusesSalariales { get; set; }
         public string? Puesto { get; set; }

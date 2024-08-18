@@ -12,16 +12,17 @@ namespace DAL.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long DeduccionId { get; set; }
-        [ForeignKey("Employee")]
-        public long EmployeeId { get; set; }
+        public long DeduccionId { get; set; }      
+        
+        [ForeignKey("PlayrollDetail")]
+        public long NominaDetalleId { get; set; }
         public decimal? SalarioBruto { get; set; }
         public decimal? SEM { get; set; }
         public decimal? IVM { get; set; }
         public decimal? LPT { get; set; }
         public decimal? ImpuestoRenta { get; set; }
         public decimal? TotalDeduccion { get; set; }
-        public virtual Employee? Employee { get; set; }
+        public virtual PlayrollDetail? PlayrollDetail { get; set; }
 
     }
 }

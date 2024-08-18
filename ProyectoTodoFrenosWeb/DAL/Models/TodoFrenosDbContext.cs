@@ -42,6 +42,7 @@ public partial class TodoFrenosDbContext : DbContext
     public virtual DbSet<Asistence> Asistences { get; set; }
     public virtual DbSet<Vacation> Vacations { get; set; }
     public virtual DbSet<DisabilityEmployee> DisabilityEmployees { get; set;}
+    public virtual DbSet<PlayrollDetail> PlayrollDetails { get; set; }
     public virtual DbSet<Deducciones> Deducciones { get; set; }
     public virtual DbSet<Playroll> Playrolls { get; set; }
     public virtual DbSet<PlanillaEmpleado> PlanillaEmpleados { get;set; }
