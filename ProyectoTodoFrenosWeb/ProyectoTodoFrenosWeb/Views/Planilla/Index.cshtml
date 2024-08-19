@@ -1,0 +1,35 @@
+﻿@model IEnumerable<DAL.Models.PlanillaEmpleado>
+
+@{
+    ViewBag.Title = "Lista de Planillas";
+}
+
+<h2>Lista de Planillas</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Cédula</th>
+            <th>Nombre Completo</th>
+            <th>Puesto</th>
+            <th>Fecha Pago</th>
+            <th>Salario Neto</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Cedula</td>
+                <td>@item.NombreEmpleado  @item.ApellidoEmpleado</td>
+                <td>@item.Puesto</td>
+                <td>@item.FechaPago?.ToString("dd/MM/yyyy")</td>
+                <td>@item.SalarioNetoFinal?.ToString("C")</td>
+                <td>
+                    <a href="@Url.Action("Details", "Planilla", new { planillaId = item.PlanillaEmpleadoId })" class="btn btn-primary btn-sm">Ver Detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

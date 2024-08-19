@@ -1,24 +1,22 @@
 ﻿using DAL.Models;
-using ProyectoTodoFrenosWeb.ViewModels;
-using System.Net;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ProyectoTodoFrenosWeb.ConsumoServices
 {
-    public class PlayrollService
+    public class PlanillaService
     {
         IConfiguration _config;
-        public PlayrollService(IConfiguration config)
+        public PlanillaService(IConfiguration config)
         {
             this._config = config;
         }
 
-        public async Task<IEnumerable<PlayRollDTO>> GetAllPlayrolls()
+        public async Task<IEnumerable<PlanillaEmpleado>> GetAllPlanilla(long nominaId)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Playroll").Value;
-
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Planilla").Value + $"/List/{nominaId}";
                 try
                 {
                     var response = await client.GetAsync(apiUrl);
@@ -26,7 +24,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     if (response.IsSuccessStatusCode)
                     {
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<PlayRollDTO>>(responseData);
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<PlanillaEmpleado>>(responseData);
 
                         return result;
                     }
@@ -43,11 +41,11 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
         }
 
-        public async Task<PlayRollDTO> GetPlayrollDetails(long nominaId)
+        public async Task<PlanillaEmpleado> GetPlanilla(long planillaId)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Playroll").Value + $"/{nominaId}";
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Planilla").Value + $"/Details/{planillaId}";
 
                 try
                 {
@@ -57,7 +55,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     {
 
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<PlayRollDTO>(responseData);
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<PlanillaEmpleado>(responseData);
 
                         return result;
                     }
@@ -74,11 +72,11 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
         }
 
-        public async Task<PlayrollDetail> CreatePlayroll(long employeeId, PlayrollDetail model)
+        public async Task<PlanillaEmpleado> CreatePlanilla(long nominaId, PlanillaEmpleado model)
         {
             using (var client = new HttpClient())
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Playroll").Value + $"/{employeeId}";
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Planilla").Value + $"/{nominaId}";
 
                 try
                 {
@@ -90,7 +88,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                     {
 
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<PlayrollDetail>(responseData);
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<PlanillaEmpleado>(responseData);
 
                         return result;
                     }

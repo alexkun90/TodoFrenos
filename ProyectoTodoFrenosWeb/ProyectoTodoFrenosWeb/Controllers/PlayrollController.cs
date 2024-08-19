@@ -1,6 +1,7 @@
 ﻿using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoTodoFrenosWeb.ConsumoServices;
+using ProyectoTodoFrenosWeb.ViewModels;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -13,10 +14,27 @@ namespace ProyectoTodoFrenosWeb.Controllers
             service = new PlayrollService(config);
             employeeService = new EmployeeService(config);
         }
+
+        public async Task<IActionResult> Index()
+        {
+            var list = await service.GetAllPlayrolls();
+            return View(list);
+        }
+
+        public async Task<IActionResult> Details(long nominaId)
+        {
+            PlayRollDTO nomina = await service.GetPlayrollDetails(nominaId);
+            if (nominaId == null)
+            {
+                return NotFound();
+            }
+            return View(nomina);
+        }
+
         public IActionResult Create(long empleadoid)
         {
             var model = new PlayrollDetail { EmployeeId = empleadoid,
-                                            SalarioBruto = 0};
+                                             SalarioBruto = 0};
             return View(model);
         }
 

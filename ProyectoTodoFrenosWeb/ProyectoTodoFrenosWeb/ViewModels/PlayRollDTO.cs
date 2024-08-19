@@ -1,16 +1,13 @@
-﻿using DAL.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace API.DTO
+﻿namespace ProyectoTodoFrenosWeb.ViewModels
 {
     public class PlayRollDTO
     {
         public long? NominaId { get; set; }
-        public string? Cedula {  get; set; }
+        public string? Cedula { get; set; }
         public string? NombreCompleto { get; set; }
         public string? Puesto { get; set; }
-        public DateTime? FechaInicio {  get; set; }
-        public DateTime? FechaFin {  get; set; }
+        public DateTime? FechaInicio { get; set; }
+        public DateTime? FechaFin { get; set; }
         public decimal? SalarioBase { get; set; }
         public decimal? PlusesSalariales { get; set; }
         public int? HorasExtras { get; set; }

@@ -1,0 +1,46 @@
+﻿@model DAL.Models.PlanillaEmpleado
+
+
+@{
+    ViewBag.Title = "Detalles de la Planilla";
+}
+
+<h2>Detalles de la Planilla</h2>
+
+<div class="card">
+    <div class="card-header">
+        Información del Empleado
+    </div>
+    <div class="card-body">
+        <p><strong>Cédula:</strong> @Model.Cedula</p>
+        <p><strong>Nombre Completo:</strong> @Model.NombreEmpleado @Model.ApellidoEmpleado</p>
+        <p><strong>Puesto:</strong>@Model.Puesto</p>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        Detalles de la Nómina
+    </div>
+    <div class="card-body">
+        <p><strong>ID de Nómina:</strong> @Model.NominaId</p>
+        <p><strong>Fecha de Pago:</strong> @Model.FechaPago?.ToString("dd/MM/yyyy")</p>
+        <p><strong>Salario Base:</strong> @Model.SalarioBruto?.ToString("C")</p>
+        <p><strong>Pluses Salariales:</strong> @Model.SalarioNetoFinal?.ToString("C")</p>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        Deducciones
+    </div>
+    <div class="card-body">
+        <p><strong>SEN (Seguro Enfermedad):</strong> @Model.SEM?.ToString("C")</p>
+        <p><strong>IVM (Invalidez, Vejez y Muerte) :</strong> @Model.IVM?.ToString("C")</p>
+        <p><strong>LPT (Aporte Trabajador BP):</strong> @Model.LPT?.ToString("C")</p>
+        <p><strong>Impuesto de Renta :</strong> @Model.ImpuestoRenta?.ToString("C")</p>
+        <p><strong>Total de Deducciones:</strong> @Model.TotalDeducciones?.ToString("C")</p>
+        <p><strong>Salario Neto:</strong> @Model.SalarioNetoFinal?.ToString("C")</p>
+    </div>
+</div>
+

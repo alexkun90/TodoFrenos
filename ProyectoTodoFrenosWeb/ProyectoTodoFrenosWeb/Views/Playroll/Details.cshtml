@@ -1,0 +1,53 @@
+﻿@model ProyectoTodoFrenosWeb.ViewModels.PlayRollDTO
+
+@{
+    ViewBag.Title = "Detalles de la Nómina";
+}
+
+<h2>Detalles de la Nómina</h2>
+
+<div class="card">
+    <div class="card-header">
+        Información del Empleado
+    </div>
+    <div class="card-body">
+        <p><strong>Cédula:</strong> @Model.Cedula</p> 
+        <p><strong>Nombre Completo:</strong> @Model.NombreCompleto</p>
+        <p><strong>Puesto:</strong>@Model.Puesto</p>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        Detalles de la Nómina
+    </div>
+    <div class="card-body">
+        <p><strong>ID de Nómina:</strong> @Model.NominaId</p>
+        <p><strong>Fecha de Inicio:</strong> @Model.FechaInicio?.ToString("dd/MM/yyyy")</p>
+        <p><strong>Fecha de Fin:</strong> @Model.FechaFin?.ToString("dd/MM/yyyy")</p>
+        <p><strong>Salario Base:</strong> @Model.SalarioBase?.ToString("C")</p>
+        <p><strong>Pluses Salariales:</strong> @Model.PlusesSalariales?.ToString("C")</p>
+        <p><strong>Horas Extras:</strong> @Model.HorasExtras</p>
+        <p><strong>Días de Vacaciones:</strong> @Model.DiasVacaciones</p>
+        <p><strong>Incapacidad:</strong> @Model.Incapacidad</p>
+        <p><strong>Salario Bruto:</strong> @Model.SalarioBruto?.ToString("C")</p>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        Deducciones
+    </div>
+    <div class="card-body">
+        <p><strong>SEN (Seguro Enfermedad):</strong> @Model.SEM?.ToString("C")</p>
+        <p><strong>IVM (Invalidez, Vejez y Muerte) :</strong> @Model.IVM?.ToString("C")</p>
+        <p><strong>LPT (Aporte Trabajador BP):</strong> @Model.LPT?.ToString("C")</p>
+        <p><strong>Impuesto de Renta :</strong> @Model.ImpuestoRenta?.ToString("C")</p>
+        <p><strong>Total de Deducciones:</strong> @Model.TotalDeducciones?.ToString("C")</p>
+        <p><strong>Salario Neto:</strong> @Model.SalarioNeto?.ToString("C")</p>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="@Url.Action("Index", "Playroll")" class="btn btn-secondary">Volver a la Lista</a>
+</div>
