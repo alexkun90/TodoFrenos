@@ -49,7 +49,6 @@
                             <td class="text-center align-middle">
                                 <div class="d-flex flex-column align-items-center">
                                     <a class="btn btn-modify mb-2" href="@Url.Action("Details", new { id = item.EmpleadoId })">Detalles</a>
-                                    <a class="btn btn-modify mb-2" href="@Url.Action("Index","Asistence", new { id = item.EmpleadoId })">Asistencias</a>
                                     <a class="btn btn-modify mb-2" href="@Url.Action("Create","Playroll", new { empleadoid  = item.EmpleadoId })">Crear Nomina</a>
                                     @if (item.EstadoEmpleado)
                                     {
