@@ -1,49 +1,56 @@
 ﻿@model DAL.Models.PlayrollDetail
+
 @{
     ViewData["Title"] = "Crear Nómina";
 }
 
-<div class="container mt-4">
-    <h2 class="mb-4">Crear Nómina</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Crear Nueva Nómina</h2>
+    <hr />
 
-    <form asp-action="Create" method="post">
-        @Html.HiddenFor(model => model.EmployeeId)
-        @Html.HiddenFor(model => model.SalarioBruto)
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h5 class="card-title">Detalles de Nómina</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="HorasExtras">Horas Extras</label>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        @Html.HiddenFor(model => model.EmployeeId)
+                        @Html.HiddenFor(model => model.SalarioBruto)
+
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                @TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @TempData["ErrorMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="form-group mb-3">
+                            <label asp-for="HorasExtras" class="form-label">Horas Extras</label>
                             <input asp-for="HorasExtras" class="form-control" />
                             <span asp-validation-for="HorasExtras" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="DiasVacaciones">Días de Vacaciones</label>
+                        <div class="form-group mb-3">
+                            <label asp-for="DiasVacaciones" class="form-label">Días de Vacaciones</label>
                             <input asp-for="DiasVacaciones" class="form-control" />
                             <span asp-validation-for="DiasVacaciones" class="text-danger"></span>
                         </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="Incapacidad">Incapacidad (días)</label>
+                        <div class="form-group mb-3">
+                            <label asp-for="Incapacidad" class="form-label">Incapacidad (días)</label>
                             <input asp-for="Incapacidad" class="form-control" />
                             <span asp-validation-for="Incapacidad" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="TipoIncapacidad">Tipo de Incapacidad</label>
+                        <div class="form-group mb-3">
+                            <label asp-for="TipoIncapacidad" class="form-label">Tipo de Incapacidad</label>
                             <select asp-for="TipoIncapacidad" class="form-control">
                                 <option value="">Seleccionar</option>
                                 <option value="CCSS">CCSS</option>
@@ -51,31 +58,30 @@
                             </select>
                             <span asp-validation-for="TipoIncapacidad" class="text-danger"></span>
                         </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="FechaInicio">Fecha de Inicio</label>
+                        @*<div class="form-group mb-3">
+                            <label asp-for="FechaInicio" class="form-label">Fecha de Inicio</label>
                             <input asp-for="FechaInicio" class="form-control" type="date" />
                             <span asp-validation-for="FechaInicio" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="FechaFin">Fecha de Fin</label>
+                        <div class="form-group mb-3">
+                            <label asp-for="FechaFin" class="form-label">Fecha de Fin</label>
                             <input asp-for="FechaFin" class="form-control" type="date" />
                             <span asp-validation-for="FechaFin" class="text-danger"></span>
+                        </div>*@
+
+                        <div class="text-center">
+                            <input type="submit" value="Crear Nómina" class="btn btn-agree w-100" />
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-            <div class="card-footer text-end">
-                <button type="submit" class="btn btn-primary">Crear Nómina</button>
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-            </div>
         </div>
-    </form>
+    </div>
+    <br />
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

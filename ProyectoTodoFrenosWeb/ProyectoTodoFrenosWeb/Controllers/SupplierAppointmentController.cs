@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoTodoFrenosWeb.ConsumoServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -18,12 +19,14 @@ namespace ProyectoTodoFrenosWeb.Controllers
             supplierAppointmentservice = new SupplierAppointmentService(config);
         }
 
+        [Authorize(Roles = "Admin, Mecanico")]
         public async Task<IActionResult> Index()
         {
             var result = await supplierAppointmentservice.GetSupplierAppointments();
             return View(result);
         }
 
+        [Authorize(Roles = "Admin, Mecanico")]
         // GET: SupplierAppointmentController/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -78,6 +81,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
 
         // GET: SupplierAppointmentController/Delete/5
+        [Authorize(Roles = "Admin, Mecanico")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -100,6 +104,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Mecanico")]
         public async Task<IActionResult> AcceptSupplierAppointment(long id)
         {
             try
@@ -124,6 +129,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Mecanico")]
         public async Task<IActionResult> RejectSupplierAppointment(long id)
         {
             try

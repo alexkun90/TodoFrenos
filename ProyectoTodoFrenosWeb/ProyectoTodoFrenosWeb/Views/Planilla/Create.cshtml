@@ -1,37 +1,59 @@
 ﻿@model DAL.Models.PlanillaEmpleado
+
 @{
     ViewData["Title"] = "Crear Planilla";
 }
-<div class="container mt-4">
-    <h2 class="mb-4">Crear Nómina</h2>
 
-    <form asp-action="Create" method="post">
-        @Html.HiddenFor(model => model.NominaId)
-        @Html.HiddenFor(model => model.SalarioBruto)
-        @Html.HiddenFor(model => model.SEM)
-        @Html.HiddenFor(model => model.IVM)
-        @Html.HiddenFor(model => model.LPT)
-        @Html.HiddenFor(model => model.ImpuestoRenta)
-        @Html.HiddenFor(model => model.TotalDeducciones)
-        @Html.HiddenFor(model => model.SalarioNetoFinal)
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h5 class="card-title">Detalles de Nómina</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">                   
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="FechaPago">Fecha a pagar</label>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Crear Nueva Nómina</h2>
+    <hr />
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        @Html.HiddenFor(model => model.NominaId)
+                        @Html.HiddenFor(model => model.SalarioBruto)
+                        @Html.HiddenFor(model => model.SEM)
+                        @Html.HiddenFor(model => model.IVM)
+                        @Html.HiddenFor(model => model.LPT)
+                        @Html.HiddenFor(model => model.ImpuestoRenta)
+                        @Html.HiddenFor(model => model.TotalDeducciones)
+                        @Html.HiddenFor(model => model.SalarioNetoFinal)
+
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                @TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @TempData["ErrorMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="form-group mb-3">
+                            <label asp-for="FechaPago" class="form-label">Fecha a pagar</label>
                             <input asp-for="FechaPago" class="form-control" type="date" />
                             <span asp-validation-for="FechaPago" class="text-danger"></span>
                         </div>
-                    </div>
+
+                        <div class="text-center">
+                            <input type="submit" value="Crear Nómina" class="btn btn-agree w-100" />
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="card-footer text-end">
-                <button type="submit" class="btn btn-primary">Crear Nómina</button>
-            </div>
         </div>
-    </form>
+    </div>
+    <br />
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -12,9 +12,11 @@ using Microsoft.AspNetCore.Identity;
 using ProyectoTodoFrenosWeb.ViewModels;
 using Azure.Core;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
+    [Authorize(Roles = "Admin,User")]
     public class ShoppingCartsController : Controller
     {
         ShoppingCartService _shoppingCartService;

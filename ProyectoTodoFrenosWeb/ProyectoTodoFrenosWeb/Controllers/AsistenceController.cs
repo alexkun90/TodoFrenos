@@ -1,9 +1,11 @@
 ﻿using DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AsistenceController : Controller
     {
 

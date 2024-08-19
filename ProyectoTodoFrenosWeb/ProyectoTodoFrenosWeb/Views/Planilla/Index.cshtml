@@ -1,35 +1,83 @@
 ﻿@model IEnumerable<DAL.Models.PlanillaEmpleado>
 
 @{
-    ViewBag.Title = "Lista de Planillas";
+    ViewData["Title"] = "Lista de Planillas";
 }
 
-<h2>Lista de Planillas</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Lista de Planillas</h2>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Cédula</th>
-            <th>Nombre Completo</th>
-            <th>Puesto</th>
-            <th>Fecha Pago</th>
-            <th>Salario Neto</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Cedula</td>
-                <td>@item.NombreEmpleado  @item.ApellidoEmpleado</td>
-                <td>@item.Puesto</td>
-                <td>@item.FechaPago?.ToString("dd/MM/yyyy")</td>
-                <td>@item.SalarioNetoFinal?.ToString("C")</td>
-                <td>
-                    <a href="@Url.Action("Details", "Planilla", new { planillaId = item.PlanillaEmpleadoId })" class="btn btn-primary btn-sm">Ver Detalles</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <p>
+        <a asp-action="Create" class="btn btn-agree">
+            Crear Nueva Planilla
+            <i class="ms-1 fa-solid fa-file-circle-plus"></i>
+        </a>
+    </p>
+
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <table class="table table-bordered dataTable" id="myDataTable" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="th-bg-custom">Cédula</th>
+                        <th class="th-bg-custom">Nombre Completo</th>
+                        <th class="th-bg-custom">Puesto</th>
+                        <th class="th-bg-custom">Fecha Pago</th>
+                        <th class="th-bg-custom">Salario Neto</th>
+                        <th class="th-bg-custom">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Cedula)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.NombreEmpleado) @Html.DisplayFor(modelItem => item.ApellidoEmpleado)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Puesto)
+                            </td>
+                            <td class="text-center align-middle">
+                                @item.FechaPago?.ToString("dd/MM/yyyy")
+                            </td>
+                            <td class="text-center align-middle">
+                                ₡@item.SalarioNetoFinal?.ToString("N")
+
+                            </td>
+                            <td class="text-center align-middle">
+                                <div class="d-flex flex-column align-items-center">
+                                    <a class="btn btn-details mb-2" href="@Url.Action("Details", "Planilla", new { planillaId = item.PlanillaEmpleadoId })">Detalles</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/estilos/js/jquery-3.6.0.min.js"></script>
+<script src="~/estilos/js/jquery.dataTables.min.js"></script>
+<script src="~/estilos/js/dataTables.bootstrap5.min.js"></script>
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myDataTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "info": false,
+            "order": [[3, "desc"]], // Ordenar por la columna de "Fecha Pago" en orden descendente
+            "columnDefs": [
+                {
+                    "targets": [3], // La columna de fecha
+                    "type": "date-eu"
+                }
+            ]
+        });
+    });
+</script>

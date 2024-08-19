@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DAL.Models;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -26,6 +27,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: Products
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var productos = await productService.GetProduct();
@@ -35,6 +37,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(await todoFrenosDbContext.ToListAsync());*/
         }
         // GET: Products
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> IndexCliente()
         {
             var productos = await productService.GetProduct();
@@ -49,6 +52,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: Products/Details/5
+        [Authorize(Roles = "Admin")]
         [Route("/Producto/Detalles/{id}")]
         public async Task<IActionResult> Details(long? id)
         {
@@ -71,6 +75,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: Products/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
@@ -81,6 +86,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product, IFormFile imagen)
@@ -124,6 +130,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: Products/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -147,6 +154,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, Product product, IFormFile imagen)
@@ -208,6 +216,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -233,6 +242,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: Products/Activate/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Activate(long? id)
         {
             if (id == null)
@@ -257,6 +267,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(product);
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCart(long productId, int quantity)

@@ -1,4 +1,5 @@
 ﻿using DAL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using ProyectoTodoFrenosWeb.ViewModels;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
+    [Authorize(Roles = "Admin,Mecanico")]
     public class UsuarioController : Controller
     {
         

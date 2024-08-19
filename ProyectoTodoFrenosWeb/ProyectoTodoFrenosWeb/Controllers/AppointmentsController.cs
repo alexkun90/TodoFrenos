@@ -10,7 +10,7 @@ using ProyectoTodoFrenosWeb.ConsumoServices;
 using System.Security.Claims;
 using DAL;
 using Microsoft.AspNetCore.Identity;
-using OpenAI_API.Moderation;
+using Microsoft.AspNetCore.Authorization; // Importa el namespace para la autorización
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -19,23 +19,23 @@ namespace ProyectoTodoFrenosWeb.Controllers
         private readonly TodoFrenosDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         AppointmentService appointmentService;
-        
+
 
         public AppointmentsController(TodoFrenosDbContext context, IConfiguration config, UserManager<ApplicationUser> _userManager)
         {
             _context = context;
             appointmentService = new AppointmentService(config);
             this._userManager = _userManager;
-           
         }
 
         // GET: Appointments
+        [Authorize(Roles = "Admin, Mecanico")] 
         public async Task<IActionResult> Index()
         {
             try
             {
                 var appointments = await _context.Appointments
-                    .Include(a => a.User) 
+                    .Include(a => a.User)
                     .ToListAsync();
 
                 return View(appointments);
@@ -43,12 +43,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"Error al cargar las citas: {ex.Message}";
-                return View(); 
+                return View();
             }
         }
 
-
         // GET: Appointments/Details/5
+        [Authorize(Roles = "Admin, Mecanico")] 
         public async Task<IActionResult> Details(long? id)
         {
             Appointment appointment = await appointmentService.GetAppointment(id);
@@ -59,27 +59,25 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(appointment);
         }
 
-
+        // GET: Appointments/Create
+        [Authorize(Roles = "User")] 
         public IActionResult Create()
         {
-
             return View();
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User")] 
         public async Task<IActionResult> Create(Appointment appointment)
         {
-            var userId =  _userManager.GetUserId(User);
+            var userId = _userManager.GetUserId(User);
             appointment.UserId = userId;
             if (ModelState.IsValid)
             {
                 try
                 {
                     var resultado = await appointmentService.CreateAppointment(appointment);
-
                     TempData["SuccessMessage"] = "Solicitud de cita enviada correctamente.";
                     return RedirectToAction(nameof(Create));
                 }
@@ -94,8 +92,9 @@ namespace ProyectoTodoFrenosWeb.Controllers
             }
 
             return View(appointment);
-        }   
+        }
 
+        [Authorize(Roles = "Admin, Mecanico")] 
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -116,6 +115,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(appointment);
         }
 
+        [Authorize(Roles = "User")] 
         public async Task<IActionResult> DeleteMyAppontments(long? id)
         {
             if (id == null)
@@ -138,6 +138,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Mecanico")] 
         public async Task<IActionResult> AcceptAppointment(long id)
         {
             try
@@ -162,6 +163,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Mecanico")] 
         public async Task<IActionResult> RejectAppointment(long id)
         {
             try
@@ -186,6 +188,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User")] 
         public async Task<IActionResult> CancelAppointment(long id)
         {
             try
@@ -208,22 +211,23 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return RedirectToAction(nameof(MyAppointments));
         }
 
-        public async Task<IActionResult> MyAppointments() { 
+        [Authorize(Roles = "User")] 
+        public async Task<IActionResult> MyAppointments()
+        {
             string Userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var result = await appointmentService.GetMyAppointments(Userid);
             return View(result);
-            
-            return View();
         }
 
         [HttpGet]
+        [Authorize(Roles = "User, Admin, Mecanico")] 
         public IActionResult GetAppointmentsCount()
         {
             int acceptState = 2;
             int rejectState = 0;
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var appointmentCount = _context.Appointments.Count(a => (a.AppointState == acceptState || a.AppointState == rejectState) && a.UserId == userId);
-            return Json(appointmentCount);       
+            return Json(appointmentCount);
         }
     }
 }

@@ -7,9 +7,11 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using ProyectoTodoFrenosWeb.ViewModels;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
+    [Authorize(Roles = "User,Admin")]
     public class OrdersController : Controller
     {
         private readonly OrderService _orderService;

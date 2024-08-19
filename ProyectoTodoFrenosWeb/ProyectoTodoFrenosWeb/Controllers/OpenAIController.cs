@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OpenAI_API;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class OpenAIController : Controller
     {
         private readonly OpenAIAPI openAIAPI;

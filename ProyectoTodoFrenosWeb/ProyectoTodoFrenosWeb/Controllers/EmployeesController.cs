@@ -1,10 +1,12 @@
 ﻿using DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using System.Security.Claims;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
+    [Authorize(Roles = "Admin, Mecanico")]
     public class EmployeesController : Controller
     {
         EmployeeService employeeService;

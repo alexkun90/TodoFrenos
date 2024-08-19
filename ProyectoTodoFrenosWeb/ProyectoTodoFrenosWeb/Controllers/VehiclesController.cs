@@ -9,19 +9,15 @@ using DAL.Models;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using System.Drawing;
 using Microsoft.AspNetCore.Identity;
 using DAL;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
-    [Authorize]
-    //[Authorize(Roles = "User,Mecanico")]
     public class VehiclesController : Controller
     {
         private readonly TodoFrenosDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-
         VehicleService vehicleService;
 
         public VehiclesController(TodoFrenosDbContext context, UserManager<ApplicationUser> userManager, IConfiguration config)
@@ -32,15 +28,9 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: Vehicles
+        [Authorize(Roles = "Admin, Mecanico")]
         public async Task<IActionResult> Index()
         {
-            /* var emailUser = User.FindFirst(ClaimTypes.Email).Value;
-             ViewBag.Email = emailUser.ToString();
-
-             var vehicles = await vehicleService.GetVehicles();  
-
-             return View(vehicles);*/
-
             var vehicles = await vehicleService.GetVehicles();
             var userIds = vehicles.Select(v => v.UserId).Distinct();
             var userEmails = new Dictionary<string, string>();
@@ -57,29 +47,33 @@ namespace ProyectoTodoFrenosWeb.Controllers
             ViewBag.UserEmails = userEmails;
 
             return View(vehicles);
-        }       
+        }
 
         // GET: Vehicles/Details/5
+        [Authorize(Roles = "Admin, Mecanico ,User")]
         public async Task<IActionResult> Details(long? id)
         {
-            Vehicle vehicle = await vehicleService.GetVehicle(id);
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await _userManager.FindByIdAsync(userId);
-            var name = user.Nombre;
-            var surname = user.PrimApellido;
-            var surname2 = user.SegunApellido;
-
-            ViewBag.CompleateName = name + " " + surname + " " + surname2;
-
             if (id == null)
             {
                 return NotFound();
             }
 
+            Vehicle vehicle = await vehicleService.GetVehicle(id);
+
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _userManager.FindByIdAsync(userId);
+            ViewBag.CompleateName = $"{user.Nombre} {user.PrimApellido} {user.SegunApellido}";
+
             return View(vehicle);
         }
 
         // GET: Vehicles/Create
+        [Authorize(Roles = "Admin, Mecanico, User")]
         public IActionResult Create()
         {
             return View();
@@ -88,17 +82,18 @@ namespace ProyectoTodoFrenosWeb.Controllers
         // POST: Vehicles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Mecanico,User")]
         public async Task<IActionResult> Create(Vehicle vehicle)
         {
             var identidad = User.Identity as ClaimsIdentity;
-            string idLogin = identidad.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value; 
+            string idLogin = identidad.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier).Value;
             vehicle.UserId = idLogin;
 
             if (ModelState.IsValid)
             {
                 vehicle.CreationDate = DateTime.Now;
                 vehicle.CarState = 1;
-                
+
                 try
                 {
                     var resultado = await vehicleService.CreateVehicle(vehicle);
@@ -109,8 +104,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                         return RedirectToAction(nameof(MyVehicles));
                     }
                 }
-                
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ModelState.AddModelError("", ex.Message);
                     return View(vehicle);
@@ -120,24 +114,28 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: Vehicles/Edit/5
+        [Authorize(Roles = "Admin, Mecanico")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+
             Vehicle vehicle = await vehicleService.GetVehicle(id);
 
             if (vehicle == null)
             {
                 return NotFound();
             }
+
             return View(vehicle);
         }
 
         // POST: Vehicles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Mecanico")]
         public async Task<IActionResult> Edit(long id, Vehicle vehicle)
         {
             if (id != vehicle.VehicleId)
@@ -149,40 +147,24 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 try
                 {
-                    try
-                    {
-                        var resultado = await vehicleService.EditVehicle((long)id, vehicle);
+                    var resultado = await vehicleService.EditVehicle(id, vehicle);
 
-                        if (resultado != null)
-                        {
-                            return RedirectToAction(nameof(Index));
-                        }
-
-                    }
-                    catch (Exception ex)
+                    if (resultado != null)
                     {
-                        ModelState.AddModelError("", ex.Message);
-                        return View(vehicle);
-                    }
-                } 
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!VehicleExists(vehicle.VehicleId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
+                        return RedirectToAction(nameof(Index));
                     }
                 }
-
-
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                    return View(vehicle);
+                }
             }
             return View(vehicle);
         }
 
         // GET: Vehicles/Delete/5
+        [Authorize(Roles = "Admin, Mecanico")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -203,6 +185,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(vehicle);
         }
 
+        [Authorize(Roles = "Admin, Mecanico")]
         public async Task<IActionResult> Activate(long? id)
         {
             if (id == null)
@@ -223,41 +206,41 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(vehicle);
         }
 
-        /*MyVehicles*/
-
+        /* MyVehicles */
+        [Authorize(Roles = "User, Mecanico, Admin")]
         public async Task<IActionResult> MyVehicles()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var user = await _userManager.FindByIdAsync(userId);
-            var name = user.Nombre;
-            var surname = user.PrimApellido;
-            var surname2 = user.SegunApellido;
+            ViewBag.CompleateName = $"{user.Nombre} {user.PrimApellido} {user.SegunApellido}";
 
-            ViewBag.CompleateName = name + " " + surname + " " + surname2;
             var result = await vehicleService.GetMyVehicles(userId);
-
             return View(result);
-
         }
 
-        /*GetEdit MyVehicles*/
+        /* GET: Edit MyVehicles */
+        [Authorize(Roles = "User, Mecanico, Admin")]
         public async Task<IActionResult> EditMyVehicles(long? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+
             Vehicle vehicle = await vehicleService.GetVehicle(id);
+
             if (vehicle == null)
             {
                 return NotFound();
             }
+
             return View(vehicle);
         }
 
-        /*PostEdit MyVehicles*/
+        /* POST: Edit MyVehicles */
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User, Mecanico, Admin")]
         public async Task<IActionResult> EditMyVehicles(long id, Vehicle vehicle)
         {
             if (id != vehicle.VehicleId)
@@ -269,39 +252,23 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 try
                 {
-                    try
-                    {
-                        var resultado = await vehicleService.EditVehicle((long)id, vehicle);
+                    var resultado = await vehicleService.EditVehicle(id, vehicle);
 
-                        if (resultado != null)
-                        {
-                            return RedirectToAction(nameof(MyVehicles));
-                        }
-
-                    }
-                    catch (Exception ex)
+                    if (resultado != null)
                     {
-                        ModelState.AddModelError("", ex.Message);
-                        return View(vehicle);
+                        return RedirectToAction(nameof(MyVehicles));
                     }
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
-                    if (!VehicleExists(vehicle.VehicleId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("", ex.Message);
+                    return View(vehicle);
                 }
-
-
             }
             return View(vehicle);
         }
 
+        [Authorize(Roles = "User, Mecanico, Admin")]
         public async Task<IActionResult> DeleteMyVehicles(long? id)
         {
             if (id == null)
@@ -321,8 +288,6 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
             return View(vehicle);
         }
-
-
 
         private bool VehicleExists(long id)
         {

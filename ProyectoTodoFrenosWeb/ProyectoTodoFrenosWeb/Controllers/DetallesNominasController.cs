@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.Models;
 using FrontEnd.ConsumoServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FrontEnd.Controllers
 {
+    [Authorize(Roles = "Admin,Mecanico")]
     public class DetallesNominasController : Controller
     {
         private readonly TodoFrenosDbContext _context;

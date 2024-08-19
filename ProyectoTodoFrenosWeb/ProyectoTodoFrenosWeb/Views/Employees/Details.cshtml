@@ -1,99 +1,63 @@
 ﻿@model DAL.Models.Employee
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Empleado";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Empleado</h4>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Detalles del Empleado</h2>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cedula)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Cedula)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NombreEmpleado)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NombreEmpleado)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ApellidoEmpleado)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ApellidoEmpleado)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaContrato)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaContrato)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SalarioBase)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SalarioBase)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PlusesSalariales)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PlusesSalariales)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Puesto)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Puesto)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaNacimiento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaNacimiento)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Direccion)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Direccion)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EstadoCivil)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EstadoCivil)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Genero)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Genero)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ContactoEmergencia)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ContactoEmergencia)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CantDiasLaborales)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CantDiasLaborales)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EstadoEmpleado)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EstadoEmpleado)
-        </dd>
-    </dl>
-</div>
 
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Información del Empleado -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">Cédula</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Cedula)</dd>
+
+                        <dt class="col-sm-4">Nombre</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.NombreEmpleado)</dd>
+
+                        <dt class="col-sm-4">Apellido</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ApellidoEmpleado)</dd>
+
+                        <dt class="col-sm-4">Fecha de Contrato</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.FechaContrato)</dd>
+
+                        <dt class="col-sm-4">Salario Base</dt>
+                        <dd class="col-sm-8">₡@Model.SalarioBase?.ToString("N")</dd>
+
+                        <dt class="col-sm-4">Pluses Salariales</dt>
+                        <dd class="col-sm-8">₡@Model.PlusesSalariales?.ToString("N")</dd>
+
+                        <dt class="col-sm-4">Puesto</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Puesto)</dd>
+
+                        <dt class="col-sm-4">Fecha de Nacimiento</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.FechaNacimiento)</dd>
+
+                        <dt class="col-sm-4">Dirección</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Direccion)</dd>
+
+                        <dt class="col-sm-4">Estado Civil</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.EstadoCivil)</dd>
+
+                        <dt class="col-sm-4">Género</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Genero)</dd>
+
+                        <dt class="col-sm-4">Contacto de Emergencia</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ContactoEmergencia)</dd>
+
+                        <dt class="col-sm-4">Días Laborales</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.CantDiasLaborales)</dd>
+
+                        <dt class="col-sm-4">Estado del Empleado</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.EstadoEmpleado)</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

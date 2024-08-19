@@ -1,10 +1,12 @@
 ﻿using DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using ProyectoTodoFrenosWeb.ViewModels;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
+    [Authorize(Roles = "Admin, Mecanico")]
     public class PlayrollController : Controller
     {
         PlayrollService service;
@@ -33,8 +35,11 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
         public IActionResult Create(long empleadoid)
         {
-            var model = new PlayrollDetail { EmployeeId = empleadoid,
-                                             SalarioBruto = 0};
+            var model = new PlayrollDetail
+            {
+                EmployeeId = empleadoid,
+                SalarioBruto = 0
+            };
             return View(model);
         }
 
@@ -51,14 +56,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
                     if (resultado != null)
                     {
                         TempData["MenasajeExito"] = "Nomina creada Exitosamente";
-                        return RedirectToAction("Index","Employees");
+                        return RedirectToAction("Index", "Employees");
                     }
                     else
                     {
                         return View(model);
                     }
                 }
-
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", ex.Message);

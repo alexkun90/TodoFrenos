@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL.Models;
 using ProyectoTodoFrenosWeb.ConsumoServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
     //[ResponseCache(NoStore = true, Location = ResponseCacheLocation.None, Duration = 0, VaryByQueryKeys = new[] { "*" })]
+    [Authorize(Roles = "Admin,Mecanico")]
     public class VehicleInspectionsController : Controller
     {
         VehicleInspectionService service;
