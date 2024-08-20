@@ -56,7 +56,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                     if (resultado != null)
                     {
                         TempData["MenasajeExito"] = "Nomina creada Exitosamente";
-                        return RedirectToAction("Index", "Employees");
+                        return RedirectToAction("Index", "Playroll");
                     }
                     else
                     {

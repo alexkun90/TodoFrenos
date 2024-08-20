@@ -119,12 +119,13 @@ namespace API.Controllers
             {
                 montoIncapacidad = 0;
             }
-            
-            playrollDetail.SalarioBruto = 
-                employee.SalarioBase + employee.PlusesSalariales 
-                + (playrollDetail.HorasExtras * 1.5m * 8) 
-                - (playrollDetail.DiasVacaciones * salarioDiario) 
-                - montoIncapacidad;
+
+            var montoBruto = employee.SalarioBase + employee.PlusesSalariales
+                + (playrollDetail.HorasExtras * 1.5m * 8);
+
+            var montoDescuento = montoIncapacidad;
+
+            playrollDetail.SalarioBruto = montoBruto;
 
             _context.PlayrollDetails.Add(playrollDetail);
             await _context.SaveChangesAsync(); 
@@ -162,7 +163,7 @@ namespace API.Controllers
                 IVM = monto * 0.0417m,
                 LPT = monto * 0.01m,
                 ImpuestoRenta = impuestoR,
-                TotalDeduccion = (monto * 0.0550m) + (monto * 0.0417m) + (monto * 0.01m) + (impuestoR)
+                TotalDeduccion = (monto * 0.0550m) + (monto * 0.0417m) + (monto * 0.01m) + (impuestoR) + (montoDescuento)
             };
             _context.Deducciones.Add(deduccion);
             await _context.SaveChangesAsync();
