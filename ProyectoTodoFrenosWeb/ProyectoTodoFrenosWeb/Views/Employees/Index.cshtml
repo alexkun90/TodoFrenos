@@ -52,12 +52,12 @@
                                     <a class="btn btn-agree mb-2" href="@Url.Action("Create","Playroll", new { empleadoid  = item.EmpleadoId })">Nómina</a>
                                     @if (item.EstadoEmpleado)
                                     {
-                                        <a class="btn btn-inactive" href="@Url.Action("Delete", "Empleados", new { id = item.EmpleadoId })">Inactivar</a>
+                                        <a class="btn btn-inactive" href="@Url.Action("Delete", "Employees", new { id = item.EmpleadoId })">Inactivar</a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-active-custom" href="@Url.Action("Activate", "Empleados", new { id = item.EmpleadoId })">Activar</a>
-                                    } 
+                                        <a class="btn btn-active-custom" href="@Url.Action("Activate", "Employees", new { id = item.EmpleadoId })">Activar</a>
+                                    }
                                 </div>
                             </td>
                         </tr>
