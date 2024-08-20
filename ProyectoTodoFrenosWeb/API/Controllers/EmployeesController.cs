@@ -66,12 +66,7 @@ namespace API.Controllers
             {
                 return BadRequest();
             }
-            var cedulaExist = await _context.Employees
-                             .FirstOrDefaultAsync(e => e.Cedula == employee.Cedula);
-            if (cedulaExist != null)
-            {
-                return Conflict("Está cedula de empleado ya está anteriormente registrada");
-            }
+           
             _context.Entry(employee).State = EntityState.Modified;
 
             try

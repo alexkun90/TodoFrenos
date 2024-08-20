@@ -4,6 +4,25 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    .btn-action {
+        display: inline-block;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+        transition: all 0.15s ease-in-out;
+        width: 100%;
+        max-width: 120px;
+        margin: 0.1rem;
+    }
+</style>
+
 <div class="container mt-5">
     <h2 class="text-center mb-4">Lista de Empleados</h2>
 
@@ -48,15 +67,16 @@
                             </td>
                             <td class="text-center align-middle">
                                 <div class="d-flex flex-column align-items-center">
-                                    <a class="btn btn-modify mb-2" href="@Url.Action("Details", new { id = item.EmpleadoId })">Detalles</a>
-                                    <a class="btn btn-agree mb-2" href="@Url.Action("Create","Playroll", new { empleadoid  = item.EmpleadoId })">Nómina</a>
+                                    <a class="btn btn-modify btn-action" href="@Url.Action("Edit", new { id = item.EmpleadoId })">Editar</a>
+                                    <a class="btn btn-details btn-action" href="@Url.Action("Details", new { id = item.EmpleadoId })">Detalles</a>
+                                    <a class="btn btn-agree btn-action" href="@Url.Action("Create","Playroll", new { empleadoid  = item.EmpleadoId })">Nómina</a>
                                     @if (item.EstadoEmpleado)
                                     {
-                                        <a class="btn btn-inactive" href="@Url.Action("Delete", "Employees", new { id = item.EmpleadoId })">Inactivar</a>
+                                        <a class="btn btn-inactive btn-action" href="@Url.Action("Delete", "Employees", new { id = item.EmpleadoId })">Inactivar</a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-active-custom" href="@Url.Action("Activate", "Employees", new { id = item.EmpleadoId })">Activar</a>
+                                        <a class="btn btn-active-custom btn-action" href="@Url.Action("Activate", "Employees", new { id = item.EmpleadoId })">Activar</a>
                                     }
                                 </div>
                             </td>

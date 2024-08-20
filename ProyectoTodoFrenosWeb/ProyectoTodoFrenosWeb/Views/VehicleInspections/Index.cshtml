@@ -4,6 +4,25 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    .btn-action {
+        display: inline-block;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+        transition: all 0.15s ease-in-out;
+        width: 100%;
+        max-width: 120px;
+        margin: 0.1rem;
+    }
+</style>
+
 <div class="container mt-5">
     <h2 style="text-align:center;">Historial de los resultados de las Inspecciones 
         <br>del Vehículo  @ViewBag.vehiclePlate<br />
@@ -45,9 +64,9 @@
                                         </td>                                       
                                         <td class="text-center align-middle">
 
-                                            <a class="btn btn-modify" asp-action="Edit" asp-route-id="@item.VehicleInspectionId">Editar</a> 
-                                            <a class="btn btn-details" asp-action="Details" asp-route-id="@item.VehicleInspectionId">Detalles</a>
-                                            <a class="btn btn-delete" asp-action="Delete" asp-route-id="@item.VehicleInspectionId">Delete</a>
+                                            <a class="btn btn-modify btn-action" asp-action="Edit" asp-route-id="@item.VehicleInspectionId">Editar</a> 
+                                            <a class="btn btn-details btn-action" asp-action="Details" asp-route-id="@item.VehicleInspectionId">Detalles</a>
+                                            <a class="btn btn-delete btn-action" asp-action="Delete" asp-route-id="@item.VehicleInspectionId">Delete</a>
                                            @*<button type="button" class="btn btn-inactive AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                     data-id="@item.VehicleInspectionId" style="font:bold;font-size:18px">
                                                     Eliminar

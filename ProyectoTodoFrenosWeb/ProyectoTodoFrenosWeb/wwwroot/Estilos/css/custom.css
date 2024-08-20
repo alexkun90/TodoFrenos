@@ -380,15 +380,32 @@ html, body {
 }
 
 .card-img-container {
-    height: 140px; /* Asegura que el contenedor de la imagen tenga la altura correcta */
+    height: 140px; 
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f8f9fa; /* Color de fondo para la imagen cuando no hay imagen */
-    overflow: hidden; /* Oculta cualquier contenido que se desborde del contenedor */
+    background-color: #f8f9fa; 
+    overflow: hidden; 
 }
 
 .card-body {
-    border-top: 1px solid #ddd; /* Opcional: Añade un borde superior si es necesario */
+    border-top: 1px solid #ddd; 
 }
 
+
+.btn-action {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    transition: all 0.15s ease-in-out;
+    width: 100%;
+    max-width: 120px;
+    margin: 0.1rem;
+}
