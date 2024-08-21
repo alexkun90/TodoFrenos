@@ -32,10 +32,10 @@ namespace DAL.Models
         [DisplayName("Luces")]
         public string? Lights { get; set;}
         
-        [DisplayName("Direccion")]
+        [DisplayName("Dirección")]
         public string? Steering { get; set; }
 
-        [DisplayName("Neumaticos")]
+        [DisplayName("Neumáticos")]
         public string? Tires { get; set; }
 
         [DisplayName("Suspensión")]
