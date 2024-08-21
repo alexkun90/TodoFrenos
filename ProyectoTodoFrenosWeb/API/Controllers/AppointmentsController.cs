@@ -34,9 +34,17 @@ namespace API.Controllers
         [HttpGet("MyAppointments/{id}")]
         public async Task<ActionResult<IEnumerable<Appointment>>> GetMyAppointments(string id)
         {
-            return await _context.Appointments
+            var citas = await _context.Appointments
                                      .Where(u => u.UserId == id && (u.AppointState == 2 || u.AppointState == 0))
                                      .ToListAsync();
+
+            foreach (var cita in citas)
+            {
+                cita.ReadMyAppointment = 1;
+            }
+            await _context.SaveChangesAsync();
+
+            return citas;
         }
 
         [HttpGet("{id}")]

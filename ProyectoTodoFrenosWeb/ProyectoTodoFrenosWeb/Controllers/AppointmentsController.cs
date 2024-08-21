@@ -226,7 +226,10 @@ namespace ProyectoTodoFrenosWeb.Controllers
             int acceptState = 2;
             int rejectState = 0;
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var appointmentCount = _context.Appointments.Count(a => (a.AppointState == acceptState || a.AppointState == rejectState) && a.UserId == userId);
+            var appointmentCount = _context.Appointments.Count(a => (a.AppointState == acceptState 
+                                                              || a.AppointState == rejectState) 
+                                                              && a.ReadMyAppointment == 2
+                                                              && a.UserId == userId);
             return Json(appointmentCount);
         }
     }
