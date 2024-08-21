@@ -46,14 +46,14 @@
                             {
                                 <tr>
                                     <td class="text-center align-middle">@item.CodigoOrder</td>
-                                    <td class="text-center align-middle">@item.OrderDate</td>
-                                    <td class="text-center align-middle">@item.RetirementDate</td>
+                                    <td>@item.OrderDate.ToString("dd MMM yyyy")</td>
+                                    <td>@item.RetirementDate.ToString("dd MMM yyyy")</td>
                                     <td class="text-center align-middle">@item.SubTotal.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td class="text-center align-middle">@item.Tax.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td class="text-center align-middle">@item.Total.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td class="text-center align-middle">
                                         <a class="btn btn-details btn-sm" href="@Url.Action("OrderDetailList","Orders", new { orderId = item.OrderId })">Detalles</a>
-                                        @*<a class="btn btn-delete btn-sm" asp-action="Delete" asp-route-id="@item.OrderId">Eliminar</a>*@
+                                        @* <a class="btn btn-delete btn-sm" asp-action="Delete" asp-route-id="@item.OrderId">Eliminar</a> *@
                                     </td>
                                 </tr>
                             }
@@ -72,11 +72,8 @@
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
             },
-            "info": false,
-            "order": [[1, "asc"]],
-            "columnDefs": [
-                { "type": "datetime", "targets": 1 }
-            ]
+            "order": [[1, "desc"]],
+            "info": false
         });
     });
 </script>

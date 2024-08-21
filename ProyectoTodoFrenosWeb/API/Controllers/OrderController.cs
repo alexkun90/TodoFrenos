@@ -86,7 +86,11 @@ namespace API.Controllers
 
         private long GenerateOrderCode()
         {
-            return DateTime.Now.Ticks; // Genera un código de orden basado en la marca de tiempo
+            int year = DateTime.Now.Year % 100;
+            int dayOfYear = DateTime.Now.DayOfYear; 
+            int randomPart = new Random().Next(100, 999);
+            long orderCode = long.Parse($"{year}{dayOfYear:D3}{randomPart}");
+            return orderCode;
         }
     }
 }

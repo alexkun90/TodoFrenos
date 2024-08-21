@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Crear Empleado";
+    var today = DateTime.Today;
+    var maxDate = today.AddYears(-18).ToString("yyyy-MM-dd");
 }
 
 <div class="container mt-5">
@@ -62,7 +64,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label asp-for="FechaNacimiento" class="form-label">Fecha Nacimiento</label>
-                            <input asp-for="FechaNacimiento" class="form-control" type="date" />
+                            <input asp-for="FechaNacimiento" class="form-control" type="date" max="@maxDate" />
                             <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">
@@ -76,8 +78,12 @@
                             <span asp-validation-for="EstadoCivil" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">
-                            <label asp-for="Genero" class="form-label">Genero</label>
-                            <input asp-for="Genero" class="form-control" type="text" />
+                            <label asp-for="Genero" class="form-label">Género</label>
+                            <select asp-for="Genero" class="form-control">
+                                <option value="">Seleccione...</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                            </select>
                             <span asp-validation-for="Genero" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">

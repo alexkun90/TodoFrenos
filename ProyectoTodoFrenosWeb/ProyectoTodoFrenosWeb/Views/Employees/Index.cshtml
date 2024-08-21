@@ -41,7 +41,7 @@
                                 @Html.DisplayFor(modelItem => item.Puesto)
                             </td>
                             <td class="text-center align-middle">
-                                @Html.DisplayFor(modelItem => item.FechaNacimiento)
+                                @item.FechaNacimiento?.ToString("dd/MM/yyyy")
                             </td>
                             <td class="text-center align-middle">
                                 @(item.EstadoEmpleado ? "Activo" : "Inactivo")
@@ -78,14 +78,7 @@
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
             },
-            "info": false,
-            "order": [[5, "desc"]], // Ordenar por la columna de "Fecha de Ingreso" en orden descendente
-            "columnDefs": [
-                {
-                    "targets": [5], // La columna de fecha
-                    "type": "date-eu"
-                }
-            ]
+            "info": false
         });
     });
 </script>
