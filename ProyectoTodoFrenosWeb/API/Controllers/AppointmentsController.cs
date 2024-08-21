@@ -28,14 +28,19 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointments()
         {
-            return await _context.Appointments.ToListAsync();
+            var appointments = await _context.Appointments
+                     .Include(a => a.User)
+                     .ToListAsync();
+            return appointments;
         }
 
         [HttpGet("MyAppointments/{id}")]
         public async Task<ActionResult<IEnumerable<Appointment>>> GetMyAppointments(string id)
         {
             var citas = await _context.Appointments
-                                     .Where(u => u.UserId == id && (u.AppointState == 2 || u.AppointState == 0))
+                                     .Where(u => u.UserId == id 
+                                      && (u.AppointState == 2 || u.AppointState == 0) 
+                                      && (u.ReadMyAppointment != 3))
                                      .ToListAsync();
 
             foreach (var cita in citas)
@@ -44,6 +49,18 @@ namespace API.Controllers
             }
             await _context.SaveChangesAsync();
 
+            return citas;
+        }
+
+        [HttpGet("MyPaperAppointments/{id}")]
+        public async Task<ActionResult<IEnumerable<Appointment>>> MyPaperAppointments(string id)
+        {
+            var citas = await _context.Appointments
+                                     .Include(u => u.User)
+                                     .Where(u => u.UserId == id
+                                      && (u.AppointState == 2 || u.AppointState == 0)
+                                      && (u.ReadMyAppointment == 3))
+                                     .ToListAsync();
             return citas;
         }
 
@@ -73,21 +90,6 @@ namespace API.Controllers
 
             return CreatedAtAction("GetAppointment", new { id = appointment.AppointId }, appointment);
             
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAppointment(long id)
-        {
-            var appointment = await _context.Appointments.FindAsync(id);
-            if (appointment == null)
-            {
-                return NotFound();
-            }
-
-            _context.Appointments.Remove(appointment);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
         [HttpPut("Accept/{id}")]
@@ -147,7 +149,53 @@ namespace API.Controllers
                     return NotFound(new { message = "Cita no encontrada." });
                 }
 
-                appointment.AppointState = 4;
+                appointment.AppointState = 3;
+                _context.Appointments.Update(appointment);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Cita cancelada correctamente." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Error al rechazar la cita: {ex.Message}" });
+            }
+        }
+
+        [HttpPut("Papelera/{id}")]
+        public async Task<IActionResult> PapeleraAppointment(long id)
+        {
+            try
+            {
+                var appointment = await _context.Appointments.FindAsync(id);
+                if (appointment == null)
+                {
+                    return NotFound(new { message = "Cita no encontrada." });
+                }
+
+                appointment.ReadMyAppointment = 3;
+                _context.Appointments.Update(appointment);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Cita cancelada correctamente." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Error al rechazar la cita: {ex.Message}" });
+            }
+        }
+
+        [HttpPut("Return/{id}")]
+        public async Task<IActionResult> ReturnAppointment(long id)
+        {
+            try
+            {
+                var appointment = await _context.Appointments.FindAsync(id);
+                if (appointment == null)
+                {
+                    return NotFound(new { message = "Cita no encontrada." });
+                }
+
+                appointment.ReadMyAppointment = 1;
                 _context.Appointments.Update(appointment);
                 await _context.SaveChangesAsync();
 

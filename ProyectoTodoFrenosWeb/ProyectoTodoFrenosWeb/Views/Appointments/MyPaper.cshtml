@@ -27,7 +27,7 @@
 </style>
 
 <div class="container mt-5">
-    <h2 style="text-align:center;">Historial de Citas</h2>
+    <h2 style="text-align:center;">Papelera de Citas</h2>
 
     @if (!string.IsNullOrEmpty(successMessage))
     {
@@ -45,12 +45,6 @@
         </div>
     }
 
-    <div class="mb-2">
-        <a asp-action="Create" class="btn btn-agree mb-1">
-            Nueva Cita
-            <i class="ms-1 fa-solid fa-file-lines"></i>
-        </a>
-    </div>
     <div class="container-border-custom mb-2">
         <div class="table-responsive">
             <div id="dataTable_wrapper" class="dataTables_wrapper">
@@ -85,29 +79,21 @@
 
                                         <td class="text-center align-middle">
                                             @{
-                                                string estado =
-                                                appointment.AppointState == 0 ? "Rechazado" :
-                                                appointment.AppointState == 1 ? "Pendiente" :
+                                                string estado = appointment.AppointState == 1 ? "Pendiente" :
                                                 appointment.AppointState == 2 ? "Aceptado" :
-                                                appointment.AppointState == 3 ? "Cancelada" :
+                                                appointment.AppointState == 0 ? "Rechazado" :
                                                 "Sin estado";
                                             }
                                             @estado
                                         </td>
                                         <td class="text-center align-middle">
                                             <a class="btn btn-details btn-action" asp-action="Details" asp-route-id="@appointment.AppointId">Detalles</a>
-
-                                            @if (appointment.AppointState == 1)
-                                            {
-                                                <form id="acceptForm-@appointment.AppointId" asp-action="AcceptAppointment" method="post" class="d-inline">
-                                                    <input type="hidden" name="id" value="@appointment.AppointId" />
-                                                    <button type="submit" class="btn btn-active-custom btn-action" data-id="@appointment.AppointId">Aceptar</button>
-                                                </form>
-                                                <form id="rejectForm-@appointment.AppointId" asp-action="RejectAppointment" method="post" class="d-inline">
-                                                    <input type="hidden" name="id" value="@appointment.AppointId" />
-                                                    <button type="submit" class="btn btn-delete btn-action" data-id="@appointment.AppointId">Rechazar</button>
-                                                </form>
-                                            }
+                                            <form id="acceptForm-@appointment.AppointId" asp-action="ReturnAppointment" method="post">
+                                                <input type="hidden" name="id" value="@appointment.AppointId" />
+                                                <button type="submit" class="btn btn-agree btn-action" data-id="@appointment.AppointId">
+                                                    Recuperar
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 }
@@ -130,7 +116,7 @@
             "info": false,
             "order": [[1, "asc"]],
             "columnDefs": [
-                { "type": "datetime", "targets": 1 } 
+                { "type": "datetime", "targets": 1 }
             ]
         });
     });

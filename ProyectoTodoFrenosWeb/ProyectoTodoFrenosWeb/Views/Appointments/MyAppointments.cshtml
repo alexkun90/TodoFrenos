@@ -33,21 +33,27 @@
 
                             </p>
                             <div class="justify-content-between">
-                                    @*<div class="mb-1">
+                                    @* <div class="mb-1">
                                     <a class="btn btn-details btn-sm" asp-action="Details" asp-route-id="@item.VehicleId">Detalles</a>
-                                </div>*@
-                                <div class="mb-1">
+                                </div> *@
+                                @* <div class="mb-1">
                                         <button type="button" class="btn btn-delete w-100 AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                             data-id="@item.AppointId" style="font:bold;font-size:18px">
                                             Eliminar
                                         </button>
-                                </div>
-                                    <form id="acceptForm-@item.AppointId" asp-action="CancelAppointment" method="post">
-                                        <input type="hidden" name="id" value="@item.AppointId" />
-                                        <button type="submit" class="btn btn-inactive w-100" data-id="@item.AppointId"style="font:bold;font-size:18px"> 
-                                            Cancelar
-                                        </button>
-                                    </form>
+                                </div> *@
+                                <form id="acceptForm-@item.AppointId" asp-action="PapeleraAppointment" method="post">
+                                    <input type="hidden" name="id" value="@item.AppointId" />
+                                    <button type="submit" class="btn btn-delete w-100" data-id="@item.AppointId" style="font:bold;font-size:18px">
+                                        Papelera
+                                    </button>
+                                </form>
+                                <form id="acceptForm-@item.AppointId" asp-action="CancelAppointment" method="post">
+                                    <input type="hidden" name="id" value="@item.AppointId" />
+                                    <button type="submit" class="btn btn-inactive w-100" data-id="@item.AppointId"style="font:bold;font-size:18px"> 
+                                        Cancelar
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -71,7 +77,7 @@
         $(".AbrirModal").click(function () {
             var appointmentId = $(this).attr("data-id");
             $("#AppointId").val(appointmentId);
-            $("#confirmDeleteButton").attr("href", "/Appointments/DeleteMyAppontments/" + appointmentId);
+            $("#confirmDeleteButton").attr("href", "/Appointments/PapeleraAppointment/" + appointmentId);
         });
 </script>
 
@@ -83,7 +89,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ¿Está seguro de eliminar está cita?
+                    ¿Está seguro de enviar está cita a la papelera?
                 </div>
                 <div class="modal-footer">
 

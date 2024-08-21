@@ -73,6 +73,36 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
         }
 
+        public async Task<IEnumerable<Appointment>> GetMyPaper(string Id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/MyPaperAppointments/{Id}";
+
+                try
+                {
+                    var response = await client.GetAsync(apiUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Appointment>>(responseData);
+
+                        return result;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+
+        }
+
 
         //Details
         public async Task<Appointment> GetAppointment(long? Id)
@@ -169,34 +199,6 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                 }
             }
         }
-        //Delete
-        public async Task<bool> DeleteAppointment(long? Id)
-        {
-            using (var client = new HttpClient())
-            {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/{Id}";
-
-                try
-                {
-                    var response = await client.DeleteAsync(apiUrl);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-
-        }
 
         public async Task<bool> AcceptAppointment(long? id)
         {
@@ -237,6 +239,40 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             using (var client = new HttpClient())
             {
                 var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Cancel/{id}";
+                try
+                {
+                    var response = await client.PutAsync(apiUrl, null);
+                    return response.IsSuccessStatusCode;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public async Task<bool> PapeleraAppointment(long? id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Papelera/{id}";
+                try
+                {
+                    var response = await client.PutAsync(apiUrl, null);
+                    return response.IsSuccessStatusCode;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public async Task<bool> ReturnAppointment(long? id)
+        {
+            using (var client = new HttpClient())
+            {
+                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Return/{id}";
                 try
                 {
                     var response = await client.PutAsync(apiUrl, null);

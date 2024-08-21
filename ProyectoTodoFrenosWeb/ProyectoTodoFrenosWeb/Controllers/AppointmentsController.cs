@@ -34,11 +34,8 @@ namespace ProyectoTodoFrenosWeb.Controllers
         {
             try
             {
-                var appointments = await _context.Appointments
-                    .Include(a => a.User)
-                    .ToListAsync();
-
-                return View(appointments);
+                var appointmentsList = await appointmentService.GetAppointments();
+                return View(appointmentsList);
             }
             catch (Exception ex)
             {
@@ -90,48 +87,6 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 TempData["ErrorMessage"] = "Necesita iniciar sesión para agendar una cita";
             }
-
-            return View(appointment);
-        }
-
-        [Authorize(Roles = "Admin, Mecanico")] 
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var resultado = await appointmentService.DeleteAppointment(id.Value);
-
-            if (resultado)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            ModelState.AddModelError(string.Empty, "Error al inactivar la cita.");
-            var appointment = await appointmentService.GetAppointment(id);
-
-            return View(appointment);
-        }
-
-        [Authorize(Roles = "User")] 
-        public async Task<IActionResult> DeleteMyAppontments(long? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var resultado = await appointmentService.DeleteAppointment(id.Value);
-
-            if (resultado)
-            {
-                return RedirectToAction(nameof(MyAppointments));
-            }
-
-            ModelState.AddModelError(string.Empty, "Error al inactivar la cita.");
-            var appointment = await appointmentService.GetAppointment(id);
 
             return View(appointment);
         }
@@ -211,6 +166,57 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return RedirectToAction(nameof(MyAppointments));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> PapeleraAppointment(long id)
+        {
+            try
+            {
+                var result = await appointmentService.PapeleraAppointment(id);
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Cita enviada a la papelera.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Hubo un problema al enviada la cita a la papelera.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Hubo un error al procesar la solicitud: {ex.Message}";
+            }
+
+            return RedirectToAction(nameof(MyAppointments));
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> ReturnAppointment(long id)
+        {
+            try
+            {
+                var result = await appointmentService.ReturnAppointment(id);
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Cita enviada a la lista de citas del usuario.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Hubo un problema al enviada la cita a la lista de citas del usuario.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Hubo un error al procesar la solicitud: {ex.Message}";
+            }
+
+            return RedirectToAction(nameof(MyPaper));
+        }
+
         [Authorize(Roles = "User")] 
         public async Task<IActionResult> MyAppointments()
         {
@@ -219,8 +225,19 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(result);
         }
 
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> MyPaper()
+        {
+            string Userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await appointmentService.GetMyPaper(Userid);
+
+            return View(result);
+        }
+
+
+
         [HttpGet]
-        [Authorize(Roles = "User, Admin, Mecanico")] 
+        [Authorize(Roles = "User")] 
         public IActionResult GetAppointmentsCount()
         {
             int acceptState = 2;

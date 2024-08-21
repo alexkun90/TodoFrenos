@@ -23,7 +23,7 @@ public partial class Appointment
 
     public int? AppointState { get; set; } = 1;
 
-    public bool? StateAppointment {  get; set; }
+    public bool? StateAppointment { get; set; } = true;
 
     public int? ReadMyAppointment { get; set; } = 2;
 
