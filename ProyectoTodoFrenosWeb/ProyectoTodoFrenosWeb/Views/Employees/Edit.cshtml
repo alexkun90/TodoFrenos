@@ -1,100 +1,118 @@
 ﻿@model DAL.Models.Employee
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Empleado";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Editar Empleado</h2>
+    <hr />
 
-<h4>Employee</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="EmpleadoId" />
-            <div class="form-group">
-                <label asp-for="Cedula" class="control-label"></label>
-                <input asp-for="Cedula" class="form-control" />
-                <span asp-validation-for="Cedula" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        @Html.HiddenFor(m => m.EmpleadoId)
+
+                        <div class="mb-3">
+                            <label asp-for="Cedula" class="form-label"></label>
+                            <input asp-for="Cedula" class="form-control" />
+                            <span asp-validation-for="Cedula" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NombreEmpleado" class="form-label"></label>
+                            <input asp-for="NombreEmpleado" class="form-control" />
+                            <span asp-validation-for="NombreEmpleado" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ApellidoEmpleado" class="form-label"></label>
+                            <input asp-for="ApellidoEmpleado" class="form-control" />
+                            <span asp-validation-for="ApellidoEmpleado" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="FechaContrato" class="form-label"></label>
+                            <input asp-for="FechaContrato" class="form-control" />
+                            <span asp-validation-for="FechaContrato" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="HorasTrabajadas" class="form-label"></label>
+                            <input asp-for="HorasTrabajadas" class="form-control" />
+                            <span asp-validation-for="HorasTrabajadas" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CantDiasLaborales" class="form-label"></label>
+                            <input asp-for="CantDiasLaborales" class="form-control" />
+                            <span asp-validation-for="CantDiasLaborales" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="SalarioBase" class="form-label"></label>
+                            <input asp-for="SalarioBase" class="form-control" />
+                            <span asp-validation-for="SalarioBase" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PlusesSalariales" class="form-label"></label>
+                            <input asp-for="PlusesSalariales" class="form-control" />
+                            <span asp-validation-for="PlusesSalariales" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Puesto" class="form-label"></label>
+                            <input asp-for="Puesto" class="form-control" />
+                            <span asp-validation-for="Puesto" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="FechaNacimiento" class="form-label"></label>
+                            <input asp-for="FechaNacimiento" class="form-control" />
+                            <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Direccion" class="form-label"></label>
+                            <input asp-for="Direccion" class="form-control" />
+                            <span asp-validation-for="Direccion" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="EstadoCivil" class="form-label"></label>
+                            <input asp-for="EstadoCivil" class="form-control" />
+                            <span asp-validation-for="EstadoCivil" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Genero" class="form-label"></label>
+                            <input asp-for="Genero" class="form-control" />
+                            <span asp-validation-for="Genero" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ContactoEmergencia" class="form-label"></label>
+                            <input asp-for="ContactoEmergencia" class="form-control" />
+                            <span asp-validation-for="ContactoEmergencia" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-agree w-100">Guardar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="NombreEmpleado" class="control-label"></label>
-                <input asp-for="NombreEmpleado" class="form-control" />
-                <span asp-validation-for="NombreEmpleado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ApellidoEmpleado" class="control-label"></label>
-                <input asp-for="ApellidoEmpleado" class="form-control" />
-                <span asp-validation-for="ApellidoEmpleado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaContrato" class="control-label"></label>
-                <input asp-for="FechaContrato" class="form-control" />
-                <span asp-validation-for="FechaContrato" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HorasTrabajadas" class="control-label"></label>
-                <input asp-for="HorasTrabajadas" class="form-control" />
-                <span asp-validation-for="HorasTrabajadas" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CantDiasLaborales" class="control-label"></label>
-                <input asp-for="CantDiasLaborales" class="form-control" />
-                <span asp-validation-for="CantDiasLaborales" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SalarioBase" class="control-label"></label>
-                <input asp-for="SalarioBase" class="form-control" />
-                <span asp-validation-for="SalarioBase" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PlusesSalariales" class="control-label"></label>
-                <input asp-for="PlusesSalariales" class="form-control" />
-                <span asp-validation-for="PlusesSalariales" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Puesto" class="control-label"></label>
-                <input asp-for="Puesto" class="form-control" />
-                <span asp-validation-for="Puesto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaNacimiento" class="control-label"></label>
-                <input asp-for="FechaNacimiento" class="form-control" />
-                <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
-                <span asp-validation-for="Direccion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EstadoCivil" class="control-label"></label>
-                <input asp-for="EstadoCivil" class="form-control" />
-                <span asp-validation-for="EstadoCivil" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Genero" class="control-label"></label>
-                <input asp-for="Genero" class="form-control" />
-                <span asp-validation-for="Genero" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContactoEmergencia" class="control-label"></label>
-                <input asp-for="ContactoEmergencia" class="form-control" />
-                <span asp-validation-for="ContactoEmergencia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+    <br />
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

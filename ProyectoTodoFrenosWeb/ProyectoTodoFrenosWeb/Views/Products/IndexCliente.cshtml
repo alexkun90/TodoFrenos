@@ -96,6 +96,21 @@
             color: #fff;
             transform: translateY(-2px);
         }
+
+    .product-unavailable {
+        color: #f44336;
+        font-size: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+        .product-unavailable i {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
 </style>
 
 <!-- Estructura HTML -->
@@ -146,14 +161,24 @@
 
                     <!-- Parte trasera de la tarjeta -->
                     <div class="flip-card-back">
-                        <div class="product-name">@producto.ProductName</div>
-                        <div class="product-price">₡@producto.Price</div>
-                        @using (Html.BeginForm("AddToCart", "Products", FormMethod.Post))
+                        @if (producto.Stock > 0 && producto.StateProdc)
                         {
-                            <input type="hidden" name="ProductId" value="@producto.ProductId" />
-                            <input type="hidden" name="Quantity" class="form-control" value="1">
-                            <input type="hidden" name="Stock" class="form-control" value="@producto.Stock">
-                            <button type="submit" class="add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Agregar al Carrito</button>
+                            <div class="product-name">@producto.ProductName</div>
+                            <div class="product-price">₡@producto.Price</div>
+                            @using (Html.BeginForm("AddToCart", "Products", FormMethod.Post))
+                            {
+                                <input type="hidden" name="ProductId" value="@producto.ProductId" />
+                                <input type="hidden" name="Quantity" class="form-control" value="1">
+                                <input type="hidden" name="Stock" class="form-control" value="@producto.Stock">
+                                <button type="submit" class="add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Agregar al Carrito</button>
+                            }
+                        }
+                        else
+                        {
+                            <div class="product-unavailable">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>Producto no disponible</span>
+                            </div>
                         }
                     </div>
                 </div>

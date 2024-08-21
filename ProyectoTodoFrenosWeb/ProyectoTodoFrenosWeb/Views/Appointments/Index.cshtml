@@ -4,7 +4,27 @@
     ViewData["Title"] = "Index";
     var successMessage = TempData["SuccessMessage"] as string;
     var errorMessage = TempData["ErrorMessage"] as string;
+
 }
+
+<style>
+    .btn-action {
+        display: inline-block;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+        transition: all 0.15s ease-in-out;
+        width: 100%;
+        max-width: 120px;
+        margin: 0.1rem;
+    }
+</style>
 
 <div class="container mt-5">
     <h2 style="text-align:center;">Historial de Citas</h2>
@@ -73,17 +93,17 @@
                                             @estado
                                         </td>
                                         <td class="text-center align-middle">
-                                            <a class="btn btn-details" asp-action="Details" asp-route-id="@appointment.AppointId">Detalles</a>
+                                            <a class="btn btn-details btn-action" asp-action="Details" asp-route-id="@appointment.AppointId">Detalles</a>
 
                                             @if (appointment.AppointState == 1)
                                             {
                                                 <form id="acceptForm-@appointment.AppointId" asp-action="AcceptAppointment" method="post" class="d-inline">
                                                     <input type="hidden" name="id" value="@appointment.AppointId" />
-                                                    <button type="submit" class="btn btn-active-custom" data-id="@appointment.AppointId">Aceptar</button>
+                                                    <button type="submit" class="btn btn-active-custom btn-action" data-id="@appointment.AppointId">Aceptar</button>
                                                 </form>
                                                 <form id="rejectForm-@appointment.AppointId" asp-action="RejectAppointment" method="post" class="d-inline">
                                                     <input type="hidden" name="id" value="@appointment.AppointId" />
-                                                    <button type="submit" class="btn btn-delete" data-id="@appointment.AppointId">Rechazar</button>
+                                                    <button type="submit" class="btn btn-delete btn-action" data-id="@appointment.AppointId">Rechazar</button>
                                                 </form>
                                             }
                                         </td>

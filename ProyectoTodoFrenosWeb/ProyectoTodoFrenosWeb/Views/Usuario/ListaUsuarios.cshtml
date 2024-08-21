@@ -16,6 +16,23 @@
         display: flex;
         gap: 10px; 
     }
+
+    .btn-action {
+        display: inline-block;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+        transition: all 0.15s ease-in-out;
+        width: 100%;
+        max-width: 120px;
+        margin: 0.1rem;
+    }
 </style>
 
 <div class="container mt-3">
@@ -78,12 +95,12 @@
                                 else
                                 {
                                     <div class="text-center align-middle">
-                                        <a class="btn btn-modify mb-2" asp-action="EditarUsuario" asp-route-id="@usuario.Id">Modificar</a>
+                                        <a class="btn btn-modify btn-action" asp-action="EditarUsuario" asp-route-id="@usuario.Id">Editar</a>
 
 
                                         @if (usuario.Activo != false)
                                         {
-                                            <button type="button" class="btn btn-inactive mb-2 AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                            <button type="button" class="btn btn-inactive btn-action AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                     data-id="@usuario.Id" style="font:bold;font-size:18px">
                                                 Inactivar
                                             </button>
@@ -91,7 +108,7 @@
 
                                         @if (usuario.Activo != true)
                                         {
-                                            <a class="btn btn-active-custom mb-2" href="@Url.Action("Activate","Usuario", new { id = usuario.Id })">Activar</a>
+                                            <a class="btn btn-active-custom btn-action" href="@Url.Action("Activate","Usuario", new { id = usuario.Id })">Activar</a>
                                         }
 
                                     </div>

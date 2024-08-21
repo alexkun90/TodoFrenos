@@ -4,6 +4,25 @@
     ViewData["Title"] = "AdminProductos";
 }
 
+<style>
+    .btn-action {
+        display: inline-block;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+        transition: all 0.15s ease-in-out;
+        width: 100%;
+        max-width: 120px;
+        margin: 0.1rem;
+    }
+</style>
+
 <div class="container mt-3">
     <h2>Administración de Productos</h2>
     <p>Apartado para agregar, modificar y eliminar los productos disponibles en el carrito de compras de TodoFrenos</p>
@@ -65,12 +84,12 @@
                             </td>
                             <td class="text-center align-middle">
                                 <div class="d-flex flex-column align-items-center">
-                                    <a class="btn btn-modify mb-2" href="@Url.Action("Edit", new { id = item.ProductId })">Modificar</a>
+                                    <a class="btn btn-modify btn-action" href="@Url.Action("Edit", new { id = item.ProductId })">Editar</a>
                                     
 
                                     @if (item.StateProdc != false)
                                     {
-                                        <button type="button" class="btn btn-inactive AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                        <button type="button" class="btn btn-inactive AbrirModal btn-action" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                 data-id="@item.ProductId" style="font:bold;font-size:18px">
                                             Inactivar
                                         </button>
@@ -78,7 +97,7 @@
 
                                     @if (item.StateProdc != true)
                                     {
-                                        <a class="btn btn-active-custom" href="@Url.Action("Activate","Products", new { id = @item.ProductId })">Activar</a>
+                                        <a class="btn btn-active-custom btn-action" href="@Url.Action("Activate","Products", new { id = @item.ProductId })">Activar</a>
                                     }
 
 
