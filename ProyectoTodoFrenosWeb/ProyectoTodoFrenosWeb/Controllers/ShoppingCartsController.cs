@@ -19,12 +19,14 @@ namespace ProyectoTodoFrenosWeb.Controllers
     [Authorize(Roles = "Admin,User")]
     public class ShoppingCartsController : Controller
     {
+        private readonly TodoFrenosDbContext _context;
         ShoppingCartService _shoppingCartService;
         ProductService _productService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ShoppingCartsController(IConfiguration config, UserManager<ApplicationUser> userManager)
+        public ShoppingCartsController(TodoFrenosDbContext context, IConfiguration config, UserManager<ApplicationUser> userManager)
         {
+            _context = context;
             _shoppingCartService = new ShoppingCartService(config);
             _productService = new ProductService(config);
             _userManager = userManager;
@@ -65,6 +67,19 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
             ModelState.AddModelError(string.Empty, "Error al inactivar la cita.");
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "User")]
+        public IActionResult GetCartCount()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var itemCount = _context.ShoppingCarts
+                            .Include(c => c.CartItems)
+                            .Where(c => c.UserId == userId)
+                            .SelectMany(c => c.CartItems)
+                            .Count(); 
+            return Json(itemCount);
         }
 
     }

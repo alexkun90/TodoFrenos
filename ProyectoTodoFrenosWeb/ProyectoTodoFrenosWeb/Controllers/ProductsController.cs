@@ -139,8 +139,9 @@ namespace ProyectoTodoFrenosWeb.Controllers
             }
 
             Product product = await productService.GetProduct(id);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
 
-           /* var product = await _context.Products.FindAsync(id);*/
+            /* var product = await _context.Products.FindAsync(id);*/
 
             if (product == null)
             {

@@ -18,10 +18,11 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public ResetPasswordModel(UserManager<ApplicationUser> userManager)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        public ResetPasswordModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         /// <summary>
@@ -37,17 +38,20 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [EmailAddress]
             public string Email { get; set; }
 
             /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
+            ///     The current password of the user.
+            /// </summary>
+            [Required]
+            [DataType(DataType.Password)]
+            [Display(Name = "Current password")]
+            public string CurrentPassword { get; set; }
+
+            /// <summary>
+            ///     The new password the user wants to set.
             /// </summary>
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -55,24 +59,21 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             public string Password { get; set; }
 
             /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
+            ///     Confirmation of the new password.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
+            [Display(Name = "Confirm new password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
             /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
+            ///     This is used to validate the password reset request.
             /// </summary>
             [Required]
             public string Code { get; set; }
-
         }
 
-        public IActionResult OnGet(string code = null)
+        public IActionResult OnGet(string code = null, string email = null)
         {
             if (code == null)
             {
@@ -82,7 +83,8 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             {
                 Input = new InputModel
                 {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)),
+                    Email = email
                 };
                 return Page();
             }
@@ -102,10 +104,20 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
-            var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+            // Verificar la contraseña actual
+            var passwordValid = await _userManager.CheckPasswordAsync(user, Input.CurrentPassword);
+            if (!passwordValid)
+            {
+                ModelState.AddModelError(string.Empty, "The current password is incorrect.");
+                return Page();
+            }
+
+            // Realizar el cambio de contraseña
+            var result = await _userManager.ChangePasswordAsync(user, Input.CurrentPassword, Input.Password);
             if (result.Succeeded)
             {
-                return RedirectToPage("./ResetPasswordConfirmation");
+                await _signInManager.SignOutAsync(); // Asegúrate de que el usuario esté desautenticado antes de redirigir
+                return RedirectToPage("/Account/Login"); // Redirige al login
             }
 
             foreach (var error in result.Errors)
@@ -113,6 +125,7 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             return Page();
+
         }
     }
 }
