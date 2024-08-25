@@ -142,9 +142,9 @@
                         </a>
 
                         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                        <a id="cart-icon" class="nav-icon position-relative text-decoration-none p-0 nav-link icon-hover-style" href="@Url.Action("Index", "ShoppingCarts", new { id = userId })" aria-expanded="false">
-                            <i class="fa-solid fa-cart-shopping icon-custom"></i>
-                            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0</span>
+                        <a class="nav-icon position-relative text-decoration-none m-2" href=@Url.Action("Index","ShoppingCarts",new { id = userId })>
+                            <i class="fa-solid fa-cart-shopping text-dark mr-1" ></i>
+                            <span id="pendingCartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0></span>
                         </a>
 
                     }
@@ -259,7 +259,28 @@
             }
             
             updatePendingAppointments();
-            setInterval(updatePendingAppointments, 60000); 
+        });
+
+        $(document).ready(function () {
+            function updatePendingCarts() {
+                $.ajax({
+                    url: '@Url.Action("GetCartCount", "ShoppingCarts")',
+                    type: 'GET',
+                    success: function (count) {
+                        var countElement = $('#pendingCartCount');
+                        if (count > 0) {
+                            countElement.text(count);
+                            countElement.show();
+                        } else {
+                            countElement.hide();
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error fetching pending appointments count:', error);
+                    }
+                });
+            }
+            updatePendingCarts();
         });
     </script>
 </body>

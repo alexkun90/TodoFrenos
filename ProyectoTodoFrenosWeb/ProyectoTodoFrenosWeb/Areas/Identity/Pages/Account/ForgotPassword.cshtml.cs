@@ -56,11 +56,11 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
-                /*if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (user == null )
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToPage("./ForgotPasswordConfirmation");
-                }*/
+                }
 
                 var newPassword = GenerateRandomPassword();
                 var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -80,10 +80,10 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
                 var callbackUrl = Url.Page(
                     "/Account/ResetPassword",
                     pageHandler: null,
-                    values: new { area = "Identity", code },
+                    values: new { area = "Identity", code, email = Input.Email },
                     protocol: Request.Scheme);
 
-                var emailSubject = "Reset Password";
+                var emailSubject = "Cambiar de Contraseña";
                 var emailMessage = $"Para reestablecer su contraseña acceda <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Aquí</a>. " + "\n"+
                                    $"Su contraseña temporal es: <strong>{newPassword}</strong>";
                 await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailMessage);
@@ -101,19 +101,30 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
 
         private string GenerateRandomPassword()
         {
-            // Puedes ajustar las opciones para la generación de la contraseña aquí
             const int length = 12;
-            const string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-";
+            const string upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string lowerChars = "abcdefghijklmnopqrstuvwxyz";
+            const string numbers = "0123456789";
+
+            // Conjunto de caracteres válidos
+            var allChars = upperChars + lowerChars + numbers;
 
             var random = new Random();
             var newPassword = new char[length];
 
-            for (int i = 0; i < length; i++)
+            // Asegúrate de que la contraseña tenga al menos un carácter de cada tipo
+            newPassword[0] = upperChars[random.Next(upperChars.Length)];
+            newPassword[1] = lowerChars[random.Next(lowerChars.Length)];
+            newPassword[2] = numbers[random.Next(numbers.Length)];
+
+            // Rellena el resto de la contraseña con caracteres aleatorios
+            for (int i = 3; i < length; i++)
             {
-                newPassword[i] = validChars[random.Next(validChars.Length)];
+                newPassword[i] = allChars[random.Next(allChars.Length)];
             }
 
-            return new string(newPassword);
+            // Mezcla los caracteres para asegurar una distribución aleatoria
+            return new string(newPassword.OrderBy(c => random.Next()).ToArray());
         }
     }
 }

@@ -1,10 +1,14 @@
 ﻿using DAL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using ProyectoTodoFrenosWeb.ViewModels;
+using System.Net.Mail;
+using System.Text.Encodings.Web;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -14,14 +18,14 @@ namespace ProyectoTodoFrenosWeb.Controllers
         
         private readonly UserManager<ApplicationUser> gestionUsuarios;
         private readonly RoleManager<IdentityRole> gestionRoles;
+        private readonly IEmailSender _emailSender;
 
-       
 
-        public UsuarioController(UserManager<ApplicationUser> gestionUsuarios, RoleManager<IdentityRole> gestionRoles)
+        public UsuarioController(UserManager<ApplicationUser> gestionUsuarios, RoleManager<IdentityRole> gestionRoles, IEmailSender _emailSender)
         {
             this.gestionRoles = gestionRoles;
             this.gestionUsuarios = gestionUsuarios;
-            
+            this._emailSender = _emailSender;
         }
        
         public async Task<IActionResult> ListaUsuarios()
@@ -141,9 +145,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
         public IActionResult CrearUsuario()
         {
             var roles = gestionRoles.Roles.Select(r => r.Name).ToList();
+            var newPassword = GenerateRandomPassword();
             var modelo = new RegistroModelo
             {
-                Roles = new List<string>()
+                Roles = new List<string>(),
+                Password = newPassword,
+                ConfirmPassword = newPassword
             };
             ViewBag.Roles = roles;
             return View(modelo);
@@ -171,7 +178,10 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 SegunApellido = modelo.SegunApellido,
                 Activo = modelo.Activo
             };
-
+            var emailSubject = "Contraseña Temporal";
+            var emailMessage = $"Gracias por confiar en nosotros, ya puedes ingresar a nuestra pagina. " + "\n" +
+                               $"Tu contraseña temporal es: <strong>{modelo.Password}</strong>, al iniciar sesión podras cambiarla en la sección del perfil de usuario";
+            await _emailSender.SendEmailAsync(modelo.Email, emailSubject, emailMessage);
             var resultado = await gestionUsuarios.CreateAsync(usuario, modelo.Password); // Asegúrate de pedir una contraseña segura en el formulario real
 
             if (resultado.Succeeded)
@@ -239,7 +249,35 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
             return RedirectToAction(nameof(ListaUsuarios));
         }
-    
+
+        private string GenerateRandomPassword()
+        {
+            const int length = 12;
+            const string upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string lowerChars = "abcdefghijklmnopqrstuvwxyz";
+            const string numbers = "0123456789";
+
+            // Conjunto de caracteres válidos
+            var allChars = upperChars + lowerChars + numbers;
+
+            var random = new Random();
+            var newPassword = new char[length];
+
+            // Asegúrate de que la contraseña tenga al menos un carácter de cada tipo
+            newPassword[0] = upperChars[random.Next(upperChars.Length)];
+            newPassword[1] = lowerChars[random.Next(lowerChars.Length)];
+            newPassword[2] = numbers[random.Next(numbers.Length)];
+
+            // Rellena el resto de la contraseña con caracteres aleatorios
+            for (int i = 3; i < length; i++)
+            {
+                newPassword[i] = allChars[random.Next(allChars.Length)];
+            }
+
+            // Mezcla los caracteres para asegurar una distribución aleatoria
+            return new string(newPassword.OrderBy(c => random.Next()).ToArray());
+        }
+
 
         [HttpGet]
         public IActionResult InicioSesion()

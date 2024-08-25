@@ -10,7 +10,8 @@
         <h1>@ViewData["Title"]</h1>
         <form asp-action="CrearUsuario">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
-
+            @Html.HiddenFor(model => model.Password)
+            @Html.HiddenFor(model => model.ConfirmPassword)
             <div style="display: flex; gap: 20px;">
                 <div class="form-column">
                     <div class="txt_field">
@@ -39,44 +40,30 @@
                         <label>Correo Electrónico</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                    <div class="txt_field">
-                        <input asp-for="Password" class="form-control" aria-required="true" required />
-                        <span></span>
-                        <label>Contraseña</label>
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                    <div class="mb-3">
+                        <label class="form-label">Roles</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Roles" value="Admin" id="roleAdmin" @(Model.Roles != null && Model.Roles.Contains("Admin") ? "checked" : "")>
+                            <label class="form-check-label" for="roleAdmin">Administrador</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Roles" value="User" id="roleUser" @(Model.Roles != null && Model.Roles.Contains("User") ? "checked" : "")>
+                            <label class="form-check-label" for="roleUser">Usuario</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Roles" value="Mecanico" id="roleMecanico" @(Model.Roles != null && Model.Roles.Contains("Mecanico") ? "checked" : "")>
+                            <label class="form-check-label" for="roleMecanico">Mecánico</label>
+                        </div>
+                        <span asp-validation-for="Roles" class="text-danger mt-2"></span>
                     </div>
-                    <div class="txt_field">
-                        <input asp-for="ConfirmPassword" class="form-control" aria-required="true" required />
-                        <span></span>
-                        <label>Confirmar Contraseña</label>
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    <div class="mb-1">
+                        <label asp-for="Activo" class="form-label">Estado del Usuario:</label>
+                        <input asp-for="Activo" type="checkbox" />
+                        <span asp-validation-for="Activo" class="text-danger"></span>
                     </div>
+                    
                 </div>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Activo" class="form-label">Estado del Usuario:</label>
-                <input asp-for="Activo" type="checkbox" />
-                <span asp-validation-for="Activo" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Roles</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="Roles" value="Admin" id="roleAdmin" @(Model.Roles != null && Model.Roles.Contains("Admin") ? "checked" : "")>
-                    <label class="form-check-label" for="roleAdmin">Administrador</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="Roles" value="User" id="roleUser" @(Model.Roles != null && Model.Roles.Contains("User") ? "checked" : "")>
-                    <label class="form-check-label" for="roleUser">Usuario</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="Roles" value="Mecanico" id="roleMecanico" @(Model.Roles != null && Model.Roles.Contains("Mecanico") ? "checked" : "")>
-                    <label class="form-check-label" for="roleMecanico">Mecánico</label>
-                </div>
-                <span asp-validation-for="Roles" class="text-danger mt-2"></span>
-            </div>
-
+            </div>         
             <button type="submit" class="w-100 btn btn-lg btn-custom">Registrar Usuario</button>
         </form>
     </div>
