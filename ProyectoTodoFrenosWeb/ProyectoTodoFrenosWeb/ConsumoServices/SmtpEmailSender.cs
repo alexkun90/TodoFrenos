@@ -54,6 +54,7 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            width: 100%;
         }}
         .container {{
             width: 100%;
@@ -151,6 +152,36 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             transform: scale(1.1);
             opacity: 0.8;
         }}
+        /* Estilos responsivos para móviles */
+        @media (max-width: 600px) {{
+            body {{
+                padding: 10px;
+            }}
+            .container {{
+                padding: 15px;
+                border-radius: 5px;
+            }}
+            .header h1 {{
+                font-size: 20px;
+            }}
+            .content h2 {{
+                font-size: 16px;
+            }}
+            .content p {{
+                font-size: 14px;
+            }}
+            .card {{
+                padding: 15px;
+            }}
+            .button {{
+                padding: 8px 12px;
+                font-size: 14px;
+            }}
+            .social-icons a img {{
+                width: 30px;
+                height: 30px;
+            }}
+        }}
     </style>
 </head>
 <body>
@@ -182,5 +213,6 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 </body>
 </html>";
         }
+
     }
 }

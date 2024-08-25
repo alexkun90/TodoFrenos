@@ -131,28 +131,29 @@
                     </ul>
                     </div>
                     *@
-                    <partial name="_LoginPartial" />
+                    
                     
                     
                     @if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
                     {
-                        <a class="nav-icon position-relative text-decoration-none m-2" href="@Url.Action("MyAppointments", "Appointments")">
-                            <i class="fa fa-fw fa-calendar text-dark mr-1"></i>
+                        <a class="nav-icon position-relative text-decoration-none p-0 nav-link icon-hover-style" href="@Url.Action("MyAppointments", "Appointments")" aria-expanded="false">
+                            <i class="fa fa-fw fa-calendar icon-custom"></i>
                             <span id="pendingAppointmentsCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0</span>
                         </a>
-                        
+
                         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                        <a class="nav-icon position-relative text-decoration-none m-2" href=@Url.Action("Index","ShoppingCarts",new { id = userId })>
-                            <i class="fa-solid fa-cart-shopping text-dark mr-1" ></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0></span>
+                        <a id="cart-icon" class="nav-icon position-relative text-decoration-none p-0 nav-link icon-hover-style" href="@Url.Action("Index", "ShoppingCarts", new { id = userId })" aria-expanded="false">
+                            <i class="fa-solid fa-cart-shopping icon-custom"></i>
+                            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0</span>
                         </a>
+
                     }
+
+                    <partial name="_LoginPartial"/>
                 </div>
             </div>
         </div>
     </nav>
-
-
     <div m-5>
         @RenderBody()
     </div>

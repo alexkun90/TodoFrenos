@@ -12,11 +12,6 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link d-flex align-items-center @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">
-            <i class="bi bi-envelope me-2"></i> Correo Electrónico
-        </a>
-    </li>
-    <li class="nav-item">
         <a class="nav-link d-flex align-items-center @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">
             <i class="bi bi-lock me-2"></i> Contraseña
         </a>
@@ -34,6 +29,13 @@
             <i class="bi bi-list me-2"></i> Lista de Pedidos
         </a>
     </li>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center @ManageNavPages.MyPaperNavClass(ViewContext)" id="mypaper" asp-controller="Appointments" asp-action="MyPaper">
+                <i class="bi bi-file-earmark-text me-2"></i> Papelera
+            </a>
+        </li>
+    </ul>
 </ul>
 
 <style>

@@ -5,7 +5,7 @@
     var successMessage = TempData["SuccessMessage"] as string;
     var errorMessage = TempData["ErrorMessage"] as string;
 }
-
+<link href="~/estilos/css/custom.css" rel="stylesheet" />
 <div class="container mt-5">
     <h2 class="text-center mb-4">Lista de Pedidos</h2>
 
@@ -52,7 +52,7 @@
                                     <td class="text-center align-middle">@item.Tax.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td class="text-center align-middle">@item.Total.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td class="text-center align-middle">
-                                        <a class="btn btn-details btn-sm" href="@Url.Action("OrderDetailList","Orders", new { orderId = item.OrderId })">Detalles</a>
+                                        <a class="btn btn-details btn-action" href="@Url.Action("OrderDetailList","Orders", new { orderId = item.OrderId })">Detalles</a>
                                         @* <a class="btn btn-delete btn-sm" asp-action="Delete" asp-route-id="@item.OrderId">Eliminar</a> *@
                                     </td>
                                 </tr>

@@ -1,0 +1,20 @@
+﻿.dropdown-menu-custom-size {
+    min-width: 30px;
+    font-size: 14px;
+}
+
+    .dropdown-menu-custom-size .dropdown-item-custom {
+        padding: 8px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .dropdown-menu-custom-size .dropdown-item-custom #manage i,
+        .dropdown-menu-custom-size .dropdown-item-custom #logoutLink i {
+            font-size: 16px;
+        }
+
+        .dropdown-menu-custom-size .dropdown-item-custom:hover i {
+            color: #f79c42;
+        }

@@ -44,32 +44,51 @@
                 <label class="form-label">Estado</label>
                 <input type="text" class="form-control" value="Pendiente" readonly />
             </div>
-            <div class="form-group d-flex justify-content-center">
-                <div class="d-flex justify-content-center align-items-center w-100">
-                    <input type="submit" value="Registrar" class="btn btn-agree mx-2 equal-width" />
-                    <span class="separator">|</span>
-                    <a asp-action="Index" class="btn btn-inactive mx-2 equal-width">Volver a la lista</a>
-                </div>
+            <br />
+            <div class="text-center">
+                <input type="submit" value="Registrar Cita" class="btn btn-agree w-100" />
             </div>
         </form>
     </div>
 </div>
 
-<div class="modal fade" id="timeValidationModal" tabindex="-1" aria-labelledby="timeValidationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-warning text-dark">
-                <h5 class="modal-title" id="timeValidationModalLabel">
-                    <i class="bi bi-exclamation-triangle-fill"></i> Hora Inválida
+            <div class="modal-header" style="background-color: #800000;">
+                <h5 class="modal-title text-white" id="exampleModalLabel">
+                    <i class="bi bi-exclamation-circle text-white"></i>
+                    Confirmación
                 </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center">
+                ¿Desea inactivar el producto seleccionado?
+            </div>
+            <div class="modal-footer justify-content-center">
+                <input type="hidden" id="ProductId" name="id" value="" />
+                <a id="confirmDeleteButton" href="#" class="btn btn-agree">
+                    <i class="bi bi-toggle-off"></i> Confirmar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Validación de Hora -->
+<div class="modal fade" id="timeValidationModal" tabindex="-1" aria-labelledby="timeValidationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #800000;">
+                <h5 class="modal-title text-white" id="timeValidationModalLabel">
+                    <i class="bi bi-exclamation-triangle-fill text-white"></i>
+                    Hora Inválida
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
                 <i class="bi bi-tools"></i> Nuestro horario de atención es de 7:30 a.m. a 5:00 p.m. Por favor, elija una hora dentro de este rango.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle"></i> Cerrar
-                </button>
             </div>
         </div>
     </div>
@@ -112,8 +131,8 @@
     }
 
     .modal-header {
-        background-color: #ffc107;
-        color: #212529;
+        background-color: #800000;
+        color: #ffffff;
     }
 
     .modal-body {
@@ -130,6 +149,10 @@
             background-color: #5a6268;
             border-color: #545b62;
         }
+
+    .btn-close-white {
+        filter: invert(1);
+    }
 </style>
 
 @section Scripts {

@@ -118,6 +118,7 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account.Manage
         /// 
         public static string OrderListNavClass(ViewContext viewContext) => PageNavClass(viewContext, OrderList);
 
+        public static string MyPaperNavClass(ViewContext viewContext) => PageNavClass(viewContext, OrderList);
         public static string PageNavClass(ViewContext viewContext, string page)
         {
             var activePage = viewContext.ViewData["ActivePage"] as string
