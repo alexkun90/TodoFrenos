@@ -84,8 +84,6 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -119,13 +117,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 {
                     return View(product);
                 }
-
-               /* _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));*/
             }
-            /*ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
-            */
             return View(product);
         }
 
@@ -139,64 +131,66 @@ namespace ProyectoTodoFrenosWeb.Controllers
             }
 
             Product product = await productService.GetProduct(id);
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
-
-            /* var product = await _context.Products.FindAsync(id);*/
 
             if (product == null)
             {
                 return NotFound();
             }
-           /* ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
-            */
+
+            IFormFile imagenFormFile = null;
+            if (product.ImageProduct != null)
+            {
+                var stream = new MemoryStream(product.ImageProduct);
+                imagenFormFile = new FormFile(stream, 0, stream.Length, "imagen", "imagen.jpg")
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "image/jpeg"
+                };
+            }
+
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+            ViewData["ImagenFormFile"] = imagenFormFile;
             return View(product);
         }
 
         // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, Product product, IFormFile imagen)
+        public async Task<IActionResult> Edit(long id, Product product, IFormFile? imagen)
         {
             if (id != product.ProductId)
             {
                 return NotFound();
             }
 
+            // Aquí validamos manualmente la imagen para que no afecte el ModelState
+            if (imagen != null && imagen.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await imagen.CopyToAsync(memoryStream);
+                    product.ImageProduct = memoryStream.ToArray();
+                }
+            }
+            else
+            {
+                // Aquí conservamos la imagen existente del producto en caso de no seleccionar una nueva
+                var existingProduct = await productService.GetProduct(id);
+                product.ImageProduct = existingProduct?.ImageProduct;
+            }
+
             if (ModelState.IsValid)
             {
-                // Iformefile imagen
-                //Validar imagen
-                byte[]? imagenMas = null;
-
-                if (imagen != null && imagen.Length > 0)
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await imagen.CopyToAsync(memoryStream);
-                        imagenMas = memoryStream.ToArray();
-                    }
-                }
-                else
-                {
-                    imagenMas = product.ImageProduct;
-                }
-
                 try
                 {
-                    //Configuracion de la imagen
-                    product.ImageProduct = imagenMas;
+                    // Aquí editamos el producto usando el servicio.
                     var resultado = await productService.EditProduct((long)id, product);
 
                     if (resultado != null)
                     {
                         return RedirectToAction(nameof(Index));
                     }
-
-                   /* _context.Update(product);
-                    await _context.SaveChangesAsync();*/
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -209,12 +203,15 @@ namespace ProyectoTodoFrenosWeb.Controllers
                         throw;
                     }
                 }
-                /*return RedirectToAction(nameof(Index));*/
             }
-            /*ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
-            */
+
+            // Reenviar la lista de categorías en caso de error
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
+
             return View(product);
         }
+
+
 
         // GET: Products/Delete/5
         [Authorize(Roles = "Admin")]

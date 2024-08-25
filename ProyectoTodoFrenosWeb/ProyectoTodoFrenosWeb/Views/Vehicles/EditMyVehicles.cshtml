@@ -13,10 +13,6 @@
             @Html.TextBoxFor(m => m.VehicleId, new { @type = "hidden" })
             @Html.TextBoxFor(m => m.UserId, new { @type = "hidden" })
             <div class="mb-3">
-                <label for="Vin" class="form-label">VIN</label>
-                @Html.TextBoxFor(m => m.Vin, new { @class = "form-control", placeholder = "vin del vehículo", @required = "true" })
-            </div>
-            <div class="mb-3">
                 <label for="Brand" class="form-label">Modelo</label>
                 @Html.TextBoxFor(m => m.Brand, new { @class = "form-control", @required = "true" })
             </div>

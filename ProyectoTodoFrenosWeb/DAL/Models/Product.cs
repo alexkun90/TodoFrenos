@@ -17,12 +17,16 @@ public partial class Product
     public string? ProductName { get; set; }
 
     public int? Stock { get; set; }
+    
     [DisplayName("Precio")]
     public decimal? Price { get; set; }
+    
     [DisplayName("Estado")]
     public bool StateProdc { get; set; } = true;
+    
     [DisplayName("Imagen")]
     public byte[]? ImageProduct { get; set; }
+    
     [DisplayName("Categoría")]
     public virtual Category? Category { get; set; }
 

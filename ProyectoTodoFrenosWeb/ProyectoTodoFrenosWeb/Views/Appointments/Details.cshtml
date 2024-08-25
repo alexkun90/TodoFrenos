@@ -32,9 +32,12 @@
                         </dt>
                         <dd class="col-sm-8">
                             @{
-                                string estado = Model.AppointState == 1 ? "Pendiente" :
-                                Model.AppointState == 2 ? "Aceptado" :
+
+                                string estado =
                                 Model.AppointState == 0 ? "Rechazado" :
+                                Model.AppointState == 1 ? "Pendiente" :
+                                Model.AppointState == 2 ? "Aceptado" :
+                                Model.AppointState == 3 ? "Cancelada" :
                                 "Sin estado";
                             }
                             @estado

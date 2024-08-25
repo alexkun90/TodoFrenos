@@ -54,13 +54,13 @@
 
                         <div class="mb-3">
                             <label asp-for="SalarioBase" class="form-label"></label>
-                            <input asp-for="SalarioBase" class="form-control" />
+                            <input asp-for="SalarioBase" class="form-control" type="number" step="0.01" />
                             <span asp-validation-for="SalarioBase" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="PlusesSalariales" class="form-label"></label>
-                            <input asp-for="PlusesSalariales" class="form-control" />
+                            <input asp-for="PlusesSalariales" class="form-control" type="number" step="0.01" />
                             <span asp-validation-for="PlusesSalariales" class="text-danger"></span>
                         </div>
 
@@ -110,6 +110,18 @@
     </div>
     <br />
 </div>
+
+
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    document.querySelector('form').addEventListener('submit', function () {
+        var salarioInput = document.querySelector('input[name="SalarioBase"]');
+        var plusesInput = document.querySelector('input[name="PlusesSalariales"]');
+        
+        salarioInput.value = salarioInput.value.replace(',', '.');
+        plusesInput.value = plusesInput.value.replace(',', '.');
+    });
+</script>
 
 @section Scripts {
     @{

@@ -12,10 +12,6 @@
         @using (Html.BeginForm("Create", "Vehicles", FormMethod.Post))
         {
             <div class="mb-3">
-                <label for="Vin" class="form-label">VIN</label>
-                @Html.TextBoxFor(m => m.Vin, new { @class = "form-control", placeholder = "vin del vehículo", @required = "true" })
-            </div>
-            <div class="mb-3">
                 <label for="Brand" class="form-label">Marca</label>
                 @Html.TextBoxFor(m => m.Brand, new { @class = "form-control", placeholder = "marca del vehículo", @required = "true" })
             </div>
