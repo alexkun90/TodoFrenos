@@ -9,18 +9,18 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item dropdown">
-            <a class="nav-link nav-link-a-custom dropdown-toggle-custom dropdown-toggle-custom-size" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link nav-link-a-custom dropdown-toggle-custom" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-user icon-custom"></i>
             </a>
-            <ul class="dropdown-menu dropdown-menu-custom-size" aria-labelledby="profileDropdown">
+            <ul class="dropdown-menu dropdown-menu-custom-size"  aria-labelledby="profileDropdown">
                 <li>
-                    <a id="manage" class="dropdown-item-custom" asp-area="Identity" asp-page="/Account/Manage/Index" title="Mi Perfil">
-                        <i class="fas fa-user-cog"></i>
+                    <a id="manage" class="dropdown-item-customP" asp-area="Identity" asp-page="/Account/Manage/Index" title="Mi Perfil">
+                        <i class="fas fa-user-cog "></i><span>Perfil</span>
                     </a>
                 </li>
                 <li>
-                    <a id="logoutLink" class="dropdown-item-custom" href="#" title="Cerrar Sesión" onclick="document.getElementById('logoutForm').submit();">
-                        <i class="fas fa-sign-out-alt"></i>
+                    <a id="logoutLink" class="dropdown-item-customP" href="#" title="Cerrar Sesión" onclick="document.getElementById('logoutForm').submit();">
+                        <i class="fas fa-sign-out-alt "></i> <span>Cerrar Sesión</span>
                     </a>
                     <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Inicio", "Inicio", new { area = "" })" method="post" style="display: none;">
                     </form>

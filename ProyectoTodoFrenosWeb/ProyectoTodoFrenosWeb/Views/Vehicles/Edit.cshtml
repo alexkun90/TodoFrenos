@@ -16,7 +16,7 @@
                     {
                         @Html.HiddenFor(m => m.VehicleId)
                         @Html.HiddenFor(m => m.UserId)
-
+                        @Html.HiddenFor(m => m.CarState)
 
                         <div class="mb-3">
                             <label for="Brand" class="form-label">Marca</label>
@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <div class="col-md-4">
+                            @* <div class="col-md-4">
                                 <label for="CarState" class="form-label">Estado</label>
                                 @{
                                     var estados = new List<SelectListItem>
@@ -52,7 +52,7 @@
                             };
                                 }
                                 @Html.DropDownListFor(m => m.CarState, estados, new { @class = "form-select", @required = "true" })
-                            </div>
+                            </div> *@
 
                             <div class="col-md-4">
                                 <label for="TypeVeh" class="form-label">Tipo de Vehículo</label>

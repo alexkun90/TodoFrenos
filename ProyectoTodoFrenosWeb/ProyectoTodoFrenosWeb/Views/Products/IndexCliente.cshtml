@@ -39,6 +39,10 @@
         <input type="text" id="searchInput" class="search-input" placeholder="Buscar productos...">
     </div>
 
+    <div id="noProductMessage" class="no-product-message mt-3" style="display: none;">
+        No se encontraron productos que coincidan con su búsqueda.
+    </div>
+
     <div class="product-grid" id="productGrid">
         @foreach (var producto in Model)
         {
@@ -82,22 +86,41 @@
             </div>
         }
     </div>
-    </script>
+
+
     <!-- Script para el buscador -->
+    <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
     <script>
         document.getElementById('searchInput').addEventListener('input', function () {
-            var searchValue = this.value.toLowerCase();
+            var searchValue = this.value.toLowerCase().trim(); // Convertimos el valor de búsqueda a minúsculas y quitamos espacios
             var products = document.querySelectorAll('.flip-card');
+            var foundProduct = false; // Variable para verificar si se encontró un producto
 
             products.forEach(function (product) {
-                var productName = product.querySelector('.product-name').innerText.toLowerCase();
-                if (productName.includes(searchValue)) {
-                    product.style.display = 'flex';
+                var productNameElement = product.querySelector('.product-name'); // Seleccionamos el elemento
+
+                if (productNameElement) { // Verificamos si el elemento existe
+                    var productName = productNameElement.innerText.toLowerCase().trim(); // Convertimos el nombre del producto a minúsculas y quitamos espacios
+                    if (productName === searchValue) { // Comprobamos si es una coincidencia exacta
+                        product.style.display = 'flex'; // Mostrar el producto
+                        foundProduct = true; // Se encontró un producto coincidente
+                    } else {
+                        product.style.display = 'none'; // Ocultar el producto
+                    }
                 } else {
-                    product.style.display = 'none';
+                    product.style.display = 'none'; // Si no hay nombre de producto, también lo ocultamos
                 }
             });
+
+            // Mostrar o ocultar el mensaje de "Producto no encontrado" basado en si se encontró algún producto
+            var noProductMessage = document.getElementById('noProductMessage');
+            if (!foundProduct) {
+                noProductMessage.style.display = 'block'; // Mostrar el mensaje
+            } else {
+                noProductMessage.style.display = 'none'; // Ocultar el mensaje
+            }
         });
     </script>
-
 </div>
+
+
