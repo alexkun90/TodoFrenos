@@ -7,11 +7,13 @@
 <div class="container m-5">
     @if (Model == null || !Model.Any())
     {
-        <div class="text-center mt-5">
-            <i class="fas fa-shopping-cart fa-3x mb-3" style="color: #ff8000;"></i>
-            <h1 class="display-4" style="color: #333333; font-family: 'Arial', sans-serif;">Tu carrito está vacío</h1>
-            <p class="lead" style="color: #666666; font-size: 18px;">Parece que no has agregado ningún producto a tu carrito todavía.</p>
-            <a asp-controller="Products" asp-action="IndexCliente" class="btn btn-agree mt-4">Ver Productos</a>
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="text-center custom-margin-cart">
+                <i class="fas fa-shopping-cart fa-3x mb-3" style="color: #ff8000;"></i>
+                <h1 class="display-4" style="color: #333333; font-family: 'Arial', sans-serif;">Tu carrito está vacío</h1>
+                <p class="lead" style="color: #666666; font-size: 18px;">Parece que no has agregado ningún producto a tu carrito todavía.</p>
+                <a asp-controller="Products" asp-action="IndexCliente" class="btn btn-agree mt-4">Ver Productos</a>
+            </div>
         </div>
 
     }
