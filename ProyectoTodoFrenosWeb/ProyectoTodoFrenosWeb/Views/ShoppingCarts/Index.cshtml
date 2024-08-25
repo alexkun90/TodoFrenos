@@ -2,34 +2,18 @@
 @{
     ViewData["Title"] = "Carrito de Compras";
 }
-
-<style>
-    .product-quantity {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 30px; 
-        height: 30px; 
-        background-color: #ff8000; 
-        color: white; 
-        border-radius: 50%; 
-        font-size: 14px; 
-        font-weight: bold;
-        text-align: center;
-        line-height: 30px; 
-        margin-left: 5px; 
-    }
-</style>
+<link href="~/estilos/css/shoppingcart.css" rel="stylesheet" />
 
 <div class="container m-5">
     @if (Model == null || !Model.Any())
     {
         <div class="text-center mt-5">
             <i class="fas fa-shopping-cart fa-3x mb-3" style="color: #ff8000;"></i>
-            <h1 style="color: #333333; font-family: 'Arial', sans-serif;">Tu carrito está vacío</h1>
-            <p style="color: #666666; font-size: 18px;">Parece que no has agregado ningún producto a tu carrito todavía.</p>
+            <h1 class="display-4" style="color: #333333; font-family: 'Arial', sans-serif;">Tu carrito está vacío</h1>
+            <p class="lead" style="color: #666666; font-size: 18px;">Parece que no has agregado ningún producto a tu carrito todavía.</p>
             <a asp-controller="Products" asp-action="IndexCliente" class="btn btn-agree mt-4">Ver Productos</a>
         </div>
+
     }
     else
     {
@@ -90,7 +74,7 @@
                                     <div>
                                         @item.ProductName <span class="product-quantity" data-cart-item-id="@item.CartItemId">@item.Quantity</span>
                                     </div>
-                                    <span class="product-price" data-cart-item-id="@item.CartItemId">
+                                    <span class="product-price d-none" data-cart-item-id="@item.CartItemId">
                                         ₡@(item.Price * item.Quantity)
                                     </span>
                                 </li>

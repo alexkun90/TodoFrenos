@@ -12,7 +12,7 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm" style="min-height: 500px;">
                 <div class="card-header th-bg-custom text-white">
                     <h5 class="mb-0">Información del Perfil</h5>
                 </div>
@@ -21,14 +21,27 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
 
                         <div class="mb-3">
-                            <label asp-for="Username" class="form-label">Nombre de Usuario</label>
-                            <input asp-for="Username" class="form-control" placeholder="Nombre de Usuario" disabled />
+                            <label asp-for="Input.NombreUsuario" class="form-label">Nombre de Usuario</label>
+                            <input asp-for="Input.NombreUsuario" class="form-control" placeholder="Nombre de Usuario" />
+                            <span asp-validation-for="Input.NombreUsuario" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Input.PhoneNumber" class="form-label">Número de Teléfono</label>
-                            <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Introduce tu número de teléfono" />
-                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                            <label asp-for="Input.PrimApellido" class="form-label">Primer Apellido</label>
+                            <input asp-for="Input.PrimApellido" class="form-control" placeholder="Primer Apellido" />
+                            <span asp-validation-for="Input.PrimApellido" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.SegunApellido" class="form-label">Segundo Apellido</label>
+                            <input asp-for="Input.SegunApellido" class="form-control" placeholder="Segundo Apellido" />
+                            <span asp-validation-for="Input.SegunApellido" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Email" class="form-label">Correo Electrónico</label>
+                            <input asp-for="Input.Email" class="form-control" placeholder="Correo Electrónico" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
                         </div>
 
                         <button id="update-profile-button" type="submit" class="btn btn-agree w-100">Guardar Cambios</button>
