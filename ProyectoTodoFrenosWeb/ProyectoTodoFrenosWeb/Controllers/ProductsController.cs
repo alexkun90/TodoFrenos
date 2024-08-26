@@ -37,7 +37,6 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(await todoFrenosDbContext.ToListAsync());*/
         }
         // GET: Products
-        [Authorize(Roles = "User")]
         public async Task<IActionResult> IndexCliente()
         {
             var productos = await productService.GetProduct();

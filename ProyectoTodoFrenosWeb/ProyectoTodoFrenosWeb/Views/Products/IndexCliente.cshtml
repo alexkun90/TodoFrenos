@@ -76,12 +76,21 @@
             var products = document.querySelectorAll('.flip-card');
             var foundProduct = false; // Variable para verificar si se encontró un producto
 
+            if (searchValue === "") {
+                // Si el campo de búsqueda está vacío, mostramos todos los productos
+                products.forEach(function (product) {
+                    product.style.display = 'flex'; // Mostrar todos los productos
+                });
+                document.getElementById('noProductMessage').style.display = 'none'; // Ocultar el mensaje de "Producto no encontrado"
+                return; // Salir de la función
+            }
+
             products.forEach(function (product) {
                 var productNameElement = product.querySelector('.product-name'); // Seleccionamos el elemento
 
                 if (productNameElement) { // Verificamos si el elemento existe
                     var productName = productNameElement.innerText.toLowerCase().trim(); // Convertimos el nombre del producto a minúsculas y quitamos espacios
-                    if (productName === searchValue) { // Comprobamos si es una coincidencia exacta
+                    if (productName.includes(searchValue)) { // Comprobamos si contiene la cadena de búsqueda
                         product.style.display = 'flex'; // Mostrar el producto
                         foundProduct = true; // Se encontró un producto coincidente
                     } else {
@@ -101,6 +110,6 @@
             }
         });
     </script>
-</div>
+  </div>
 
 
