@@ -44,9 +44,9 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 UserId = userId,
                 OrderDate = DateTime.Now,
                 RetirementDate = DateTime.Now.AddDays(3),
-                SubTotal = cartItems.Sum(ci => ci.Price * ci.Quantity),
-                Tax = 0.13m * cartItems.Sum(ci => ci.Price * ci.Quantity),
-                Total = cartItems.Sum(ci => ci.Price * ci.Quantity) * 1.13m,
+                SubTotal = cartItem.Sum(ci => ci.Price * ci.Quantity),
+                Tax = 0.13m * cartItem.Sum(ci => ci.Price * ci.Quantity),
+                Total = cartItem.Sum(ci => ci.Price * ci.Quantity) * 1.13m,
 
                 OrderDetails = cartItem.Select(ci => new OrderDetail
                 {
