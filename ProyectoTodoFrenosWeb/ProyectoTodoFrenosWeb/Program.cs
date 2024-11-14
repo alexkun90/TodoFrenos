@@ -10,8 +10,8 @@ using ProyectoTodoFrenosWeb.ViewModels;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ConexiBD") ?? throw new InvalidOperationException("Connection string 'ConexiBD' not found.");
 
-var openAiApiKey = builder.Configuration["OpenAI:ApiKey"];
-builder.Services.AddSingleton(new OpenAIAPI(new APIAuthentication(openAiApiKey)));
+//var openAiApiKey = builder.Configuration["OpenAI:ApiKey"];
+//builder.Services.AddSingleton(new OpenAIAPI(new APIAuthentication(openAiApiKey)));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 //builder.Services.AddSingleton<OpenAI_API>

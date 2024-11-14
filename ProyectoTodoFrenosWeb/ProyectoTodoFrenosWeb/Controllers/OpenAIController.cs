@@ -6,11 +6,6 @@ namespace ProyectoTodoFrenosWeb.Controllers
 {
     public class OpenAIController : Controller
     {
-        private readonly OpenAIAPI openAIAPI;
-        public OpenAIController()
-        {
-            this.openAIAPI = new OpenAIAPI();
-        }
 
         public IActionResult Index()
         {
