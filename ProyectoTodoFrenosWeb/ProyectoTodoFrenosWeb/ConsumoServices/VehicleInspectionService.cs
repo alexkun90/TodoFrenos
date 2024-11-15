@@ -7,158 +7,148 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
     public class VehicleInspectionService
     {
         private IConfiguration _config;
+        private readonly HttpClientService clientService;
 
-        public VehicleInspectionService(IConfiguration config)
+        public VehicleInspectionService(IConfiguration config, HttpClientService clientService)
         {
             _config = config;
+            this.clientService = clientService;
         }
 
         public async Task<IEnumerable<VehicleInspection>> GetList(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/List/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/List/{Id}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<VehicleInspection>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<VehicleInspection>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<VehicleInspection> GetVehicleInspection(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/{Id}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<VehicleInspection>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<VehicleInspection>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<VehicleInspection> CreateVehicleInspection(VehicleInspection model)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value;
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value;
+                string body = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(apiUrl, content);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-                    var content = new StringContent(body, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync(apiUrl, content);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<VehicleInspection>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<VehicleInspection>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public async Task<VehicleInspection> EditVehicleInspection(long Id, VehicleInspection model)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/{Id}";
+                string body = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await client.PutAsync(apiUrl, content);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-                    var content = new StringContent(body, Encoding.UTF8, "application/json");
-                    var response = await client.PutAsync(apiUrl, content);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<VehicleInspection>(responseData);
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<VehicleInspection>(responseData);
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public async Task<bool> DeleteVehicleInspection(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/{Id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Inspection").Value + $"/{Id}";
-                try
-                {
-                    var response = await client.DeleteAsync(apiUrl);
+                var response = await client.DeleteAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception)
+                if (response.IsSuccessStatusCode)
                 {
-                    throw;
+
+                    return true;
                 }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

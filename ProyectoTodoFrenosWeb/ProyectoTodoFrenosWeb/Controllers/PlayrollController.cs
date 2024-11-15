@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using ProyectoTodoFrenosWeb.ViewModels;
+using System.Net.Http;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -11,10 +12,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
     {
         PlayrollService service;
         EmployeeService employeeService;
-        public PlayrollController(IConfiguration config)
+
+        private readonly HttpClientService clientService;
+        public PlayrollController(IConfiguration config, HttpClientService clientService)
         {
-            service = new PlayrollService(config);
-            employeeService = new EmployeeService(config);
+            service = new PlayrollService(config, clientService);
+            employeeService = new EmployeeService(config, clientService);
         }
 
         public async Task<IActionResult> Index()

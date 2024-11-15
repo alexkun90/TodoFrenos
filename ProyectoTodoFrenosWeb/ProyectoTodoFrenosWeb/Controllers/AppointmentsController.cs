@@ -18,13 +18,14 @@ namespace ProyectoTodoFrenosWeb.Controllers
     {
         private readonly TodoFrenosDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly HttpClientService clientService;
         AppointmentService appointmentService;
 
 
-        public AppointmentsController(TodoFrenosDbContext context, IConfiguration config, UserManager<ApplicationUser> _userManager)
+        public AppointmentsController(TodoFrenosDbContext context, IConfiguration config,UserManager<ApplicationUser> _userManager, HttpClientService clientService)
         {
             _context = context;
-            appointmentService = new AppointmentService(config);
+            appointmentService = new AppointmentService(config, clientService);
             this._userManager = _userManager;
         }
 

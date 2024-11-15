@@ -7,68 +7,65 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
     public class VehicleService
     {
         private IConfiguration _config;
+        private readonly HttpClientService clientService;
 
-        public VehicleService(IConfiguration config)
+        public VehicleService(IConfiguration config, HttpClientService clientService)
         {
             _config = config;
+            this.clientService = clientService;
         }
 
         public async Task<IEnumerable<Vehicle>> GetVehicles()
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value;
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value;
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Vehicle>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Vehicle>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Vehicle>> GetMyVehicles(string? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/MyVehicles/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/MyVehicles/{Id}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Vehicle>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Vehicle>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -76,157 +73,146 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
         //Details
         public async Task<Vehicle> GetVehicle(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/{Id}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Vehicle>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Vehicle>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         //Create
         public async Task<Vehicle> CreateVehicle(Vehicle vehicle)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value;
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value;
+                string body = Newtonsoft.Json.JsonConvert.SerializeObject(vehicle);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(apiUrl, content);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(vehicle);
-                    var content = new StringContent(body, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync(apiUrl, content);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Vehicle>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Vehicle>(responseData);
-
-                        return result;
-                    }
-                    else if (response.StatusCode == HttpStatusCode.Conflict)
-                    {
-                        throw new Exception("La placa del vehículo ya se encuentra registrada.");
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else if (response.StatusCode == HttpStatusCode.Conflict)
                 {
-                    throw;
+                    throw new Exception("La placa del vehículo ya se encuentra registrada.");
                 }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         //Editar
         public async Task<Vehicle> EditVehicle(long Id, Vehicle vehicle)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/{Id}";
+                string body = Newtonsoft.Json.JsonConvert.SerializeObject(vehicle);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await client.PutAsync(apiUrl, content);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(vehicle);
-                    var content = new StringContent(body, Encoding.UTF8, "application/json");
-                    var response = await client.PutAsync(apiUrl, content);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Vehicle>(responseData);
-                        return result;
-                    }
-                    else if (response.StatusCode == HttpStatusCode.Conflict)
-                    {
-                        throw new Exception("La placa del vehículo ya se encuentra registrada.");
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Vehicle>(responseData);
+                    return result;
                 }
-                catch (Exception)
+                else if (response.StatusCode == HttpStatusCode.Conflict)
                 {
-                    throw;
+                    throw new Exception("La placa del vehículo ya se encuentra registrada.");
                 }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
         //Delete
         public async Task<bool> DeleteVehicle(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/{Id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/{Id}";
-                try
-                {
-                    var response = await client.DeleteAsync(apiUrl);
+                var response = await client.DeleteAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception)
+                if (response.IsSuccessStatusCode)
                 {
-                    throw;
+
+                    return true;
                 }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         //Active
         public async Task<bool> ActivateVehicle(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/Activate/{Id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Vehicle").Value + $"/Activate/{Id}";
-                try
-                {
 
-                    var response = await client.DeleteAsync(apiUrl);
+                var response = await client.DeleteAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception)
+                if (response.IsSuccessStatusCode)
                 {
-                    throw;
+                    return true;
                 }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

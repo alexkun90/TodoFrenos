@@ -10,10 +10,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
     {
         PlanillaService service;
         PlayrollService playrollService;
-        public PlanillaController(IConfiguration config)
+        private readonly HttpClientService clientService;
+
+        public PlanillaController(IConfiguration config, HttpClientService clientService)
         {
-            service = new PlanillaService(config);
-            playrollService = new PlayrollService(config);
+            service = new PlanillaService(config, clientService);
+            playrollService = new PlayrollService(config, clientService);
         }
 
         public async Task<IActionResult> Index(long nominaId)

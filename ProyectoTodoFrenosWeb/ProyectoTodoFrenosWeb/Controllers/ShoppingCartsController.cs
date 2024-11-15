@@ -23,12 +23,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
         ShoppingCartService _shoppingCartService;
         ProductService _productService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly HttpClientService clientService;
 
-        public ShoppingCartsController(TodoFrenosDbContext context, IConfiguration config, UserManager<ApplicationUser> userManager)
+        public ShoppingCartsController(TodoFrenosDbContext context, IConfiguration config, UserManager<ApplicationUser> userManager, HttpClientService clientService)
         {
             _context = context;
-            _shoppingCartService = new ShoppingCartService(config);
-            _productService = new ProductService(config);
+            _shoppingCartService = new ShoppingCartService(config, clientService);
+            _productService = new ProductService(config, clientService);
             _userManager = userManager;
         }
 

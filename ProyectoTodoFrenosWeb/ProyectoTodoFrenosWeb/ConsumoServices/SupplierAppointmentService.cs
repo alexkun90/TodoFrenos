@@ -7,161 +7,149 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
     public class SupplierAppointmentService
     {
         private IConfiguration _config;
-        public SupplierAppointmentService(IConfiguration config)
+        private readonly HttpClientService clientService;
+        public SupplierAppointmentService(IConfiguration config, HttpClientService clientService)
         {
             this._config = config;
+            this.clientService = clientService;
         }
 
         public async Task<IEnumerable<SupplierAppointment>> GetSupplierAppointments()
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value;
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value;
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<SupplierAppointment>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<SupplierAppointment>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<SupplierAppointment> GetSupplierAppointment(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value + $"/{Id}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<SupplierAppointment>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<SupplierAppointment>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<SupplierAppointment> CreateSupplierAppointment(SupplierAppointment supplierAppointment)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value;
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value;
+                string body = Newtonsoft.Json.JsonConvert.SerializeObject(supplierAppointment);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(apiUrl, content);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(supplierAppointment);
-                    var content = new StringContent(body, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync(apiUrl, content);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<SupplierAppointment>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<SupplierAppointment>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public async Task<bool> DeleteSupplierAppointment(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value + $"/{Id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value + $"/{Id}";
-                try
-                {
-                    var response = await client.DeleteAsync(apiUrl);
+                var response = await client.DeleteAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception)
+                if (response.IsSuccessStatusCode)
                 {
-                    throw;
+
+                    return true;
                 }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public async Task<bool> AcceptSupplierAppointment(long? id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value + $"/Accept/{id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value + $"/Accept/{id}";
-                try
-                {
-                    var response = await client.PutAsync(apiUrl, null);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                var response = await client.PutAsync(apiUrl, null);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public async Task<bool> RejectSupplierAppointment(long? id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value + $"/Reject/{id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("SupplierAppointment").Value + $"/Reject/{id}";
-                try
-                {
-                    var response = await client.PutAsync(apiUrl, null);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                var response = await client.PutAsync(apiUrl, null);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

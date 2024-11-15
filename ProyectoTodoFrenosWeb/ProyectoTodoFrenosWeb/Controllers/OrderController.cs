@@ -18,12 +18,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
         private readonly ShoppingCartService _shoppingCartService;
         private readonly ProductService _productService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly HttpClientService clientService;
 
-        public OrdersController(IConfiguration config, UserManager<ApplicationUser> userManager)
+        public OrdersController(IConfiguration config, UserManager<ApplicationUser> userManager, HttpClientService clientService)
         {
-            _orderService = new OrderService(config);
-            _shoppingCartService = new ShoppingCartService(config);
-            _productService = new ProductService(config);
+            _orderService = new OrderService(config, clientService);
+            _shoppingCartService = new ShoppingCartService(config, clientService);
+            _productService = new ProductService(config, clientService);
             _userManager = userManager;
         }
 

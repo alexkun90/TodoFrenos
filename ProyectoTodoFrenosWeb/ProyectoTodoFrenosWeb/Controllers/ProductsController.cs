@@ -15,15 +15,16 @@ namespace ProyectoTodoFrenosWeb.Controllers
     public class ProductsController : Controller
     {
         private readonly TodoFrenosDbContext _context;
-
+        private readonly HttpClientService clientService;
+        
         ProductService productService;
-        ShoppingCartService shoppingCartService;
+        ShoppingCartService shoppingCartService;       
 
-        public ProductsController(TodoFrenosDbContext context, IConfiguration config)
+        public ProductsController(TodoFrenosDbContext context, IConfiguration config, HttpClientService clientService)
         {
             _context = context;
-            productService = new ProductService(config);
-            shoppingCartService = new ShoppingCartService(config);
+            productService = new ProductService(config, clientService);
+            shoppingCartService = new ShoppingCartService(config, clientService);
         }
 
         // GET: Products

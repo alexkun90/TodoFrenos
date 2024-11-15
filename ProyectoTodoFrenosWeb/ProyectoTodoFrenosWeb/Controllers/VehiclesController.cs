@@ -18,12 +18,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
     {
         private readonly TodoFrenosDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly HttpClientService clientService;
         VehicleService vehicleService;
 
-        public VehiclesController(TodoFrenosDbContext context, UserManager<ApplicationUser> userManager, IConfiguration config)
+        public VehiclesController(TodoFrenosDbContext context, UserManager<ApplicationUser> userManager, IConfiguration config, HttpClientService clientService)
         {
             _context = context;
-            vehicleService = new VehicleService(config);
+            vehicleService = new VehicleService(config, clientService);
             _userManager = userManager;
         }
 
