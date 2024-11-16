@@ -17,11 +17,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
     {
         VehicleInspectionService service;
         VehicleService serviceVehicle;
+        private readonly HttpClientService clientService;
 
-        public VehicleInspectionsController(TodoFrenosDbContext context, IConfiguration config)
+        public VehicleInspectionsController(TodoFrenosDbContext context, IConfiguration config, HttpClientService clientService)
         {
-            this.service = new VehicleInspectionService(config);
-            this.serviceVehicle = new VehicleService(config);
+            this.service = new VehicleInspectionService(config, clientService);
+            this.serviceVehicle = new VehicleService(config, clientService);
         }
 
         // GET: VehicleInspections

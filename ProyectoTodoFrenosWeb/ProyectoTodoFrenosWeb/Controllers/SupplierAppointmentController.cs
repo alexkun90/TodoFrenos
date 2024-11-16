@@ -11,12 +11,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
     {
 
         private readonly TodoFrenosDbContext _context;
-        
+        private readonly HttpClientService clientService;
+
         SupplierAppointmentService supplierAppointmentservice;
-        public SupplierAppointmentController(TodoFrenosDbContext _context, IConfiguration config)
+        public SupplierAppointmentController(TodoFrenosDbContext _context, IConfiguration config, HttpClientService clientService)
         {
             this._context = _context;
-            supplierAppointmentservice = new SupplierAppointmentService(config);
+            supplierAppointmentservice = new SupplierAppointmentService(config, clientService);
         }
 
         [Authorize(Roles = "Admin, Mecanico")]

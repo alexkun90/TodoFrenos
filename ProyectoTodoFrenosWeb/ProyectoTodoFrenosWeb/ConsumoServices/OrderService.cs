@@ -8,124 +8,115 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
     public class OrderService
     {
         private readonly IConfiguration _config;
+        private readonly HttpClientService clientService;
 
-        public OrderService(IConfiguration config)
+        public OrderService(IConfiguration config, HttpClientService clientService)
         {
             _config = config;
+            this.clientService = clientService;
         }
 
         public async Task<string> CreateOrder(Order order)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value;
+            var body = JsonConvert.SerializeObject(order);
+            var content = new StringContent(body, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync(apiUrl, content);
+
+            if (response.IsSuccessStatusCode)
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value;
-                var body = JsonConvert.SerializeObject(order);
-                var content = new StringContent(body, Encoding.UTF8, "application/json");
-
-                var response = await client.PostAsync(apiUrl, content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseData = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<dynamic>(responseData);
-                    return result.message;
-                }
-                else
-                {
-                    return "Error al crear la orden.";
-                }
+                var responseData = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<dynamic>(responseData);
+                return result.message;
+            }
+            else
+            {
+                return "Error al crear la orden.";
             }
         }
 
         public async Task<IEnumerable<Order>> GetOrderList()
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value + $"/GetOrders";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value + $"/GetOrders";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Order>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Order>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 
         public async Task<IEnumerable<Order>> GetMyOrderList(string userId)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value + $"/MyOrders/{userId}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value + $"/MyOrders/{userId}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Order>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Order>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<OrderDetailViewModel>> GetMyOrderDetailList(long? orderId)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value + $"/GetMyDetailsOrders/{orderId}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value + $"/GetMyDetailsOrders/{orderId}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<OrderDetailViewModel>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<OrderDetailViewModel>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
     }

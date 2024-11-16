@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoTodoFrenosWeb.ConsumoServices;
+using System.Net.Http;
 using System.Security.Claims;
 
 namespace ProyectoTodoFrenosWeb.Controllers
@@ -11,12 +12,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
     public class EmployeesController : Controller
     {
         private readonly TodoFrenosDbContext _context;
+        private readonly HttpClientService clientService;
 
         EmployeeService employeeService;
-        public EmployeesController(TodoFrenosDbContext context, IConfiguration config)
+        public EmployeesController(TodoFrenosDbContext context, IConfiguration config, HttpClientService clientService)
         {
             _context = context;
-            employeeService = new EmployeeService(config);
+            employeeService = new EmployeeService(config, clientService);
         }
         public async Task<IActionResult> Index()
         {

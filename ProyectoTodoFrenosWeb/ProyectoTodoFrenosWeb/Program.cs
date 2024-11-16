@@ -10,12 +10,8 @@ using ProyectoTodoFrenosWeb.ViewModels;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ConexiBD") ?? throw new InvalidOperationException("Connection string 'ConexiBD' not found.");
 
-var openAiApiKey = builder.Configuration["OpenAI:ApiKey"];
-builder.Services.AddSingleton(new OpenAIAPI(new APIAuthentication(openAiApiKey)));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//builder.Services.AddSingleton<OpenAI_API>
-
 
 //Configuracion BD y el context
 builder.Services.AddDbContext<TodoFrenosDbContext>(options => options.UseSqlServer(connectionString));
@@ -29,9 +25,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
     .AddDefaultUI()
     .AddDefaultTokenProviders();
 
+builder.Services.AddHttpClient();
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    // Configura los requisitos de la contraseña
+    // Configura los requisitos de la contraseï¿½a
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
@@ -42,6 +40,10 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
 builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
+
+#region DI
+    builder.Services.AddScoped<HttpClientService>();
+#endregion
 
 //Configuracion para las paginas o vistas
 builder.Services.AddRazorPages();

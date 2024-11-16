@@ -8,145 +8,137 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
     public class ShoppingCartService
     {
         private readonly IConfiguration _config;
-        public ShoppingCartService(IConfiguration config)
+        private readonly HttpClientService clientService;
+        public ShoppingCartService(IConfiguration config, HttpClientService clientService)
         {
             _config = config;
+            this.clientService = clientService;
         }
 
         public async Task<IEnumerable<CartItemViewModel>> GetCartItems(string userId)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value + $"/GetCartItems/{userId}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value + $"/GetCartItems/{userId}";
-
-                try
+                var response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        var cartItems = JsonConvert.DeserializeObject<IEnumerable<CartItemViewModel>>(responseContent);
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var cartItems = JsonConvert.DeserializeObject<IEnumerable<CartItemViewModel>>(responseContent);
 
-                        return cartItems;
-                    }
-                    else
-                    {
-                        // Manejo de error para códigos de respuesta no exitosos
-                        return Enumerable.Empty<CartItemViewModel>();
-                    }
+                    return cartItems;
                 }
-                catch (Exception ex)
+                else
                 {
-                    // Manejo de errores en la llamada HTTP o deserialización
-                    // Puedes registrar el error o manejarlo de acuerdo a tus necesidades
+                    // Manejo de error para códigos de respuesta no exitosos
                     return Enumerable.Empty<CartItemViewModel>();
                 }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores en la llamada HTTP o deserialización
+                // Puedes registrar el error o manejarlo de acuerdo a tus necesidades
+                return Enumerable.Empty<CartItemViewModel>();
             }
         }
 
         // Agregar un ítem al carrito
         public async Task<string> AddToCart(string userId, long productId, int quantity)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value;
+            var cartItemDto = new CartItemDTO
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value;
-                var cartItemDto = new CartItemDTO
-                {
-                    UserId = userId,
-                    ProductId = productId,
-                    Quantity = quantity,
-                };
-                var body = JsonConvert.SerializeObject(cartItemDto);
-                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                UserId = userId,
+                ProductId = productId,
+                Quantity = quantity,
+            };
+            var body = JsonConvert.SerializeObject(cartItemDto);
+            var content = new StringContent(body, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync(apiUrl, content);
+            var response = await client.PostAsync(apiUrl, content);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseData = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<dynamic>(responseData);
-                    return result.message;
-                }
-                else
-                {
-                    return "Error al añadir el producto al carrito.";
-                }
+            if (response.IsSuccessStatusCode)
+            {
+                var responseData = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<dynamic>(responseData);
+                return result.message;
+            }
+            else
+            {
+                return "Error al añadir el producto al carrito.";
             }
         }
 
         // Actualizar la cantidad de un ítem en el carrito
         public async Task<bool> UpdateQuantity(long cartItemId, int quantity)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value + "/UpdateQuantity";
+
+            var updateQuantityDto = new UpdateQuantityDTO
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value + "/UpdateQuantity";
+                CartItemId = cartItemId,
+                Quantity = quantity
+            };
 
-                var updateQuantityDto = new UpdateQuantityDTO
-                {
-                    CartItemId = cartItemId,
-                    Quantity = quantity
-                };
+            var body = JsonConvert.SerializeObject(updateQuantityDto);
+            var content = new StringContent(body, Encoding.UTF8, "application/json");
 
-                var body = JsonConvert.SerializeObject(updateQuantityDto);
-                var content = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(apiUrl, content);
 
-                var response = await client.PutAsync(apiUrl, content);
-
-                return response.IsSuccessStatusCode;
-            }
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteProductCart(long cartItemId, long productId)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value + $"/DeleteProductCart/{cartItemId}/{productId}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value + $"/DeleteProductCart/{cartItemId}/{productId}";
+                var response = await client.DeleteAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.DeleteAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return true;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return false;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public async Task<bool> ClearCart(long cartId)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value + $"/ClearCart/{cartId}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("ShoppingCart").Value + $"/ClearCart/{cartId}";
+                var response = await client.DeleteAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.DeleteAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return true;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return false;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

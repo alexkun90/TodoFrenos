@@ -1,199 +1,190 @@
 ﻿using DAL.Models;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace ProyectoTodoFrenosWeb.ConsumoServices
 {
     public class EmployeeService
     {
-        private IConfiguration _config;
-        public EmployeeService(IConfiguration config)
+        private readonly IConfiguration _config;
+        private readonly HttpClientService clientService;
+
+        public EmployeeService(IConfiguration config, HttpClientService clientService)
         {
             _config = config;
+            this.clientService = clientService;
         }
 
         public async Task<IEnumerable<Employee>> GetEmployee()
         {
-            using (var client = new HttpClient())
+            
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value;
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value;
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Employee>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Employee>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<Employee> GetEmployee(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value + $"/{Id}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         //Create
         public async Task<Employee> CreateEmployee(Employee model)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value;
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value;
+                string body = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(apiUrl, content);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-                    var content = new StringContent(body, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync(apiUrl, content);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(responseData);
-
-                        return result;
-                    }
-                    else if (response.StatusCode == HttpStatusCode.Conflict)
-                    {
-                        throw new Exception("La cedula ingresada le pertenece a otro employee");
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else if (response.StatusCode == HttpStatusCode.Conflict)
                 {
-                    throw;
+                    throw new Exception("La cedula ingresada le pertenece a otro employee");
+                }
+                else
+                {
+                    return null;
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         //Editar
         public async Task<Employee> EditEmployee(long Id, Employee employee)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value + $"/{Id}";
+                string body = Newtonsoft.Json.JsonConvert.SerializeObject(employee);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await client.PutAsync(apiUrl, content);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(employee);
-                    var content = new StringContent(body, Encoding.UTF8, "application/json");
-                    var response = await client.PutAsync(apiUrl, content);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(responseData);
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(responseData);
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
         //Delete
         public async Task<bool> DeleteEmployee(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value + $"/{Id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value + $"/{Id}";
-                try
-                {
-                    var response = await client.DeleteAsync(apiUrl);
+                var response = await client.DeleteAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception)
+                if (response.IsSuccessStatusCode)
                 {
-                    throw;
+
+                    return true;
                 }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         //Active
         public async Task<bool> ActivateEmployee(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value + $"/Activate/{Id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Employee").Value + $"/Activate/{Id}";
-                try
+
+                var response = await client.DeleteAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
                 {
-
-                    var response = await client.DeleteAsync(apiUrl);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return true;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return false;
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
         }
-
-
     }
 }
