@@ -6,7 +6,6 @@ namespace ProyectoTodoFrenosWeb.Controllers
 {
     public class OpenAIController : Controller
     {
-
         public IActionResult Index()
         {
             var questions = new List<string>

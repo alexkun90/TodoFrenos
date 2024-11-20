@@ -6,282 +6,261 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
     public class AppointmentService
     {
         private IConfiguration _config;
-
-        public AppointmentService(IConfiguration config)
+        private readonly HttpClientService clientService;
+        public AppointmentService(IConfiguration config, HttpClientService clientService)
         {
             _config = config;
+            this.clientService = clientService;
         }
 
         //GET INDEX
         public async Task<IEnumerable<Appointment>> GetAppointments()
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value;
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value;
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Appointment>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Appointment>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Appointment>> GetMyAppointments(string Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/MyAppointments/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/MyAppointments/{Id}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Appointment>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Appointment>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }           
         }
 
         public async Task<IEnumerable<Appointment>> GetMyPaper(string Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/MyPaperAppointments/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/MyPaperAppointments/{Id}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Appointment>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Appointment>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
 
         }
 
-
         //Details
         public async Task<Appointment> GetAppointment(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/{Id}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Appointment>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Appointment>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         //Create
         public async Task<Appointment> CreateAppointment(Appointment appointment)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value;
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value;
+                string body = Newtonsoft.Json.JsonConvert.SerializeObject(appointment);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(apiUrl, content);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(appointment);
-                    var content = new StringContent(body, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync(apiUrl, content);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Appointment>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Appointment>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
         //Editar
         public async Task<Appointment> EditAppointment(long Id, Appointment appointment)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/{Id}";
+                string body = Newtonsoft.Json.JsonConvert.SerializeObject(appointment);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await client.PutAsync(apiUrl, content);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(appointment);
-                    var content = new StringContent(body, Encoding.UTF8, "application/json");
-                    var response = await client.PutAsync(apiUrl, content);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Appointment>(responseData);
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Appointment>(responseData);
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public async Task<bool> AcceptAppointment(long? id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Accept/{id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Accept/{id}";
-                try
-                {
-                    var response = await client.PutAsync(apiUrl, null);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                var response = await client.PutAsync(apiUrl, null);
+                return response.IsSuccessStatusCode;
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         public async Task<bool> RejectAppointment(long? id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Reject/{id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Reject/{id}";
-                try
-                {
-                    var response = await client.PutAsync(apiUrl, null);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                var response = await client.PutAsync(apiUrl, null);
+                return response.IsSuccessStatusCode;
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         public async Task<bool> CancelAppointment(long? id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Cancel/{id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Cancel/{id}";
-                try
-                {
-                    var response = await client.PutAsync(apiUrl, null);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                var response = await client.PutAsync(apiUrl, null);
+                return response.IsSuccessStatusCode;
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         public async Task<bool> PapeleraAppointment(long? id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Papelera/{id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Papelera/{id}";
-                try
-                {
-                    var response = await client.PutAsync(apiUrl, null);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                var response = await client.PutAsync(apiUrl, null);
+                return response.IsSuccessStatusCode;
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         public async Task<bool> ReturnAppointment(long? id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Return/{id}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Appointment").Value + $"/Return/{id}";
-                try
-                {
-                    var response = await client.PutAsync(apiUrl, null);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                var response = await client.PutAsync(apiUrl, null);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 

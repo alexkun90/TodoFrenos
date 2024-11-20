@@ -7,221 +7,206 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
     public class ProductService
     {
         private IConfiguration _config;
+        private readonly HttpClientService clientService;
 
-        public ProductService(IConfiguration config)
+        public ProductService(IConfiguration config, HttpClientService clientService)
         {
             _config = config;
+            this.clientService = clientService;
         }
 
         //GET INDEX
         public async Task<IEnumerable<Product>> GetProduct()
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value;
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value;
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Product>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Product>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 
         //Details
         public async Task<Product> GetProduct(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/{Id}";
+                var response = await client.GetAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Product>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Product>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         //Create
         public async Task<Product> CreateProduct(Product product)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value;
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value;
+                string body = Newtonsoft.Json.JsonConvert.SerializeObject(product);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(apiUrl, content);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(product);
-                    var content = new StringContent(body, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync(apiUrl, content);
 
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Product>(responseData);
 
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Product>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
+        
         //Editar
         public async Task<Product> EditProduct(long Id, Product product)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/{Id}";
+                string body = Newtonsoft.Json.JsonConvert.SerializeObject(product);
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await client.PutAsync(apiUrl, content);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    string body = Newtonsoft.Json.JsonConvert.SerializeObject(product);
-                    var content = new StringContent(body, Encoding.UTF8, "application/json");
-                    var response = await client.PutAsync(apiUrl, content);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Product>(responseData);
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Product>(responseData);
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
         //Detete
         public async Task<bool> DeleteProduct(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/{Id}";
+                var response = await client.DeleteAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.DeleteAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return true;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return false;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
 
         public async Task<bool> ActivarProduct(long? Id)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/Activate/{Id}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/Activate/{Id}";
+                var response = await client.DeleteAsync(apiUrl);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.DeleteAsync(apiUrl);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return true;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return false;
                 }
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> UpdateStock(long productId, int quantityToReduce)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/UpdateStock/{productId}/{quantityToReduce}";
+
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Product").Value + $"/UpdateStock/{productId}/{quantityToReduce}";
+                var response = await client.PutAsync(apiUrl, null);
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.PutAsync(apiUrl, null);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return true;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return false;
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
     }
