@@ -8,20 +8,8 @@
 
 <div class="container d-flex justify-content-center align-items-center mt-3 mb-5">
     <div class="card rounded-3 p-4 w-50">
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                @TempData["SuccessMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        }
-        @if (TempData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                @TempData["ErrorMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        }
+
+        <div id="dynamicMessages"></div>
 
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -30,7 +18,7 @@
                 <input asp-for="UserId" class="form-control" readonly="readonly" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
-            <div class="col-md-5">
+            <div class="form-group">
                 <label asp-for="AppointCreationDate" class="form-label">Fecha y Hora de Creación</label>
                 <input asp-for="AppointCreationDate" id="appointCreationDate" class="form-control" type="datetime-local" aria-required="true" required />
                 <span asp-validation-for="AppointCreationDate" class="text-danger"></span>
@@ -40,39 +28,11 @@
                 <input asp-for="Reason" class="form-control" aria-required="true" required />
                 <span asp-validation-for="Reason" class="text-danger"></span>
             </div>
-            <div class="form-group d-none">
-                <label class="form-label">Estado</label>
-                <input type="text" class="form-control" value="Pendiente" readonly />
-            </div>
             <br />
             <div class="text-center">
                 <input type="submit" value="Registrar Cita" class="btn btn-agree w-100" />
             </div>
         </form>
-    </div>
-</div>
-
-<!-- Modal de Confirmación -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #800000;">
-                <h5 class="modal-title text-white" id="exampleModalLabel">
-                    <i class="bi bi-exclamation-circle text-white"></i>
-                    Confirmación
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                ¿Desea inactivar el producto seleccionado?
-            </div>
-            <div class="modal-footer justify-content-center">
-                <input type="hidden" id="ProductId" name="id" value="" />
-                <a id="confirmDeleteButton" href="#" class="btn btn-agree">
-                    <i class="bi bi-toggle-off"></i> Confirmar
-                </a>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -94,121 +54,60 @@
     </div>
 </div>
 
-<style>
-    .d-flex {
-        display: flex;
-    }
-
-    .justify-content-center {
-        justify-content: center;
-    }
-
-    .align-items-center {
-        align-items: center;
-    }
-
-    .mx-2 {
-        margin: 0.5rem;
-    }
-
-    .btn {
-        text-align: center;
-    }
-
-    .equal-width {
-        flex-basis: 0;
-        flex-grow: 1;
-        max-width: 200px;
-    }
-
-    .separator {
-        margin: 0 0.5rem;
-        align-self: center;
-    }
-
-    .w-100 {
-        width: 100%;
-    }
-
-    .modal-header {
-        background-color: #800000;
-        color: #ffffff;
-    }
-
-    .modal-body {
-        font-size: 1rem;
-        color: #495057;
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border-color: #6c757d;
-    }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #545b62;
-        }
-
-    .btn-close-white {
-        filter: invert(1);
-    }
-</style>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        $('form').submit(function (event) {
-            event.preventDefault();
-
-            var form = $(this);
-            $.ajax({
-                type: form.attr('method'),
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (data) {
-                    updatePendingAppointments();
-                    window.location.href = '@Url.Action("Create", "Appointments")';
-                },
-                error: function (xhr, status, error) {
-                    console.error('Form submission error:', error);
-                }
-            });
-        });
-
-        function updatePendingAppointments() {
-            $.ajax({
-                url: '@Url.Action("GetPendingAppointmentsCount", "Appointments")',
-                type: 'GET',
-                success: function (count) {
-                    var countElement = $('#pendingAppointmentsCount');
-                    if (count > 0) {
-                        countElement.text(count);
-                        countElement.show();
-                    } else {
-                        countElement.hide();
-                    }
-                },
-                error: function (error) {
-                    console.error('Error fetching pending appointments count:', error);
-                }
-            });
-        }
-
         $(document).ready(function () {
+            // Función para mostrar mensajes dinámicos
+            function showMessage(type, message) {
+                const messageHtml = `
+                                            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                                                ${message}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>`;
+                $('#dynamicMessages').html(messageHtml);
+            }
+
+            // Validación y envío del formulario
+            $('form').submit(function (event) {
+                event.preventDefault();
+
+                const appointDate = $('#appointCreationDate').val();
+                const reason = $('input[name="Reason"]').val();
+
+                if (!appointDate || !reason) {
+                    showMessage('danger', 'Por favor, complete todos los campos.');
+                    return; // Si hay campos vacíos, no se envía el formulario
+                }
+
+                const form = $(this);
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function () {
+                        showMessage('success', 'Cita registrada exitosamente.');
+                        form[0].reset(); // Limpiar el formulario
+                    },
+                    error: function (xhr, status, error) {
+                        showMessage('danger', 'Ocurrió un error al registrar la cita. Intente nuevamente.');
+                        console.error('Error al enviar el formulario:', error);
+                    }
+                });
+            });
+
+            // Configurar límites de fecha y hora
             function setDateTimeLimits() {
-                var today = new Date();
+                const today = new Date();
                 today.setHours(0, 0, 0, 0);
-                var minDateTimeStr = today.toISOString().slice(0, 16);
+                const minDateTimeStr = today.toISOString().slice(0, 16);
                 $('#appointCreationDate').attr('min', minDateTimeStr);
 
-                $('#appointCreationDate').removeAttr('max');
-
                 $('#appointCreationDate').on('change', function () {
-                    var selectedDate = new Date($(this).val());
-                    var minTime = new Date(selectedDate);
+                    const selectedDate = new Date($(this).val());
+                    const minTime = new Date(selectedDate);
                     minTime.setHours(7, 30, 0, 0);
-                    var maxTime = new Date(selectedDate);
+                    const maxTime = new Date(selectedDate);
                     maxTime.setHours(17, 0, 0, 0);
 
                     if (selectedDate < minTime || selectedDate > maxTime) {

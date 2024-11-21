@@ -8,7 +8,7 @@
 <div class="full-screen-container">
     <div class="center-card">
         <h1>@ViewData["Title"]</h1>
-        <form asp-action="CrearUsuario">
+        <form asp-action="CrearUsuario" onsubmit="return validateRoles()" novalidate>
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
             @Html.HiddenFor(model => model.Password)
             @Html.HiddenFor(model => model.ConfirmPassword)
@@ -40,7 +40,7 @@
                         <label>Correo Electrónico</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" id="rolesContainer">
                         <label class="form-label">Roles</label>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="Roles" value="Admin" id="roleAdmin" @(Model.Roles != null && Model.Roles.Contains("Admin") ? "checked" : "")>
@@ -61,20 +61,25 @@
                         <input asp-for="Activo" type="checkbox" />
                         <span asp-validation-for="Activo" class="text-danger"></span>
                     </div>
-                    
                 </div>
-            </div>         
+            </div>
             <button type="submit" class="w-100 btn btn-lg btn-custom">Registrar Usuario</button>
         </form>
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('.select2').select2({
-            placeholder: 'Seleccione roles',
-            allowClear: true
-        });
-    });
+    function validateRoles() {
+        const checkboxes = document.querySelectorAll('#rolesContainer .form-check-input');
+        const checked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+        if (!checked) {
+            checkboxes[0].setCustomValidity('Seleccione al menos un rol.');
+            checkboxes[0].reportValidity();
+            return false;
+        } else {
+            checkboxes[0].setCustomValidity('');
+            return true;
+        }
+    }
 </script>

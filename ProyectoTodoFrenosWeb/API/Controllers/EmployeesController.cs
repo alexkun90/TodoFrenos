@@ -46,10 +46,16 @@ namespace API.Controllers
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         {
             var cedulaExist = await _context.Employees
-                             .FirstOrDefaultAsync(e => e.Cedula == employee.Cedula);
-            if(cedulaExist != null)
+                              .FirstOrDefaultAsync(e => e.Cedula == employee.Cedula);
+            if (cedulaExist != null)
             {
-                return Conflict("Está cedula de empleado ya está anteriormente registrada");
+                return Conflict("Esta cédula de empleado ya está registrada.");
+            }
+            var contactoExist = await _context.Employees
+                                .FirstOrDefaultAsync(e => e.ContactoEmergencia == employee.ContactoEmergencia);
+            if (contactoExist != null)
+            {
+                return Conflict("El contacto de emergencia ya está registrado por otro empleado.");
             }
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync();
@@ -57,7 +63,8 @@ namespace API.Controllers
             return CreatedAtAction("GetEmployee", new { id = employee.EmpleadoId }, employee);
         }
 
-        
+
+
         // PUT: api/Employees/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
