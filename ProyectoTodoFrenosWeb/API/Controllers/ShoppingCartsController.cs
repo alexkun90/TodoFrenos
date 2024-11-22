@@ -92,8 +92,9 @@ namespace API.Controllers
 
             if (existingCartItem != null)
             {
-                existingCartItem.Quantity += cartItemDto.Quantity;
-                _context.CartItems.Update(existingCartItem);
+                //existingCartItem.Quantity += cartItemDto.Quantity;
+                //_context.CartItems.Update(existingCartItem);
+                return BadRequest(new { message = "El producto ya se encuentra en el carrito." });
             }
             else
             {

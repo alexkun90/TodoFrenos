@@ -68,7 +68,9 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             }
             else
             {
-                return "Error al añadir el producto al carrito.";
+                var responseData = await response.Content.ReadAsStringAsync();
+                var error = JsonConvert.DeserializeObject<dynamic>(responseData);
+                return error.message;
             }
         }
 

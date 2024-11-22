@@ -5,6 +5,10 @@
 }
 <link href="~/estilos/css/custom.css" rel="stylesheet" />
 
+<div class="alert alert-info" role="alert" style="display:@(TempData["Message"] != null ? "block" : "none");">
+    @TempData["Message"]
+</div>
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-12 text-center mb-2">
@@ -46,6 +50,8 @@
                         {
                             <div class="product-name">@producto.ProductName</div>
                             <div class="product-price">₡@producto.Price</div>
+                            <div class="product-price"> @producto.Stock</div>
+                            
                             @using (Html.BeginForm("AddToCart", "Products", FormMethod.Post))
                             {
                                 <input type="hidden" name="ProductId" value="@producto.ProductId" />

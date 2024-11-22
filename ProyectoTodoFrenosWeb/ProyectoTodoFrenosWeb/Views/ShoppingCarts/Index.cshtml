@@ -44,8 +44,9 @@
                                         <div class="me-2">
                                             <h5 class="card-title">@item.ProductName</h5>
                                             <p class="card-text price-with-q" data-base-price="@item.Price">₡@item.Price</p>
-                                            @* <p class="card-text">ID: @item.ProductId</p>
-                                <p class="card-text">CartID: @item.CartId</p> *@
+@*                                             <p class="card-text">ID: @item.ProductId</p>
+                                            <p class="card-text">CartID: @item.CartId</p> *@
+                                            <p class="card-text">Stock: @item.Stock</p>
                                         </div>
                                         <form>
                                             @Html.AntiForgeryToken()
@@ -132,6 +133,12 @@
 
         if (quantity > maxQuantity) {
             alert("La cantidad seleccionada es superior al stock de este producto");
+            input.value = 1;
+            return false;
+        }
+        else if(quantity === 0){
+            alert("La cantidad a ordenar debe ser minimo mayor a 0");
+            input.value = 1;
             return false;
         }
         return true;
