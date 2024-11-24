@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<div class="container mt-5" style="margin-bottom:200px">
+    <h1 class="text-center mb-5">Panel de Control de Órdenes</h1>
+
+    <div class="row justify-content-center">
+
+        <!-- Card para Nominas -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm" style="max-width: 18rem; margin: 0 auto;">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-times fa-4x mb-3 text-danger"></i>
+                    <p class="card-text">Administra la información de las órdenes retrasadas.</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="@Url.Action("GetDelayedOrders", "Orders")" class="btn btn-agree">Órdenes Denegadas</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card para Empleados -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm" style="max-width: 18rem; margin: 0 auto;">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-alt fa-4x mb-3 text-warning"></i>
+                    <p class="card-text">Administra la información de las órdenes pendientes.</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="@Url.Action("GetPendingOrders", "Orders")" class="btn btn-agree">Órdenes Pendientes</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm" style="max-width: 18rem; margin: 0 auto;">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-check fa-4x mb-3 text-success"></i>
+                    <p class="card-text">Administra la información de las órdenes entregadas.</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="@Url.Action("GetDeliveredOrders", "Orders")" class="btn btn-agree">Órdenes Entregadas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

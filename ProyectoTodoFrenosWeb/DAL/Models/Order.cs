@@ -20,6 +20,7 @@ namespace DAL.Models
         public decimal SubTotal { get; set; } 
         public decimal Tax { get; set; } 
         public decimal Total { get; set; }
+        public int OrderState { get; set; }
         public ApplicationUser? User { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }

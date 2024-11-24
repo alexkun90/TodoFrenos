@@ -5,10 +5,6 @@
 }
 <link href="~/estilos/css/custom.css" rel="stylesheet" />
 
-<div class="alert alert-info" role="alert" style="display:@(TempData["Message"] != null ? "block" : "none");">
-    @TempData["Message"]
-</div>
-
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-12 text-center mb-2">
@@ -115,7 +111,40 @@
                 noProductMessage.style.display = 'none'; // Ocultar el mensaje
             }
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Obtén los valores de TempData y verifica si existen
+            var tempDataMessageOk = "@Html.Raw(TempData["MessageOk"])";
+            var tempDataMessageBad = "@Html.Raw(TempData["MessageBad"])";
+
+            // Si existe el mensaje de éxito
+            if (tempDataMessageOk && tempDataMessageOk.trim() !== "") {
+                Swal.fire({
+                    title: "Añadido",
+                    icon: "success",
+                    text: tempDataMessageOk,
+                    confirmButtonText: 'Aceptar',
+                });
+            }
+
+            // Si existe el mensaje de error
+            if (tempDataMessageBad && tempDataMessageBad.trim() !== "") {
+                Swal.fire({
+                    title: 'Importante',
+                    html: `
+                        <div style="font-size: 6rem !important; color: #FFC107; margin-bottom: 30px; display: flex; justify-content: center; align-items: center;">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                        </div>
+                        <p style="font-size: 1.2rem; font-weight: 400;">${tempDataMessageBad}</p>
+                    `,
+                    confirmButtonText: 'Aceptar'
+                });
+            }
+        }); 
     </script>
+    
   </div>
+
+
 
 

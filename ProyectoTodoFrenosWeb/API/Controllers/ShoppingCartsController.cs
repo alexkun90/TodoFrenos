@@ -94,7 +94,7 @@ namespace API.Controllers
             {
                 //existingCartItem.Quantity += cartItemDto.Quantity;
                 //_context.CartItems.Update(existingCartItem);
-                return BadRequest(new { message = "El producto ya se encuentra en el carrito." });
+                return BadRequest(new { message = "El producto seleccionado ya se encuentra en el carrito." });
             }
             else
             {
@@ -108,7 +108,7 @@ namespace API.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return Ok(new { message = "Producto añadido al carrito" });
+            return Ok(new { message = "Producto añadido al carrito exitosamente." });
         }
 
 

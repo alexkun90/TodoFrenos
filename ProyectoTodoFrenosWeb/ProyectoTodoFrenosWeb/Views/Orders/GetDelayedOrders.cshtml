@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<DAL.Models.Order>
 
 @{
-    ViewData["Title"] = "Lista de Pedidos";
+    ViewData["Title"] = "Órdenes Denegadas";
     var successMessage = TempData["SuccessMessage"] as string;
     var errorMessage = TempData["ErrorMessage"] as string;
 }
 <link href="~/estilos/css/custom.css" rel="stylesheet" />
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Lista de Pedidos</h2>
+    <h2 class="text-center mb-4">Órdenes Denegadas</h2>
 
     @if (!string.IsNullOrEmpty(successMessage))
     {
@@ -33,9 +33,9 @@
                         <thead class="table-primary">
                             <tr>
                                 <th class="th-bg-custom">Código de Pedido</th>
+                                <th class="th-bg-custom">Usuario</th>
                                 <th class="th-bg-custom">Fecha de Pedido</th>
                                 <th class="th-bg-custom">Fecha de Retiro</th>
-                                <th class="th-bg-custom">Estado</th>
                                 <th class="th-bg-custom">SubTotal</th>
                                 <th class="th-bg-custom">Impuesto</th>
                                 <th class="th-bg-custom">Total</th>
@@ -47,26 +47,16 @@
                             {
                                 <tr>
                                     <td class="text-center align-middle">@item.CodigoOrder</td>
+                                    <td class="text-center align-middle">@item.User.Email</td>
                                     <td class="text-center align-middle">@item.OrderDate.ToString("dd MMM yyyy")</td>
-                                    <td class="text-center align-middle">@item.RetirementDate.ToString("dd MMM yyyy")</td>
-                                    <td class="text-center align-middle">
-                                        @{
-                                            string estado =
-                                            item.OrderState == 0 ? "Denegado" :
-                                            item.OrderState == 1 ? "Pendiente" :
-                                            item.OrderState == 2 ? "Entegado" :
-                                            "Sin estado";
-                                        }
-                                        @estado
-                                    
-                                    
-                                    </td>
+                                    <td class="text-center align-middle text-danger">@item.RetirementDate.ToString("dd MMM yyyy")</td>
                                     <td class="text-center align-middle">@item.SubTotal.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td class="text-center align-middle">@item.Tax.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td class="text-center align-middle">@item.Total.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td class="text-center align-middle">
                                         <a class="btn btn-details btn-action" href="@Url.Action("OrderDetailList","Orders", new { orderId = item.OrderId })">Detalles</a>
-                                        @if(item.OrderState == 1){
+                                        @if (item.OrderState == 1)
+                                        {
                                             <a class="btn btn-active-custom btn-action" href="@Url.Action("OrderDelivered","Orders", new { orderId = item.OrderId })">Completado</a>
                                         }
                                         @* <a class="btn btn-delete btn-sm" asp-action="Delete" asp-route-id="@item.OrderId">Eliminar</a> *@

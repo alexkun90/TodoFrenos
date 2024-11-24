@@ -98,7 +98,7 @@
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","Products")>Productos</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","Vehicles")>Vehículos</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","ManageAppointment")>Citas</a></li>
-                                <li><a class="dropdown-item-custom" href=@Url.Action("AllOrderList","Orders")>Órdenes</a></li>
+                                <li><a class="dropdown-item-custom" href=@Url.Action("Index","Orders")>Órdenes</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","ManagePayrolls")>Nóminas Empleados</a></li>
                                 @* <li><a class="dropdown-item-custom" href=@Url.Action("Index","Employees")>Empleados</a></li> *@
                             </ul>
@@ -142,7 +142,7 @@
                         </a>
 
                         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                        <a class="nav-icon position-relative text-decoration-none p-0 nav-link icon-hover-style" href="@Url.Action("Index", "ShoppingCarts", new { id = userId })">
+                        <a class="nav-icon position-relative text-decoration-none p-0 nav-link icon-hover-style" href="@Url.Action("Index", "ShoppingCarts")">
                             <i class="fa-solid fa-cart-shopping icon-custom"></i>
                             <span id="pendingCartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0</span>
                         </a>
@@ -233,6 +233,8 @@
 
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>*@
     @RenderSection("Scripts", required: false)

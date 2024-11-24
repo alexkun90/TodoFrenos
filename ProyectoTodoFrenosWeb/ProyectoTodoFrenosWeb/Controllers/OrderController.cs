@@ -37,12 +37,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
             if (cartItems == null || !cartItems.Any())
             {
                 TempData["Message"] = "Tu carrito está vacío.";
-                return RedirectToAction("Index", "ShoppingCarts");
+                return RedirectToAction("Index", "ShoppingCarts", new { id = userId });
             }
 
             var order = new Order
             {
                 UserId = userId,
+                OrderState = 1,
                 OrderDate = DateTime.Now,
                 RetirementDate = DateTime.Now.AddDays(3),
                 SubTotal = cartItem.Sum(ci => ci.Price * ci.Quantity),
@@ -72,9 +73,30 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return RedirectToAction("OrderList");
         }
 
-        public async Task<IActionResult> AllOrderList()
+        public ActionResult Index()
         {
-            var listResult = await _orderService.GetOrderList();
+            return View();
+        }
+
+        //public async Task<IActionResult> AllOrderList()
+        //{
+        //    var listResult = await _orderService.GetOrderList();
+        //    return View(listResult);
+        //}
+        
+        public async Task<IActionResult> GetDelayedOrders()
+        {
+            var listResult = await _orderService.GetDelayedOrders();
+            return View(listResult);
+        }
+        public async Task<IActionResult> GetPendingOrders()
+        {
+            var listResult = await _orderService.GetPendingOrders();
+            return View(listResult);
+        }
+        public async Task<IActionResult> GetDeliveredOrders()
+        {
+            var listResult = await _orderService.GetDeliveredOrders();
             return View(listResult);
         }
 
@@ -93,6 +115,26 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(listResult);
         }
 
+        public async Task<IActionResult> OrderDelivered(long orderId)
+        {
+            try
+            {
+                var result = await _orderService.OrderDelivered(orderId);
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Orden entregada correctamente.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Hubo un problema al entregar la orden.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Hubo un error al procesar la solicitud: {ex.Message}";
+            }
 
+            return RedirectToAction(nameof(GetDeliveredOrders));
+        }
     }
 }

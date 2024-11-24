@@ -36,14 +36,35 @@ namespace API.Controllers
             return Ok(new { message = "Orden creada con éxito", order.OrderId });
         }
 
-        [HttpGet("GetOrders")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        [HttpGet("GetDelayedOrders")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetDelayedOrders()
         {
             return await _context.Orders
+                .Where(o => o.OrderState == 0)
+                .Include(o => o.User)
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
         }
 
+        [HttpGet("GetPendingOrders")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetPendingOrders()
+        {
+            return await _context.Orders
+                .Where(o => o.OrderState == 1)
+                .Include(o => o.User)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
+
+        [HttpGet("GetDeliveredOrders")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetDeliveredOrders()
+        {
+            return await _context.Orders
+                .Where(o => o.OrderState == 2)
+                .Include(o => o.User)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
 
         [HttpGet("MyOrders/{userId}")]
         public async Task<ActionResult<IEnumerable<Order>>>GetMyOrders(string userId)
@@ -82,6 +103,29 @@ namespace API.Controllers
             }).ToList();
 
             return Ok(result);
+        }
+
+        [HttpPut("Delivered/{orderId}")]
+        public async Task<IActionResult> OrderDelivered(long orderId)
+        {
+            try
+            {
+                var order = await _context.Orders.FindAsync(orderId);
+                if (order == null)
+                {
+                    return NotFound(new { message = "Orden no encontrada." });
+                }
+
+                order.OrderState = 2;
+                _context.Orders.Update(order);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Orden entregada correctamente." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Error al cambiar el estado de la orden: {ex.Message}" });
+            }
         }
 
         private long GenerateOrderCode()

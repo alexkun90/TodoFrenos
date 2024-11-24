@@ -220,4 +220,21 @@
         document.getElementById('tax').textContent = tax.toFixed(2);
         document.getElementById('total').textContent = total.toFixed(2);
     }
+
+    document.getElementById("order-form").addEventListener("submit", function (event) {
+        event.preventDefault(); 
+
+        Swal.fire({
+            icon: 'success',
+            title: '¡Orden Confirmada!',
+            html: `
+                <p>Tu orden ha sido realizada con éxito. Puedes verificar el estado en el apartado <strong>"Lista de Pedidos"</strong> dentro de tu perfil de usuario.</p>
+                <p>Recuerda que debes recoger y pagar tu pedido en el taller dentro de un plazo de <strong>tres días hábiles</strong>.</p>
+            `,
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#007bff'
+        }).then(() => {
+            event.target.submit();
+        });
+    });
 </script>

@@ -272,7 +272,14 @@ namespace ProyectoTodoFrenosWeb.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var message = await shoppingCartService.AddToCart(userId, productId, quantity);
-            TempData["Message"] = message; 
+            if(message == "Producto añadido al carrito exitosamente.")
+            {
+                TempData["MessageOk"] = message;
+            }
+            else if (message == "El producto seleccionado ya se encuentra en el carrito.") 
+            {
+              TempData["MessageBad"] = message; 
+            }
             return RedirectToAction("IndexCliente");
         }
 

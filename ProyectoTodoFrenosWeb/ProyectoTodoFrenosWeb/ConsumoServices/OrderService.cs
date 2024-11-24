@@ -64,6 +64,86 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
             }
         }
 
+        public async Task<IEnumerable<Order>> GetDelayedOrders()
+        {
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value + $"/GetDelayedOrders";
+
+            try
+            {
+                var response = await client.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Order>>(responseData);
+
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Order>> GetPendingOrders()
+        {
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value + $"/GetPendingOrders";
+
+            try
+            {
+                var response = await client.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Order>>(responseData);
+
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Order>> GetDeliveredOrders()
+        {
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value + $"/GetDeliveredOrders";
+
+            try
+            {
+                var response = await client.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Order>>(responseData);
+
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public async Task<IEnumerable<Order>> GetMyOrderList(string userId)
         {
@@ -112,6 +192,21 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
                 {
                     return null;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> OrderDelivered(long? orderId)
+        {
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Order").Value + $"/Delivered/{orderId}";
+            try
+            {
+                var response = await client.PutAsync(apiUrl, null);
+                return response.IsSuccessStatusCode;
             }
             catch (Exception)
             {
