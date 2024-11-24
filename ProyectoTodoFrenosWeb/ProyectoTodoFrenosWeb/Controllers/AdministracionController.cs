@@ -7,8 +7,8 @@ using ProyectoTodoFrenosWeb.ViewModels;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
-	[Authorize]
-	public class AdministracionController : Controller
+    [Authorize(Roles = "Admin")]
+    public class AdministracionController : Controller
     {
         private readonly RoleManager<IdentityRole> gestionRoles;
         private readonly UserManager<ApplicationUser> gestionUsuarios;

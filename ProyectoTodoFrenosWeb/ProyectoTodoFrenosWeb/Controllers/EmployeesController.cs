@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
-    [Authorize(Roles = "Admin, Mecanico")]
+    [Authorize(Roles = "Admin")]
     public class EmployeesController : Controller
     {
         private readonly TodoFrenosDbContext _context;

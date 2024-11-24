@@ -12,7 +12,7 @@ using System.Text.Encodings.Web;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
-    [Authorize(Roles = "Admin,Mecanico")]
+    [Authorize(Roles = "Admin")]
     public class UsuarioController : Controller
     {
         

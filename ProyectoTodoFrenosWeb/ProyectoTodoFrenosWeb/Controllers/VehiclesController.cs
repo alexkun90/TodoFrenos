@@ -14,6 +14,7 @@ using DAL;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
+    [Authorize]
     public class VehiclesController : Controller
     {
         private readonly TodoFrenosDbContext _context;
@@ -51,7 +52,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: Vehicles/Details/5
-        [Authorize(Roles = "Admin, Mecanico ,User")]
+        [Authorize(Roles = "Admin, Mecanico, User")]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -59,6 +60,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 return NotFound();
             }
 
+            // Obtiene el vehículo por ID
             Vehicle vehicle = await vehicleService.GetVehicle(id);
 
             if (vehicle == null)
@@ -66,12 +68,25 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 return NotFound();
             }
 
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            // Obtiene el ID del usuario logueado
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            // Obtiene el rol del usuario actual
+            var userRoles = await _userManager.GetRolesAsync(await _userManager.FindByIdAsync(userId));
+
+            // Si el usuario tiene rol 'User', verifica si el vehículo pertenece a él
+            if (userRoles.Contains("User") && vehicle.UserId != userId) // Suponiendo que `Vehicle` tiene una propiedad `UserId`
+            {
+                return Forbid(); // Deniega el acceso si no es propietario del vehículo
+            }
+
+            // Completa la información del usuario
             var user = await _userManager.FindByIdAsync(userId);
             ViewBag.CompleateName = $"{user.Nombre} {user.PrimApellido} {user.SegunApellido}";
 
             return View(vehicle);
         }
+
 
         // GET: Vehicles/Create
         [Authorize(Roles = "Admin, Mecanico, User")]
