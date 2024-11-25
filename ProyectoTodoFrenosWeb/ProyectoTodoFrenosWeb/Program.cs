@@ -25,6 +25,22 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
     .AddDefaultUI()
     .AddDefaultTokenProviders();
 
+
+// Configuración de cookies para cerrar sesión al cerrar el navegador
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true; // La cookie solo es accesible por HTTP
+    options.Cookie.IsEssential = true; // Obligatoria para el cumplimiento de GDPR si aplica
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Tiempo máximo de sesión (opcional)
+    options.SlidingExpiration = true; // Renueva la cookie si hay actividad
+    options.Cookie.MaxAge = null; // Evita que sea persistente
+    options.LoginPath = "/Account/Login"; // Ruta de inicio de sesión
+    options.LogoutPath = "/Account/Logout"; // Ruta de cierre de sesión
+    options.AccessDeniedPath = "/Account/AccessDenied"; // Ruta de acceso denegado
+});
+
+
+
 builder.Services.AddHttpClient();
 
 builder.Services.Configure<IdentityOptions>(options =>
