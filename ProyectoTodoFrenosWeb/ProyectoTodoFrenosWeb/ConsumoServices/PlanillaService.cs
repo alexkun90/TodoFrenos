@@ -16,30 +16,29 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
         public async Task<IEnumerable<PlanillaEmpleado>> GetAllPlanilla(long nominaId)
         {
-            using (var client = new HttpClient())
+            var client = clientService.CreateClient();
+            var apiUrl = _config.GetSection("UrlServicios").GetSection("Planilla").Value + $"/List/{nominaId}";
+            try
             {
-                var apiUrl = _config.GetSection("UrlServicios").GetSection("Planilla").Value + $"/List/{nominaId}";
-                try
+                var response = await client.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(apiUrl);
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<PlanillaEmpleado>>(responseData);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        var result = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<PlanillaEmpleado>>(responseData);
-
-                        return result;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return result;
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return null;
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
 
         }
 

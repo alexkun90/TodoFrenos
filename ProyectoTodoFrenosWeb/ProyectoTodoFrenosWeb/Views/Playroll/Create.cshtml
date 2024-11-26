@@ -4,7 +4,7 @@
     ViewData["Title"] = "Crear Nómina";
 }
 
-<div class="container mt-5">
+@* <div class="container mt-5">
     <h2 class="text-center mb-4">Crear Nueva Nómina</h2>
     <hr />
 
@@ -68,7 +68,127 @@
         </div>
     </div>
     <br />
+</div> *@
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Crear Nueva Nómina</h2>
+    <hr />
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Create" method="post" id="payrollForm">
+                        @Html.HiddenFor(model => model.EmployeeId)
+                        @Html.HiddenFor(model => model.SalarioBruto)
+
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                @TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @TempData["ErrorMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Horas Extras</label>
+                            <div>
+                                <input type="radio" name="HorasExtrasSelection" value="Si" id="HorasExtrasSi" onclick="toggleInput('HorasExtras', true)" /> Sí
+                                <input type="radio" name="HorasExtrasSelection" value="No" id="HorasExtrasNo" onclick="toggleInput('HorasExtras', false)" /> No
+                            </div>
+                            <input asp-for="HorasExtras" class="form-control" id="HorasExtrasInput" />
+                            <input type="hidden" name="HorasExtras" id="HorasExtrasHidden" value="0" />
+                            <span asp-validation-for="HorasExtras" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Días de Vacaciones</label>
+                            <div>
+                                <input type="radio" name="DiasVacacionesSelection" value="Si" id="DiasVacacionesSi" onclick="toggleInput('DiasVacaciones', true)" /> Sí
+                                <input type="radio" name="DiasVacacionesSelection" value="No" id="DiasVacacionesNo" onclick="toggleInput('DiasVacaciones', false)" /> No
+                            </div>
+                            <input asp-for="DiasVacaciones" class="form-control" id="DiasVacacionesInput" />
+                            <input type="hidden" name="DiasVacaciones" id="DiasVacacionesHidden" value="0" />
+                            <span asp-validation-for="DiasVacaciones" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Incapacidad (días)</label>
+                            <div>
+                                <input type="radio" name="IncapacidadSelection" value="Si" id="IncapacidadSi" onclick="toggleInput('Incapacidad', true)" /> Sí
+                                <input type="radio" name="IncapacidadSelection" value="No" id="IncapacidadNo" onclick="toggleInput('Incapacidad', false)" /> No
+                            </div>
+                            <input asp-for="Incapacidad" class="form-control" id="IncapacidadInput" />
+                            <input type="hidden" name="Incapacidad" id="IncapacidadHidden" value="0" />
+                            <span asp-validation-for="Incapacidad" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="TipoIncapacidad" class="form-label">Tipo de Incapacidad</label>
+                            <select asp-for="TipoIncapacidad" class="form-control" id="TipoIncapacidad">
+                                <option value="">Seleccionar</option>
+                                <option value="CCSS">CCSS</option>
+                                <option value="INS">INS</option>
+                                <option value="Sin Incapacidad">Sin Incapacidad</option>
+                            </select>
+                            <span asp-validation-for="TipoIncapacidad" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <input type="submit" value="Crear Nómina" class="btn btn-agree w-100" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
 </div>
+
+<script>
+    function toggleInput(fieldName, enable) {
+        const input = document.getElementById(fieldName + 'Input');
+        const hiddenInput = document.getElementById(fieldName + 'Hidden');
+        if (enable) {
+            input.disabled = false;
+            hiddenInput.value = input.value;
+            if (fieldName === 'Incapacidad') {
+                document.getElementById('TipoIncapacidad').value = '';
+            }
+        } else {
+            input.value = 0;
+            hiddenInput.value = 0;
+            input.disabled = true;
+            if (fieldName === 'Incapacidad') {
+                document.getElementById('TipoIncapacidad').value = 'Sin Incapacidad';
+            }
+        }
+    }
+
+    // Initialize inputs based on selection
+    document.getElementById('HorasExtrasNo').checked = true;
+    toggleInput('HorasExtras', false);
+
+    document.getElementById('DiasVacacionesNo').checked = true;
+    toggleInput('DiasVacaciones', false);
+
+    document.getElementById('IncapacidadNo').checked = true;
+    toggleInput('Incapacidad', false);
+</script>
+
+
+
+
+
+
+
 
 <!-- Modal de Advertencia -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

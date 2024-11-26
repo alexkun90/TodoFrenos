@@ -54,6 +54,9 @@
                         <dt class="col-sm-8">Incapacidad</dt>
                         <dd class="col-sm-4">@Model.Incapacidad</dd>
 
+                        <dt class="col-sm-8">Tipo de Incapacidad</dt>
+                        <dd class="col-sm-4">@Model.TipoIncapacidad</dd>
+
                         <dt class="col-sm-8">Salario Bruto</dt>
                         <dd class="col-sm-4">₡@Model.SalarioBruto?.ToString("N")</dd>
                     </dl>
@@ -74,7 +77,13 @@
                         <dd class="col-sm-4">₡@Model.LPT?.ToString("N")</dd>
 
                         <dt class="col-sm-8">Impuesto de Renta</dt>
-                        <dd class="col-sm-4">₡@Model.ImpuestoRenta?.ToString("N")</dd>
+                        <dd class="col-sm-4">₡@(Model.ImpuestoRenta == 0 ? "Sin impuesto" : Model.ImpuestoRenta?.ToString("N"))</dd>
+
+                        <dt class="col-sm-8">Rebaja de Incapacidad</dt>
+                        <dd class="col-sm-4">₡@(Model.DescuentoIncapacitacion == null ? "Sin rebajas" : Model.DescuentoIncapacitacion?.ToString("N"))</dd>
+
+                        <dt class="col-sm-8">Deducciones Totales</dt>
+                        <dd class="col-sm-4">₡@Model.TotalDeduccion?.ToString("N")</dd>
 
                         <dt class="col-sm-8">Salario Neto</dt>
                         <dd class="col-sm-4">₡@Model.SalarioNeto?.ToString("N")</dd>

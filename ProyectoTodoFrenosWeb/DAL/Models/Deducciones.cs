@@ -20,6 +20,7 @@ namespace DAL.Models
         public decimal? SEM { get; set; }
         public decimal? IVM { get; set; }
         public decimal? LPT { get; set; }
+        public decimal? DescuentoIncapacitacion { get; set; }
         public decimal? ImpuestoRenta { get; set; }
         public decimal? TotalDeduccion { get; set; }
         public virtual PlayrollDetail? PlayrollDetail { get; set; }

@@ -63,6 +63,7 @@ namespace API.Controllers
             planillaEmpleado.IVM = playroll.Deducciones.IVM / 2;
             planillaEmpleado.LPT = playroll.Deducciones.LPT / 2;
             planillaEmpleado.ImpuestoRenta = playroll.Deducciones.ImpuestoRenta / 2;
+            planillaEmpleado.DescuentoIncapacitacion = playroll.Deducciones.DescuentoIncapacitacion / 2;
 
             planillaEmpleado.TotalDeducciones = playroll.Deducciones.TotalDeduccion / 2;
             planillaEmpleado.SalarioNetoFinal = playroll.SalarioNeto / 2;

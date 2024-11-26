@@ -73,7 +73,9 @@ namespace API.Controllers
                 PlusesSalariales = playroll.Deducciones.PlayrollDetail.Employee.PlusesSalariales,
                 HorasExtras = playroll.Deducciones.PlayrollDetail.HorasExtras,
                 DiasVacaciones = playroll.Deducciones.PlayrollDetail.DiasVacaciones,
-                Incapacidad = playroll.Deducciones.PlayrollDetail.Incapacidad,               
+                Incapacidad = playroll.Deducciones.PlayrollDetail.Incapacidad,   
+                TipoIncapacidad = playroll.Deducciones.PlayrollDetail.TipoIncapacidad,
+                DescuentoIncapacitacion = playroll.Deducciones.DescuentoIncapacitacion,
                 SalarioBruto = playroll.Deducciones.SalarioBruto,
                 SEM = playroll.Deducciones.SEM,
                 IVM = playroll.Deducciones.IVM,
@@ -163,6 +165,7 @@ namespace API.Controllers
                 IVM = monto * 0.0417m,
                 LPT = monto * 0.01m,
                 ImpuestoRenta = impuestoR,
+                DescuentoIncapacitacion = montoDescuento,
                 TotalDeduccion = (monto * 0.0550m) + (monto * 0.0417m) + (monto * 0.01m) + (impuestoR) + (montoDescuento)
             };
             _context.Deducciones.Add(deduccion);

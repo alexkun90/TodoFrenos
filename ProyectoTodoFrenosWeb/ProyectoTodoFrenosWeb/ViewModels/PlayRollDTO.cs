@@ -13,6 +13,8 @@
         public int? HorasExtras { get; set; }
         public int? DiasVacaciones { get; set; }
         public int? Incapacidad { get; set; }
+        public string? TipoIncapacidad { get; set; }
+        public decimal? DescuentoIncapacitacion { get; set; }
         public decimal? TotalDeduccion { get; set; }
         public decimal? SalarioBruto { get; set; }
         public decimal? SEM { get; set; }
