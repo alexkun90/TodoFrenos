@@ -608,3 +608,14 @@ html, body {
         margin-left: 350px;
     }
 }
+.form-floating .form-label {
+    font-size: 18px !important; /* Cambiar el tamaño del texto */
+/*    top: 0.5rem !important;*/ /* Ajustar la posición vertical */
+}
+
+
+.form-floating .form-control:focus ~ .form-label,
+.form-floating .form-control:not(:placeholder-shown) ~ .form-label {
+    font-size: 16px !important; /* Texto más pequeño cuando el input está activo */
+    top: -0.3rem !important; /* Mover hacia arriba */
+}
