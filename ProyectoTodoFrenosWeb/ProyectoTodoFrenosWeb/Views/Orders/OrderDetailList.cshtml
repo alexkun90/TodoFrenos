@@ -12,9 +12,6 @@
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th class="th-bg-custom">ID Detalle del Pedido</th>
-                    <th class="th-bg-custom">ID del Pedido</th>
-                    <th class="th-bg-custom">ID del Producto</th>
                     <th class="th-bg-custom">Nombre del Producto</th>
                     <th class="th-bg-custom">Precio</th>
                     <th class="th-bg-custom">Precio con IVA</th>
@@ -27,9 +24,6 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.OrderDetailId</td>
-                        <td>@item.OrderId</td>
-                        <td>@item.ProductId</td>
                         <td>@item.ProductName</td>
                         <td>₡@item.Price?.ToString("N", new System.Globalization.CultureInfo("es-CR"))</td>
                         <td>₡@item.PriceWithTax?.ToString("N", new System.Globalization.CultureInfo("es-CR"))</td>

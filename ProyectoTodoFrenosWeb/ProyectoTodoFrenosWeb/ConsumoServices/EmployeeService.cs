@@ -86,26 +86,37 @@ namespace ProyectoTodoFrenosWeb.ConsumoServices
 
                 if (response.IsSuccessStatusCode)
                 {
-
                     var responseData = await response.Content.ReadAsStringAsync();
                     var result = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(responseData);
-
                     return result;
                 }
                 else if (response.StatusCode == HttpStatusCode.Conflict)
                 {
-                    throw new Exception("La cedula ingresada le pertenece a otro employee");
+                    // Manejo de mensajes detallados de conflicto
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+
+                    if (errorMessage.Contains("cédula", StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new Exception("La cédula ingresada ya pertenece a otro empleado.");
+                    }
+                    else if (errorMessage.Contains("contacto", StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new Exception("El contacto de emergencia ingresado ya está registrado por otro empleado.");
+                    }
+                    else
+                    {
+                        throw new Exception("Conflicto detectado: el empleado ya existe.");
+                    }
                 }
                 else
                 {
-                    return null;
+                    throw new Exception("Error al procesar la solicitud. Intente nuevamente.");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception($"Error al crear el empleado: {ex.Message}");
             }
-            
         }
 
         //Editar

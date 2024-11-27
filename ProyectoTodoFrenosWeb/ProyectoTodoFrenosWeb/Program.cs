@@ -45,7 +45,7 @@ builder.Services.AddHttpClient();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    // Configura los requisitos de la contraseña
+    // Configura los requisitos de la contraseï¿½a
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;

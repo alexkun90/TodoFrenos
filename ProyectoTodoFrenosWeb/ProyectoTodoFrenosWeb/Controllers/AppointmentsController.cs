@@ -76,7 +76,6 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 try
                 {
                     var resultado = await appointmentService.CreateAppointment(appointment);
-                    TempData["SuccessMessage"] = "Solicitud de cita enviada correctamente.";
                     return RedirectToAction(nameof(Create));
                 }
                 catch (Exception ex)
