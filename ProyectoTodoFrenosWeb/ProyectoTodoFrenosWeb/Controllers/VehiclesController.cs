@@ -89,7 +89,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
 
         // GET: Vehicles/Create
-        [Authorize(Roles = "Admin, Mecanico, User")]
+        [Authorize(Roles = "User")]
         public IActionResult Create()
         {
             return View();

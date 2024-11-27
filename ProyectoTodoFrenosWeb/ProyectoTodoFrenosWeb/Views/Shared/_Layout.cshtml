@@ -83,6 +83,7 @@
                         <li class="nav-item">
                             <a class="nav-link nav-link-a-custom" href=@Url.Action("IndexCliente","Products")>Productos</a>
                         </li>
+
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Mecanico"))
                         {
                             <li class="nav-item">

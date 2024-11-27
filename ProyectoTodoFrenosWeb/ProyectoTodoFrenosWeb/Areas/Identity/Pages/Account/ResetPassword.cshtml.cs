@@ -54,7 +54,7 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             ///     The new password the user wants to set.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "Almenos {0} q be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -63,7 +63,7 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirm new password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Las contraseñas deben ser iguales")]
             public string ConfirmPassword { get; set; }
 
             /// <summary>

@@ -31,7 +31,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.HttpOnly = true; // La cookie solo es accesible por HTTP
     options.Cookie.IsEssential = true; // Obligatoria para el cumplimiento de GDPR si aplica
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Tiempo máximo de sesión (opcional)
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(180); // Tiempo máximo de sesión (opcional)
     options.SlidingExpiration = true; // Renueva la cookie si hay actividad
     options.Cookie.MaxAge = null; // Evita que sea persistente
     options.LoginPath = "/Account/Login"; // Ruta de inicio de sesión

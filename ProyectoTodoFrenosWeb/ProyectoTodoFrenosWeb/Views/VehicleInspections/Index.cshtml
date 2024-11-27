@@ -10,11 +10,15 @@
     <h2 style="text-align:center;">Historial de los resultados de las Inspecciones 
         <br>del Vehículo  @ViewBag.vehiclePlate<br />
     </h2>
-    <div class="mb-2">
-        <a asp-action="Create" asp-route-vehicleId="@ViewBag.vehicleId" class="btn btn-agree">Nueva Inspección 
-            <i class=" ms-1 fa-solid fa-file-lines"></i>
-        </a>
-    </div>
+    
+    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Mecanico") || User.IsInRole("Admin"))
+    {
+        <div class="mb-2">
+            <a asp-action="Create" asp-route-vehicleId="@ViewBag.vehicleId" class="btn btn-agree">Nueva Inspección 
+                <i class=" ms-1 fa-solid fa-file-lines"></i>
+            </a>
+        </div>
+    }
     <div class="container-border-custom mb-2">
         <div class="table-responsive">
             <div id="dataTable_wrapper" class="dataTables_wrapper">
@@ -46,11 +50,13 @@
                                             @Html.DisplayFor(modelItem => item.InspectorName)
                                         </td>                                       
                                         <td class="text-center align-middle">
-
-                                            <a class="btn btn-modify btn-action" asp-action="Edit" asp-route-id="@item.VehicleInspectionId">Editar</a> 
                                             <a class="btn btn-details btn-action" asp-action="Details" asp-route-id="@item.VehicleInspectionId">Detalles</a>
-                                            <a class="btn btn-delete btn-action" asp-action="Delete" asp-route-id="@item.VehicleInspectionId">Delete</a>
-                                           @*<button type="button" class="btn btn-inactive AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                            @if (SignInManager.IsSignedIn(User) && User.IsInRole("Mecanico") || User.IsInRole("Admin"))
+                                            {
+                                                <a class="btn btn-modify btn-action" asp-action="Edit" asp-route-id="@item.VehicleInspectionId">Editar</a> 
+                                                <a class="btn btn-delete btn-action" asp-action="Delete" asp-route-id="@item.VehicleInspectionId">Delete</a>
+                                            }
+                                            @*<button type="button" class="btn btn-inactive AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                     data-id="@item.VehicleInspectionId" style="font:bold;font-size:18px">
                                                     Eliminar
                                             </button>*@

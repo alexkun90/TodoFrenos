@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using DAL.Models;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using DAL;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -18,15 +21,17 @@ namespace ProyectoTodoFrenosWeb.Controllers
         VehicleInspectionService service;
         VehicleService serviceVehicle;
         private readonly HttpClientService clientService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public VehicleInspectionsController(TodoFrenosDbContext context, IConfiguration config, HttpClientService clientService)
+        public VehicleInspectionsController(TodoFrenosDbContext context, UserManager<ApplicationUser> userManager, IConfiguration config, HttpClientService clientService)
         {
             this.service = new VehicleInspectionService(config, clientService);
             this.serviceVehicle = new VehicleService(config, clientService);
+            _userManager = userManager;
         }
 
         // GET: VehicleInspections
-        [Authorize(Roles = "Admin, Mecanico")]
+        [Authorize(Roles = "Admin, Mecanico,User")]
         public async Task<IActionResult> Index(long? id)
         {
             Vehicle vehiclePlate = await serviceVehicle.GetVehicle(id);
@@ -46,10 +51,20 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 return NotFound();
             }
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userRoles = await _userManager.GetRolesAsync(await _userManager.FindByIdAsync(userId));
+            var vehicleId = inspection.VehicleId;
+            var vehicle = await serviceVehicle.GetVehicle(vehicleId);
+            if (userRoles.Contains("User") && vehicle.UserId != userId) // Suponiendo que `Vehicle` tiene una propiedad `UserId`
+            {
+                return Forbid(); // Deniega el acceso si no es propietario del vehículo
+            }
+
             return View(inspection);
         }
 
         // GET: VehicleInspections/Create
+        [Authorize(Roles = "Admin, Mecanico")]
         public IActionResult Create(long vehicleId)
         {
             var inspection = new VehicleInspection { VehicleId = vehicleId };
