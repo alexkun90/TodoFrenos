@@ -29,6 +29,8 @@ namespace ProyectoTodoFrenosWeb.ViewModels
         public string Email { get; set; }
 
         public List<string> Notificaciones { get; set; }
+
+        [Required]
         public IList<string> Roles { get; set;}
     }
 }

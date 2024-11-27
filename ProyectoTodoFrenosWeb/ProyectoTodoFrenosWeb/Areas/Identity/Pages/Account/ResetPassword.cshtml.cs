@@ -47,14 +47,14 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
+            [Display(Name = "Contraseña Actual")]
             public string CurrentPassword { get; set; }
 
             /// <summary>
             ///     The new password the user wants to set.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "Almenos {0} q be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "El campo {0} debe tener al menos {2} caracteres y un máximo de {1} caracteres.", MinimumLength = 8)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -62,8 +62,8 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             ///     Confirmation of the new password.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("Password", ErrorMessage = "Las contraseñas deben ser iguales")]
+            [Display(Name = "Confirmar Nueva Contraseña")]
+            [Compare("Password", ErrorMessage = "La contraseña y la confirmación de la contraseña no coinciden.")]
             public string ConfirmPassword { get; set; }
 
             /// <summary>
@@ -108,7 +108,7 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             var passwordValid = await _userManager.CheckPasswordAsync(user, Input.CurrentPassword);
             if (!passwordValid)
             {
-                ModelState.AddModelError(string.Empty, "The current password is incorrect.");
+                ModelState.AddModelError(string.Empty, "La contraseña actual es incorrecta");
                 return Page();
             }
 

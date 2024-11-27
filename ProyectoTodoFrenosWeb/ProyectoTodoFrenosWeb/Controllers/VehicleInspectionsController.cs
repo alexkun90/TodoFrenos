@@ -41,7 +41,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             var result = await service.GetList(id);
             return View(result);
         }
-
+        [Authorize(Roles = "Admin,Mecanico,User")]
         // GET: VehicleInspections/Details/5
         [Authorize(Roles = "Admin, Mecanico, User")]
         public async Task<IActionResult> Details(long? id)
@@ -63,6 +63,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(inspection);
         }
 
+        [Authorize(Roles = "Admin,Mecanico")]
         // GET: VehicleInspections/Create
         [Authorize(Roles = "Admin, Mecanico")]
         public IActionResult Create(long vehicleId)
@@ -72,6 +73,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // POST: VehicleInspections/Create
+        [Authorize(Roles = "Admin,Mecanico")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Mecanico")]
@@ -120,6 +122,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // POST: VehicleInspections/Edit/5
+        [Authorize(Roles = "Admin,Mecanico")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Mecanico")]
@@ -172,6 +175,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // POST: VehicleInspections/Delete/5
+        [Authorize(Roles = "Admin,Mecanico")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Mecanico")]

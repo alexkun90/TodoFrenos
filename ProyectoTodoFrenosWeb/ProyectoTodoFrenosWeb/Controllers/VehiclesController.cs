@@ -223,7 +223,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         /* MyVehicles */
-        [Authorize(Roles = "User, Mecanico, Admin")]
+        [Authorize(Roles = "User,Mecanico, Admin")]
         public async Task<IActionResult> MyVehicles()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
