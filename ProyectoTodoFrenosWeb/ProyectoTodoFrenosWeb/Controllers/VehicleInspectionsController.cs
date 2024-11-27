@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace ProyectoTodoFrenosWeb.Controllers
 {
     //[ResponseCache(NoStore = true, Location = ResponseCacheLocation.None, Duration = 0, VaryByQueryKeys = new[] { "*" })]
-    [Authorize(Roles = "Admin,Mecanico")]
+    
     public class VehicleInspectionsController : Controller
     {
         VehicleInspectionService service;
@@ -26,6 +26,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: VehicleInspections
+        [Authorize(Roles = "User, Admin, Mecanico")]
         public async Task<IActionResult> Index(long? id)
         {
             Vehicle vehiclePlate = await serviceVehicle.GetVehicle(id);
@@ -35,7 +36,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             var result = await service.GetList(id);
             return View(result);
         }
-
+        [Authorize(Roles = "Admin,Mecanico,User")]
         // GET: VehicleInspections/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -47,6 +48,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(inspection);
         }
 
+        [Authorize(Roles = "Admin,Mecanico")]
         // GET: VehicleInspections/Create
         public IActionResult Create(long vehicleId)
         {
@@ -55,6 +57,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // POST: VehicleInspections/Create
+        [Authorize(Roles = "Admin,Mecanico")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(VehicleInspection vehicleInspection)
@@ -83,6 +86,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: VehicleInspections/Edit/5
+        [Authorize(Roles = "Admin,Mecanico")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -101,6 +105,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // POST: VehicleInspections/Edit/5
+        [Authorize(Roles = "Admin,Mecanico")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, VehicleInspection vehicleInspection)
@@ -135,6 +140,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // GET: VehicleInspections/Delete/5
+        [Authorize(Roles = "Admin,Mecanico")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -151,6 +157,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // POST: VehicleInspections/Delete/5
+        [Authorize(Roles = "Admin,Mecanico")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)

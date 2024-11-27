@@ -27,19 +27,19 @@ public class IndexModel : PageModel
 
     public class InputModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo nombre de usuario es obligatorio.")]
         [Display(Name = "Nombre de Usuario")]
         public string NombreUsuario { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo primer apellido es obligatorio.")]
         [Display(Name = "Primer Apellido")]
         public string PrimApellido { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo segundo apellido es obligatorio.")]
         [Display(Name = "Segundo Apellido")]
         public string SegunApellido { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo correo electrónico es obligatorio.")]
         [EmailAddress]
         [Display(Name = "Correo Electrónico")]
         public string Email { get; set; }
