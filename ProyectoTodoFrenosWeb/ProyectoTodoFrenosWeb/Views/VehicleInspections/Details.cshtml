@@ -3,16 +3,22 @@
 @{
     ViewData["Title"] = "Details";
 }
+<head>
+    <link href="~/estilos/css/templatemo.css" rel="stylesheet" />
+    <link href="~/estilos/css/custom.css" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
 <div class="container mt-5">
-    <div class="container-border-custom mb-2">
+    <div class="container-border-custom mb-2" style="border: 2px solid #ccc;padding: 20px;">
         <div class="table">
             <div id="dataTable_wrapper" class="dataTables_wrapper">
                 <div class="col-sm-12">
                     <div class="col-sm-12">
                         <div>
                             <h4>Inspección Vehicular</h4>
-                            <hr />
+                            <div style="border-top: 1px solid #ccc; margin: 20px 0;"></div>
                             <div style="display:flex">
                                 <div class="ms-3 me-2">
                                     <dt>@Html.DisplayNameFor(model => model.InspectorName):</dt>
@@ -41,10 +47,25 @@
                             <table class="table table-bordered ms-3">
                                 <thead>
                                     <tr>
-                                        <th class="th-bg-custom" style="width:10%">Parte</th>
-                                        <th class="th-bg-verify" style="width:5%">Verificado</th>
-                                        <th class="th-bg-fails" style="width:5%">Presenta Fallos</th>
-                                        <th class="th-bg-notverify" style="width:5%">Sin Verificar</th>
+                                        <th style="background-color: #b7bfc7 !important;color: #333333 !important;
+                                                   text-align: center !important;width:10%">
+                                            Parte
+                                        </th>
+                                        
+                                        <th style="background-color: #419855 !important;color: #e6e6e6 !important;
+                                                   text-align: center !important;width:5%">
+                                            Verificado
+                                        </th>
+                                        
+                                        <th style="background-color: #e04b59 !important;color: #e6e6e6 !important;
+                                                   text-align: center !important;width:5%">
+                                            Presenta Fallos
+                                        </th>
+                                        
+                                        <th style="background-color: #e8bc52 !important;color: #e6e6e6 !important;
+                                                   text-align: center !important;width:5%">
+                                            Sin Verificar
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>

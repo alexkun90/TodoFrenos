@@ -1,4 +1,3 @@
-using OpenAI_API;
 using DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using DAL;

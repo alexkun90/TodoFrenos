@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using DAL;
+using SelectPdf;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -22,12 +26,18 @@ namespace ProyectoTodoFrenosWeb.Controllers
         VehicleService serviceVehicle;
         private readonly HttpClientService clientService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ICompositeViewEngine _viewEngine;
+        private readonly ITempDataProvider _tempDataProvider;
 
-        public VehicleInspectionsController(TodoFrenosDbContext context, UserManager<ApplicationUser> userManager, IConfiguration config, HttpClientService clientService)
+        public VehicleInspectionsController(TodoFrenosDbContext context, UserManager<ApplicationUser> userManager,
+                                            IConfiguration config, HttpClientService clientService,
+                                            ICompositeViewEngine viewEngine, ITempDataProvider tempDataProvider)
         {
             this.service = new VehicleInspectionService(config, clientService);
             this.serviceVehicle = new VehicleService(config, clientService);
             _userManager = userManager;
+            _viewEngine = viewEngine; 
+            _tempDataProvider = tempDataProvider;
         }
 
         // GET: VehicleInspections
@@ -41,13 +51,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
             var result = await service.GetList(id);
             return View(result);
         }
-        [Authorize(Roles = "Admin,Mecanico,User")]
+
         // GET: VehicleInspections/Details/5
-        [Authorize(Roles = "Admin, Mecanico, User")]
+        [Authorize(Roles = "Admin, Mecanico,User")]
         public async Task<IActionResult> Details(long? id)
         {
             VehicleInspection inspection = await service.GetVehicleInspection(id);
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -192,5 +202,78 @@ namespace ProyectoTodoFrenosWeb.Controllers
             var vehicleInspection = await service.GetVehicleInspection(id);
             return View("Delete", vehicleInspection);
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, Mecanico,User")]
+        public async Task<IActionResult> DownloadPdf(long id)
+        {
+            VehicleInspection inspection = await service.GetVehicleInspection(id);
+            if (inspection == null)
+            {
+                return NotFound();
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userRoles = await _userManager.GetRolesAsync(await _userManager.FindByIdAsync(userId));
+            var vehicleId = inspection.VehicleId;
+            var vehicle = await serviceVehicle.GetVehicle(vehicleId);
+            if (userRoles.Contains("User") && vehicle.UserId != userId) // Suponiendo que `Vehicle` tiene una propiedad `UserId`
+            {
+                return Forbid(); // Deniega el acceso si no es propietario del vehículo
+            }
+
+            // Generar la vista HTML como cadena
+            string htmlContent = await RenderViewAsStringAsync("Details", inspection);
+
+            string additionalHtml = @"
+                <div style='text-align: center; margin-top: 5%;'> 
+                    <img src='https://th.bing.com/th/id/R.4e082d1c06a52c8e9b8b7dcc8fae1a4d?rik=CJt0PbhK%2fM%2fI%2bg&riu=http%3a%2f%2fwww.todofrenoscr.com%2fimages%2flogo-index.png&ehk=be5cqlD85FVdl9L90gnyf1HlHzoNFY%2fh0ZpAPqsLNlk%3d&risl=&pid=ImgRaw&r=0' style='max-width: 200px; margin-bottom: 20px;' />
+                    <h1 style='color: #000;'>Reporte de Inspección Vehicular</h1> 
+                </div>"; 
+            
+            // Combinar el HTML adicional con el contenido renderizado de la vista
+            string completeHtmlContent = additionalHtml + htmlContent;
+
+            // Crear un convertidor de HTML a PDF
+            var converter = new HtmlToPdf();
+
+            // Convertir el HTML a PDF
+            var pdfDocument = converter.ConvertHtmlString(completeHtmlContent);
+
+            // Enviar el PDF al navegador para descargarlo
+            byte[] pdfBytes = pdfDocument.Save();
+            pdfDocument.Close();
+
+            return File(pdfBytes, "application/pdf", "Inspección Vehícular Todo Frenos.pdf");
+        }
+
+
+        private async Task<string> RenderViewAsStringAsync(string viewName, object model)
+        {
+            var viewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
+            {
+                Model = model
+            };
+            using (var writer = new StringWriter())
+            {
+                var viewResult = _viewEngine.FindView(ControllerContext, viewName, false);
+                if (viewResult.View == null)
+                {
+                    throw new ArgumentNullException($"La vista '{viewName}' no fue encontrada.");
+                }
+                var viewContext = new ViewContext(
+                    ControllerContext,
+                    viewResult.View,
+                    viewData,
+                    new TempDataDictionary(ControllerContext.HttpContext, _tempDataProvider),
+                    writer,
+                    new HtmlHelperOptions()
+                );
+                await viewResult.View.RenderAsync(viewContext);
+                return writer.GetStringBuilder().ToString();
+            }
+        }
+
+
     }
 }

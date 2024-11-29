@@ -48,13 +48,24 @@
                                         </td>
                                         <td class="text-center align-middle">
                                             @Html.DisplayFor(modelItem => item.InspectorName)
-                                        </td>                                       
-                                        <td class="text-center align-middle">
+                                        </td>
+                                        <td class="d-flex flex-column align-items-center">
+                                            
+                                            <form method="post" asp-controller="VehicleInspections" asp-action="DownloadPdf">
+                                                <input  type="hidden" name="id" value="@item.VehicleInspectionId" />
+                                                <button class="btn btn-agree btn-action"
+                                                        style="width: 150px !important; font-size: 18px !important;" 
+                                                        type="submit">
+                                                    Descargar
+                                                </button>
+                                            </form>
                                             <a class="btn btn-details btn-action" asp-action="Details" asp-route-id="@item.VehicleInspectionId">Detalles</a>
+
                                             @if (SignInManager.IsSignedIn(User) && User.IsInRole("Mecanico") || User.IsInRole("Admin"))
                                             {
                                                 <a class="btn btn-modify btn-action" asp-action="Edit" asp-route-id="@item.VehicleInspectionId">Editar</a> 
                                                 <a class="btn btn-delete btn-action" asp-action="Delete" asp-route-id="@item.VehicleInspectionId">Delete</a>
+                                               
                                             }
                                             @*<button type="button" class="btn btn-inactive AbrirModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                     data-id="@item.VehicleInspectionId" style="font:bold;font-size:18px">

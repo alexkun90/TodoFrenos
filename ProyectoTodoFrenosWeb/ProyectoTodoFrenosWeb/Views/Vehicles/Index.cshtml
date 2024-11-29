@@ -54,7 +54,7 @@
                                                 @:Inactivo
                                             }
                                         </td>
-                                        <td class="text-center align-middle">
+                                        <td class="d-flex flex-column align-items-center">
                                             <a class="btn btn-modify btn-action" asp-action="Edit" asp-route-id="@item.VehicleId">Editar</a>
                                             @*<a class="btn btn-primary" asp-action="Details" asp-route-id="@item.VehicleId">Expediente</a>*@
                                             <a class="btn btn-inspections btn-action" href="@Url.Action("Index","VehicleInspections", new { id = @item.VehicleId })">Inspecciones</a>
