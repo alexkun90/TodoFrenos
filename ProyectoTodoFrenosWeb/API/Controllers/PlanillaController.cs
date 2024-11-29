@@ -41,6 +41,15 @@ namespace API.Controllers
         [HttpPost("{nominaId}")]
         public async Task<IActionResult> CreatePlanillaEmpleado(long nominaId, PlanillaEmpleado planillaEmpleado)
         {
+
+            var cantPlanillaNomina = await _context.PlanillaEmpleados
+            .CountAsync(pe => pe.NominaId == nominaId);
+
+            if (cantPlanillaNomina >= 2)
+            {
+                return BadRequest(new { message = "Ya existen 2 planillas asociadas a esta nómina. No se puede crear más." });
+            }
+
             var playroll = await _context.Playrolls
                 .Where(p => p.NominaId == nominaId)
                 .Include(p => p.Deducciones)

@@ -1,6 +1,7 @@
 ﻿using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using ProyectoTodoFrenosWeb.ViewModels;
 using System.Net.Http;
@@ -11,13 +12,9 @@ namespace ProyectoTodoFrenosWeb.Controllers
     public class PlayrollController : Controller
     {
         PlayrollService service;
-        EmployeeService employeeService;
-
-        private readonly HttpClientService clientService;
         public PlayrollController(IConfiguration config, HttpClientService clientService)
         {
             service = new PlayrollService(config, clientService);
-            employeeService = new EmployeeService(config, clientService);
         }
 
         public async Task<IActionResult> Index()

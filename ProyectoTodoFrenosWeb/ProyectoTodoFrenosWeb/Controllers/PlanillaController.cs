@@ -32,6 +32,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
         public IActionResult Create(long nominaId)
         {
+            var payroll = playrollService.GetPlayrollDetails(nominaId);
+            DateTime? StartDate = payroll.Result.FechaInicio;
+            DateTime? EndDate = payroll.Result.FechaFin;
+
+            ViewBag.StartDate = StartDate;
+            ViewBag.EndDate = EndDate;
+
             var model = new PlanillaEmpleado
             {
                 NominaId = nominaId,
@@ -55,24 +62,29 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 try
                 {
                     var resultado = await service.CreatePlanilla(model.NominaId, model);
+                    
 
                     if (resultado != null)
                     {
                         TempData["MenasajeExito"] = "Planilla creada Exitosamente";
+                        
                         return RedirectToAction("Index", "Playroll");
                     }
                     else
                     {
-                        return View(model);
+                        TempData["Message"] = "Ya existen 2 planillas asociadas a esta nómina. No se puede crear más.";
                     }
                 }
 
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", ex.Message);
-                    return View(model);
                 }
             }
+            var payroll = await playrollService.GetPlayrollDetails(model.NominaId);
+            ViewBag.StartDate = payroll?.FechaInicio;
+            ViewBag.EndDate = payroll?.FechaFin;
+
             return View(model);
         }
     }

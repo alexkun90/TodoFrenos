@@ -619,3 +619,9 @@ html, body {
     font-size: 16px !important; /* Texto más pequeño cuando el input está activo */
     top: -0.3rem !important; /* Mover hacia arriba */
 }
+
+.text-danger ul {
+    list-style-type: none !important;  /* Elimina las viñetas */
+    padding: 0 !important; /* Opcional: elimina el espacio de relleno izquierdo */
+    margin: 0 !important; /* Opcional: elimina el margen */
+}

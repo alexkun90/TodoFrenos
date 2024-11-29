@@ -46,17 +46,18 @@
                         <dd class="col-sm-4">₡@Model.PlusesSalariales?.ToString("N")</dd>
 
                         <dt class="col-sm-8">Horas Extras</dt>
-                        <dd class="col-sm-4">@Model.HorasExtras</dd>
+                        <dd class="col-sm-4">@Model.HorasExtras horas</dd>
 
                         <dt class="col-sm-8">Días de Vacaciones</dt>
-                        <dd class="col-sm-4">@Model.DiasVacaciones</dd>
+                        <dd class="col-sm-4">@Model.DiasVacaciones días</dd>
 
-                        <dt class="col-sm-8">Incapacidad</dt>
-                        <dd class="col-sm-4">@Model.Incapacidad</dd>
+                        <dt class="col-sm-8">Días de Incapacidad</dt>
+                        <dd class="col-sm-4">@Model.Incapacidad días</dd>
 
                         <dt class="col-sm-8">Tipo de Incapacidad</dt>
                         <dd class="col-sm-4">@Model.TipoIncapacidad</dd>
 
+                        <hr />
                         <dt class="col-sm-8">Salario Bruto</dt>
                         <dd class="col-sm-4">₡@Model.SalarioBruto?.ToString("N")</dd>
                     </dl>
@@ -82,9 +83,11 @@
                         <dt class="col-sm-8">Rebaja de Incapacidad</dt>
                         <dd class="col-sm-4">₡@(Model.DescuentoIncapacitacion == null ? "Sin rebajas" : Model.DescuentoIncapacitacion?.ToString("N"))</dd>
 
+                        <hr />
                         <dt class="col-sm-8">Deducciones Totales</dt>
                         <dd class="col-sm-4">₡@Model.TotalDeduccion?.ToString("N")</dd>
 
+                        <hr />
                         <dt class="col-sm-8">Salario Neto</dt>
                         <dd class="col-sm-4">₡@Model.SalarioNeto?.ToString("N")</dd>
                     </dl>

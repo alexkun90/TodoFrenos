@@ -61,9 +61,9 @@
                                         <td class="text-center align-middle">@item.FechaFin?.ToString("dd/MM/yyyy")</td>
                                         <td class="text-center align-middle">₡@item.SalarioNeto?.ToString("N")</td>
 
-                                        <td class="text-center align-middle">
+                                        <td class="d-flex flex-column align-items-center">
                                             <a href="@Url.Action("Details", "Playroll", new { nominaId = item.NominaId })" class="btn btn-details btn-action">Detalles</a>
-                                            <a href="@Url.Action("Create", "Planilla", new { nominaId = item.NominaId })" class="btn btn-agree btn-action">Planilla</a>
+                                            <a href="@Url.Action("Create", "Planilla", new { nominaId = item.NominaId })" class="btn btn-agree btn-action">Planilla +</a>
                                             <a href="@Url.Action("Index", "Planilla", new { nominaId = item.NominaId })" class="btn btn-active-custom btn-action">Ver Planilla</a>
                                         </td>
                                     </tr>

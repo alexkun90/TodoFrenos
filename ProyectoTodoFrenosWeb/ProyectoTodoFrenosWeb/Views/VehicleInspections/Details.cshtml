@@ -6,45 +6,45 @@
 
 <div class="container mt-5">
     <div class="container-border-custom mb-2">
-        <div class="table-responsive">
+        <div class="table">
             <div id="dataTable_wrapper" class="dataTables_wrapper">
                 <div class="col-sm-12">
                     <div class="col-sm-12">
                         <div>
                             <h4>Inspección Vehicular</h4>
                             <hr />
-                            <div class="row">
-                                <div class="col-sm-2">
+                            <div style="display:flex">
+                                <div class="ms-3 me-2">
                                     <dt>@Html.DisplayNameFor(model => model.InspectorName):</dt>
                                 </div>
-                                <div class="col-sm-8">
+                                <div>
                                     <dd>@Html.DisplayFor(model => model.InspectorName)</dd>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-2">
+                            <div style="display:flex">
+                                <div class="ms-3 me-2">
                                     <dt>@Html.DisplayNameFor(model => model.Kilometraje):</dt>
                                 </div>
-                                <div class="col-sm-10">
+                                <div>
                                     <dd>@Html.DisplayFor(model => model.Kilometraje)</dd>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-2">
+                            <div style="display:flex">
+                                <div class="ms-3 me-2">
                                     <dt>@Html.DisplayNameFor(model => model.InspectionDate):</dt>
                                 </div>
-                                <div class="col-sm-10">
+                                <div>
                                     <dd>@Html.DisplayFor(model => model.InspectionDate)</dd>
                                 </div>
                             </div>
 
-                            <table class="table table-bordered">
+                            <table class="table table-bordered ms-3">
                                 <thead>
                                     <tr>
-                                        <th class="th-bg-custom">Parte</th>
-                                        <th class="th-bg-verify">Verificado</th>
-                                        <th class="th-bg-fails">Presenta Fallos</th>
-                                        <th class="th-bg-notverify">Sin Verificar</th>
+                                        <th class="th-bg-custom" style="width:10%">Parte</th>
+                                        <th class="th-bg-verify" style="width:5%">Verificado</th>
+                                        <th class="th-bg-fails" style="width:5%">Presenta Fallos</th>
+                                        <th class="th-bg-notverify" style="width:5%">Sin Verificar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -138,7 +138,7 @@
                                     <tr>
                                         <td>@Html.DisplayNameFor(model => model.ElectricalSystem)</td>
                                         <td class="text-center">
-                                            <input type="checkbox" style="width:20px; height:20px"
+                                            <input type="checkbox" style="width:20px; height:20px;"
                                             @(Model.ElectricalSystem == "Verificado" ? "checked" : "") disabled />
                                         </td>
                                         <td class="text-center">
@@ -155,11 +155,11 @@
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                                    <div style="display:flex">
+                                        <div class="ms-3 me-2">
                                             <dt>@Html.DisplayNameFor(model => model.OilChange):</dt>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div>
                                             <dd>
                                                 @if (Model.OilChange == 1)
                                                 {
@@ -174,19 +174,19 @@
                                     </div>
                                     @if (Model.OilChange == 1)
                                     {
-                                        <div class="row">
-                                            <div class="col-sm-4">
+                                        <div style="display:flex">
+                                            <div class="ms-3 me-2">
                                                 <dt>@Html.DisplayNameFor(model => model.DatePerformed):</dt>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div>
                                                 <dd>@Html.DisplayFor(model => model.DatePerformed)</dd>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm-4">
+                                        <div style="display:flex">
+                                            <div class="ms-3 me-2">
                                                 <dt>@Html.DisplayNameFor(model => model.OilChangeKilometraje):</dt>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div>
                                                 <dd>@Html.DisplayFor(model => model.OilChangeKilometraje)</dd>
                                             </div>
                                         </div>
@@ -195,19 +195,19 @@
 
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="ms-3 me-2">
                                             <dt>@Html.DisplayNameFor(model => model.Recommendations):</dt>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="ms-3  me-2">
                                             @if (Model.Recommendations == null)
                                             {
                                                 <p>Sin recomendaciones técnicas</p>
                                             }
                                             else
                                             {
-                                                <p style="border: 1px solid #ccc; padding: 10px; width: 100%; height: 90px">
+                                                <p style="border: 1px solid #ccc; padding: 10px; width: 100%; height: auto; overflow: hidden;">
                                                     @Html.DisplayFor(model => model.Recommendations)
                                                 </p>
                                             }

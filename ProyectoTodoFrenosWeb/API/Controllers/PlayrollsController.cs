@@ -175,7 +175,7 @@ namespace API.Controllers
             {
                 DeduccionId = deduccion.DeduccionId,
                 FechaInicio = DateTime.Now,
-                FechaFin = DateTime.Now.AddMonths(1),
+                FechaFin = DateTime.Now.AddMonths(1).Date,
                 SalarioNeto = monto - deduccion.TotalDeduccion
             };
 

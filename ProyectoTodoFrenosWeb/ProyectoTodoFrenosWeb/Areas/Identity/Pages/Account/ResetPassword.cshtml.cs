@@ -54,7 +54,7 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             ///     The new password the user wants to set.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "El campo {0} debe tener al menos {2} caracteres y un máximo de {1} caracteres.", MinimumLength = 8)]
+            [StringLength(100, ErrorMessage = "El campo Nueva Contraseña debe tener al menos {2} caracteres", MinimumLength = 8)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 

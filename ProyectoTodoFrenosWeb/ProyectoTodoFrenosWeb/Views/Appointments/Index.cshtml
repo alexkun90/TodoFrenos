@@ -74,18 +74,22 @@
                                             }
                                             @estado
                                         </td>
-                                        <td class="text-center align-middle">
+                                        <td class="d-flex flex-column align-items-center">
                                             <a class="btn btn-details btn-action" asp-action="Details" asp-route-id="@appointment.AppointId">Detalles</a>
 
                                             @if (appointment.AppointState == 1)
                                             {
                                                 <form id="acceptForm-@appointment.AppointId" asp-action="AcceptAppointment" method="post">
                                                     <input type="hidden" name="id" value="@appointment.AppointId" />
-                                                    <button type="submit" class="btn btn-active-custom btn-action" data-id="@appointment.AppointId">Aceptar</button>
+                                                    <button type="submit" class="btn btn-active-custom btn-action" 
+                                                            style="width: 150px !important; font-size: 18px !important;" 
+                                                            data-id="@appointment.AppointId">Aceptar</button>
                                                 </form>
                                                 <form id="rejectForm-@appointment.AppointId" asp-action="RejectAppointment" method="post">
                                                     <input type="hidden" name="id" value="@appointment.AppointId" />
-                                                    <button type="submit" class="btn btn-delete btn-action" data-id="@appointment.AppointId">Rechazar</button>
+                                                    <button type="submit" class="btn btn-delete btn-action"
+                                                            style="width: 150px !important; font-size: 18px !important;"
+                                                            data-id="@appointment.AppointId">Rechazar</button>
                                                 </form>
                                             }
                                         </td>

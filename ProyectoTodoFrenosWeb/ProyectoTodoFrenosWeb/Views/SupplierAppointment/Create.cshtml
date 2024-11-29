@@ -5,8 +5,8 @@
 }
 
 <div class="container d-flex justify-content-center align-items-center mt-5 mb-5">
-    <div class="card rounded-3 p-4">
-        @if (TempData["SuccessMessage"] != null)
+    <div class="card rounded-3 p-4" style="width:750px !important">
+        @* @if (TempData["SuccessMessage"] != null)
         {
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 @TempData["SuccessMessage"]
@@ -19,7 +19,10 @@
                 @TempData["ErrorMessage"]
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        }
+        } *@
+
+        <div id="dynamicMessages"></div>
+
         <h3 class="mb-3">Agregar Cita</h3>
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
@@ -33,13 +36,13 @@
             <div class="row mb-3">
                 <div class="col-md-5">
                     <label asp-for="AppointCreationDate" class="form-label">Fecha y Hora de Cita</label>
-                    <input asp-for="AppointCreationDate" id="appointCreationDate" class="form-control" type="datetime-local" />
+                    <input asp-for="AppointCreationDate" id="appointCreationDate" class="form-control" type="datetime-local" aria-required="true" required />
                     <span asp-validation-for="AppointCreationDate" class="text-danger"></span>
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-md-7">
                     <label asp-for="Reason" class="form-label">Motivo</label>
-                    <input asp-for="Reason" class="form-control" />
+                    <textarea asp-for="Reason" class="form-control" rows="4" aria-required="true" required></textarea>
                     <span asp-validation-for="Reason" class="text-danger"></span>
                 </div>
             </div>
@@ -49,27 +52,121 @@
     </div>
 </div>
 
+<div class="modal fade" id="timeValidationModal" tabindex="-1" aria-labelledby="timeValidationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #800000;">
+                <h5 class="modal-title text-white" id="timeValidationModalLabel">
+                    <i class="bi bi-exclamation-triangle-fill text-white"></i>
+                    Hora Inválida
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="bi bi-tools"></i> Nuestro horario de atención es de 7:30 a.m. a 5:00 p.m. Por favor, elija una hora dentro de este rango.
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function () {
+            // Función para mostrar mensajes dinámicos
+            function showMessage(type, message) {
+                const messageHtml = `
+                    <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>`;
+                $('#dynamicMessages').html(messageHtml);
+            }
+
+
+        // $(document).ready(function () {
+        //     function setDateTimeLimits() {
+        //         var today = new Date();
+        //         today.setHours(0, 0, 0, 0);
+        //         var minDateTimeStr = today.toISOString().slice(0, 16);
+        //         $('#appointCreationDate').attr('min', minDateTimeStr);
+
+        //         $('#appointCreationDate').removeAttr('max');
+
+        //         $('#appointCreationDate').on('change', function () {
+        //             var selectedDate = new Date($(this).val());
+        //             var minTime = new Date(selectedDate);
+        //             minTime.setHours(7, 30, 0, 0);
+        //             var maxTime = new Date(selectedDate);
+        //             maxTime.setHours(17, 0, 0, 0);
+
+        //             if (selectedDate < minTime || selectedDate > maxTime) {
+        //                 alert("Nuestro horario de atención es de 7:30 a.m. a 5:00 p.m.");
+        //                 $(this).val('');
+        //             }
+        //         });
+        //     }
+
+        //     setDateTimeLimits();
+        // });
+
+        $('form').submit(function (event) {
+            event.preventDefault();
+            const SupplierEmail = $('input[name="SupplierEmail"]').val();
+            const appointDate = $('#appointCreationDate').val();
+            const reason = $('textarea[name="Reason"]').val();
+
+            if (!appointDate || !reason || !SupplierEmail) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, complete todos los campos.',
+                    confirmButtonText: 'Aceptar'
+                });
+                return; // Si hay campos vacíos, no se envía el formulario
+            }
+
+            const form = $(this);
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Tu solicitud de cita ha sido enviada correctamente. Pronto te contestaremos mediante correo eléctronico',
+                        confirmButtonText: 'Aceptar'
+                    });
+                    form[0].reset(); // Limpiar el formulario
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Ocurrió un error al registrar la cita. Intente nuevamente.',
+                        confirmButtonText: 'Aceptar'
+                    });
+                    console.error('Error al enviar el formulario:', error);
+                }
+            });
+        });
+
             function setDateTimeLimits() {
-                var today = new Date();
+                const today = new Date();
                 today.setHours(0, 0, 0, 0);
-                var minDateTimeStr = today.toISOString().slice(0, 16);
+                const minDateTimeStr = today.toISOString().slice(0, 16);
                 $('#appointCreationDate').attr('min', minDateTimeStr);
 
-                $('#appointCreationDate').removeAttr('max');
-
                 $('#appointCreationDate').on('change', function () {
-                    var selectedDate = new Date($(this).val());
-                    var minTime = new Date(selectedDate);
+                    const selectedDate = new Date($(this).val());
+                    const minTime = new Date(selectedDate);
                     minTime.setHours(7, 30, 0, 0);
-                    var maxTime = new Date(selectedDate);
+                    const maxTime = new Date(selectedDate);
                     maxTime.setHours(17, 0, 0, 0);
 
                     if (selectedDate < minTime || selectedDate > maxTime) {
-                        alert("Nuestro horario de atención es de 7:30 a.m. a 5:00 p.m.");
+                        $('#timeValidationModal').modal('show');
                         $(this).val('');
                     }
                 });

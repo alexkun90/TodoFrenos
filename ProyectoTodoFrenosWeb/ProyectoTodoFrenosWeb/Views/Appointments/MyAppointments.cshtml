@@ -17,6 +17,12 @@
                             <h5 class="card-title" style="font-size: 20px; font-weight: 600; color: #2980b9;">
                                 <i class="bi bi-calendar-date"></i> Fecha: @Html.DisplayFor(modelItem => item.AppointCreationDate)
                             </h5>
+                            <br />
+                            <div>
+                                <p style="border: 1px solid #ccc; padding: 10px; width: 100%; height: auto; overflow: hidden;">
+                                    <strong style="font-weight: bold;">Motivo:</strong> @Html.DisplayFor(modelItem => item.Reason)
+                                </p>
+                            </div>
                             <p style="font-size:18px; color: #34495e; font-weight: 500;">
                                 <i class="bi bi-info-circle"></i> Estado:
                                 @if (item.AppointState == 2)

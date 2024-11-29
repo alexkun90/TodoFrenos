@@ -11,22 +11,6 @@
     <h2 style="text-align:center;">Gestión de Citas Proveedores</h2>
     <p style="text-align:center;">Apartado donde se gestionan las citas de TodoFrenos</p>
 
-    @if (!string.IsNullOrEmpty(successMessage))
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @successMessage
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    @if (!string.IsNullOrEmpty(errorMessage))
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            @errorMessage
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
     <div class="mb-2">
         <a asp-action="Create" class="btn btn-agree mb-1">
             Nueva Cita
@@ -65,18 +49,23 @@
                                         }
                                         @estado
                                     </td>
-                                    <td class="text-center align-middle">
+                                    <td class="d-flex flex-column align-items-center">
                                         <a class="btn btn-details btn-action" asp-action="Details" asp-route-id="@item.SupplierAppointId">Detalles</a>
 
                                         @if (item.AppointState == 1)
                                         {
                                             <form id="acceptForm-@item.SupplierAppointId" asp-action="AcceptSupplierAppointment" method="post" class="d-inline">
                                                 <input type="hidden" name="id" value="@item.SupplierAppointId" />
-                                                <button type="submit" class="btn btn-active-custom btn-action" data-id="@item.SupplierAppointId">Aceptar</button>
+                                                <button type="submit" class="btn btn-active-custom btn-action"
+                                                        style="width: 150px !important; font-size: 18px !important;"
+                                                        data-id="@item.SupplierAppointId">Aceptar</button>
                                             </form>
                                             <form id="rejectForm-@item.SupplierAppointId" asp-action="RejectSupplierAppointment" method="post" class="d-inline">
                                                 <input type="hidden" name="id" value="@item.SupplierAppointId" />
-                                                <button type="submit" class="btn btn-delete btn-action" data-id="@item.SupplierAppointId">Rechazar</button>
+                                                <button type="submit" class="btn btn-delete btn-action" 
+                                                        style="width: 150px !important; font-size: 18px !important;" 
+                                                        data-id="@item.SupplierAppointId">Rechazar
+                                                </button>
                                             </form>
                                         }
                                     </td>

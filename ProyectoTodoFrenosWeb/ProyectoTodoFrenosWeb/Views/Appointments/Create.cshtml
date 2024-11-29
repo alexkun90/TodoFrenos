@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Reason" class="control-label">Motivo</label>
-                <input asp-for="Reason" class="form-control" aria-required="true" required />
+                <textarea asp-for="Reason" class="form-control" rows="4" aria-required="true" required></textarea>
                 <span asp-validation-for="Reason" class="text-danger"></span>
             </div>
             <br />
@@ -73,10 +73,15 @@
                 event.preventDefault();
 
                 const appointDate = $('#appointCreationDate').val();
-                const reason = $('input[name="Reason"]').val();
+                const reason = $('textarea[name="Reason"]').val();
 
                 if (!appointDate || !reason) {
-                    showMessage('danger', 'Por favor, complete todos los campos.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Por favor, complete todos los campos.',
+                        confirmButtonText: 'Aceptar'
+                    });
                     return; // Si hay campos vacíos, no se envía el formulario
                 }
 
@@ -86,11 +91,21 @@
                     url: form.attr('action'),
                     data: form.serialize(),
                     success: function () {
-                        showMessage('success', 'Cita registrada exitosamente.');
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: 'Tu solicitud de cita ha sido enviada correctamente. Te informaremos pronto si tu cita ha sido aceptada.',
+                            confirmButtonText: 'Aceptar'
+                        });
                         form[0].reset(); // Limpiar el formulario
                     },
                     error: function (xhr, status, error) {
-                        showMessage('danger', 'Ocurrió un error al registrar la cita. Intente nuevamente.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error al registrar la cita. Intente nuevamente.',
+                            confirmButtonText: 'Aceptar'
+                        });
                         console.error('Error al enviar el formulario:', error);
                     }
                 });
