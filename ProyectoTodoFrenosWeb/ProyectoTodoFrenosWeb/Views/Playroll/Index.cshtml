@@ -6,6 +6,8 @@
     var errorMessage = TempData["ErrorMessage"] as string;
 }
 <link href="~/estilos/css/custom.css" rel="stylesheet" />
+
+
 <div class="container mt-5">
     <h2 style="text-align:center;">Lista de Nóminas</h2>
 
@@ -62,6 +64,14 @@
                                         <td class="text-center align-middle">₡@item.SalarioNeto?.ToString("N")</td>
 
                                         <td class="d-flex flex-column align-items-center">
+                                            <form method="post" asp-controller="Playroll" asp-action="DownloadPdf">
+                                                <input type="hidden" name="nominaId" value="@item.NominaId" />
+                                                <button class="btn btn-download btn-action"
+                                                        style="width: 150px !important; font-size: 18px !important;"
+                                                        type="submit">
+                                                    Descargar
+                                                </button>
+                                            </form>
                                             <a href="@Url.Action("Details", "Playroll", new { nominaId = item.NominaId })" class="btn btn-details btn-action">Detalles</a>
                                             <a href="@Url.Action("Create", "Planilla", new { nominaId = item.NominaId })" class="btn btn-agree btn-action">Planilla +</a>
                                             <a href="@Url.Action("Index", "Planilla", new { nominaId = item.NominaId })" class="btn btn-active-custom btn-action">Ver Planilla</a>

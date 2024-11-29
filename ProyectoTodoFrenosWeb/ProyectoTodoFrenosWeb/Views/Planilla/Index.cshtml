@@ -42,6 +42,14 @@
                             </td>
                             <td class="text-center align-middle">
                                 <div class="d-flex flex-column align-items-center">
+                                    <form method="post" asp-controller="Planilla" asp-action="DownloadPdf">
+                                        <input type="hidden" name="planillaId" value="@item.PlanillaEmpleadoId" />
+                                        <button class="btn btn-download btn-action"
+                                                style="width: 150px !important; font-size: 18px !important;"
+                                                type="submit">
+                                            Descargar
+                                        </button>
+                                    </form>
                                     <a class="btn btn-details mb-2 btn-action" href="@Url.Action("Details", "Planilla", new { planillaId = item.PlanillaEmpleadoId })">Detalles</a>
                                 </div>
                             </td>

@@ -25,8 +25,8 @@
 <div class="justify-content-center mt-5">
     <h2 class="text-center mb-4">Mis Vehículos</h2>
 </div>
-<div class="container">
-    <div class="row justify-content-center m-2">
+<div class="container mb-5">
+    <div class="row justify-content-center">
         <div class="text-center">
             <a class="btn btn-agree mb-2" style="font-weight:bold !important" asp-action="Create">Agregar Nuevo Vehículo <i class="fa-solid fa-car"></i> <i class="fa-solid fa-plus"></i></a>
         </div>
@@ -34,7 +34,8 @@
         {
             @if (item.CarState == 1)
             {
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-3 mt-2">
+                <div style="margin-left:30px">
                     <div class="card" style="max-width: 350px;">
                         <div class="card-img-top text-center py-4">
                             <i class="fas fa-car fa-4x" style="color: #b7bfc7;"></i>
@@ -60,6 +61,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             }
         }
     </div>
