@@ -167,9 +167,22 @@ namespace ProyectoTodoFrenosWeb.Controllers
         {
             try
             {
+                var supplier = await supplierAppointmentservice.GetSupplierAppointment(id);
+                var supplierList = await _context.SupplierLists
+                    .FirstOrDefaultAsync(s => s.SupplierListId == supplier.SupplierListId);
                 var result = await supplierAppointmentservice.RejectSupplierAppointment(id);
                 if (result)
                 {
+                    var emailSubject = "Respuesta a su Solicitud de Cita - Taller Todo Frenos";
+                    var emailMessage = $@"
+                        <p>Estimado/a {supplierList.SupplierName},</p>
+                        <p>Agradecemos su interés en nuestros servicios y por contactarnos para programar una cita.</p>
+                        <p>Lamentamos informarle que, debido a nuestra agenda actual y a los requerimientos específicos de nuestros clientes, no podemos confirmar su solicitud en este momento.</p>
+                        <p>Valoramos enormemente a nuestros proveedores y entendemos la importancia de mantener una buena relación comercial.</p>
+                        <p>Agradecemos su comprensión y esperamos poder trabajar juntos en el futuro.</p>
+                        <p>Atentamente,<br/>El equipo de Todo Frenos</p>
+                    ";
+                    await _emailSender.SendEmailAsync(supplier.SupplierEmail, emailSubject, emailMessage);
                     TempData["SuccessMessage"] = "Cita rechazada correctamente.";
                 }
                 else

@@ -163,9 +163,38 @@ namespace ProyectoTodoFrenosWeb.Controllers
         {
             try
             {
+                var appointment = await appointmentService.GetAppointment(id);
+                var user = await _userManager.FindByIdAsync(appointment.UserId);
+                
                 var result = await appointmentService.RejectAppointment(id);
-                if (result)
+                if (user != null)
                 {
+                    var userEmail = user.Email;
+                    var userName = user.Nombre;
+                    var lastName = user.PrimApellido;
+                    var secondlastName = user.SegunApellido;
+
+                    var CompleteName = userName + " " + lastName + " " + secondlastName;
+
+                    var fecha = appointment.AppointCreationDate.HasValue
+                    ? appointment.AppointCreationDate.Value.ToString("dd/MM/yyyy")
+                    : "Fecha no disponible";
+
+                    var hora = appointment.AppointCreationDate.HasValue
+                        ? appointment.AppointCreationDate.Value.ToString("HH:mm")
+                        : "Hora no disponible";
+
+                    var emailSubject = "Respuesta a su Solicitud de Cita - Taller Todo Frenos";
+                    var emailMessage = $@"
+                        <p>Estimado/a {CompleteName},</p>
+                        <p>Agradecemos su interés en los servicios de Taller Todo Frenos.</p>
+                        <p>Lamentamos comunicarle que, en este momento, no podemos confirmar su solicitud de cita. Nos esforzamos por brindar el mejor servicio a nuestros clientes, pero debido a nuestra agenda actual, no podemos atender su solicitud en este momento.</p>
+                        <p>Le invitamos a contactarnos nuevamente en una fecha posterior para programar una nueva cita.</p>
+                        <p>Agradecemos su comprensión.</p>
+                        <p>Atentamente,<br/>El equipo de Todo Frenos</p>
+                    ";
+                    await _emailSender.SendEmailAsync(userEmail, emailSubject, emailMessage);
+
                     TempData["SuccessMessage"] = "Cita rechazada correctamente.";
                 }
                 else
