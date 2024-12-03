@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -12,12 +13,15 @@ namespace ProyectoTodoFrenosWeb.Controllers
 
         private readonly TodoFrenosDbContext _context;
         private readonly HttpClientService clientService;
+        private readonly IEmailSender _emailSender;
 
         SupplierAppointmentService supplierAppointmentservice;
-        public SupplierAppointmentController(TodoFrenosDbContext _context, IConfiguration config, HttpClientService clientService)
+        public SupplierAppointmentController(TodoFrenosDbContext _context, IConfiguration config, HttpClientService clientService,
+                                             IEmailSender _emailSender)
         {
             this._context = _context;
             supplierAppointmentservice = new SupplierAppointmentService(config, clientService);
+            this._emailSender = _emailSender;
         }
 
         [Authorize(Roles = "Admin, Mecanico")]
@@ -109,10 +113,38 @@ namespace ProyectoTodoFrenosWeb.Controllers
         public async Task<IActionResult> AcceptSupplierAppointment(long id)
         {
             try
-            {
+            {                
+                var supplier = await supplierAppointmentservice.GetSupplierAppointment(id);
+                var supplierList = await _context.SupplierLists
+                    .FirstOrDefaultAsync(s => s.SupplierListId == supplier.SupplierListId);
+
                 var result = await supplierAppointmentservice.AcceptSupplierAppointment(id);
                 if (result)
                 {
+                    var fecha = supplier.AppointCreationDate.HasValue
+                        ? supplier.AppointCreationDate.Value.ToString("dd/MM/yyyy")
+                        : "Fecha no disponible";
+
+                    var hora = supplier.AppointCreationDate.HasValue
+                        ? supplier.AppointCreationDate.Value.ToString("HH:mm")
+                        : "Hora no disponible";
+
+                    var emailSubject = "Confirmación de Cita Aceptada - Taller Todo Frenos";
+                    var emailMessage = $@"
+                        <p>Estimado/a {supplierList.SupplierName},</p>
+                        <p>Gracias por ponerse en contacto con el Taller Todo Frenos. Nos complace informarle que su cita ha sido aceptada con éxito.</p>
+                        <p><strong>Detalles de la Cita:</strong></p>
+                        <ul>
+                            <li><strong>Fecha:</strong> {fecha}</li>
+                            <li><strong>Hora:</strong> {hora}</li>
+                            <li><strong>Ubicación:</strong> 100m Sur, 25m Oeste del Hospital Maternidad La Carit. Av. 26. Calle 8., San José, Costa Rica</li>
+                        </ul>
+                        <p>Si tiene alguna consulta adicional o necesita realizar algún cambio en la cita, no dude en contactarnos respondiendo a este correo o llamándonos al 2227 6448.</p>
+                        <p>Estamos a su disposición y agradecemos su confianza en nuestros servicios.</p>
+                        <p>Atentamente,<br/>El equipo de Todo Frenos</p>
+                    ";
+                    await _emailSender.SendEmailAsync(supplier.SupplierEmail, emailSubject, emailMessage);
+
                     TempData["SuccessMessage"] = "Cita aceptada correctamente.";
                 }
                 else

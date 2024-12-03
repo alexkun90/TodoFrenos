@@ -63,7 +63,7 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required(ErrorMessage = "El campo nueva contraseña es obligatorio.")]
-            [StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} caracteres y como máximo {1} caracteres.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "La nueva contraseña debe tener al menos {2} caracteres", MinimumLength = 8)]
             [DataType(DataType.Password)]
             [Display(Name = "New password")]
             public string NewPassword { get; set; }

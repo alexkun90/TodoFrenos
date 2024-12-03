@@ -24,10 +24,32 @@
             </a>
         </li>
     }
-    <li class="nav-item">
-        <a class="nav-link d-flex align-items-center @ManageNavPages.OrderListNavClass(ViewContext)" id="order-list" asp-controller="Orders" asp-action="OrderList">
+    <li class="nav-item dropdown position-relative">
+        <a class="nav-link dropdown-toggle d-flex align-items-center @ManageNavPages.OrderListNavClass(ViewContext)"
+           id="order-list"
+           role="button"
+           data-bs-toggle="dropdown"
+           aria-expanded="false">
             <i class="bi bi-list me-2"></i> Lista de Pedidos
         </a>
+        <ul class="dropdown-menu shadow border-0 mt-2" aria-labelledby="order-list">
+            <li>
+                <a class="dropdown-item py-2" asp-controller="Orders" asp-action="GetMyDelayedOrders">
+                   <i class="bi bi-clock me-2"></i> Pedidos Vencidos
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item py-2" asp-controller="Orders" asp-action="GetMyPendingOrders">
+                    <i class="bi bi-hourglass-split me-2"></i> Pedidos Pendientes
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item py-2" asp-controller="Orders" asp-action="GetMyDeliveredOrders">
+                    <i class="bi bi-check-circle me-2"></i> Pedidos Completados
+                </a>
+            </li>
+            
+        </ul>
     </li>
     <ul class="navbar-nav">
         <li class="nav-item">

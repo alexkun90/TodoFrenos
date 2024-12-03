@@ -10,7 +10,8 @@ using ProyectoTodoFrenosWeb.ConsumoServices;
 using System.Security.Claims;
 using DAL;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization; // Importa el namespace para la autorización
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -20,13 +21,15 @@ namespace ProyectoTodoFrenosWeb.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly HttpClientService clientService;
         AppointmentService appointmentService;
+        private readonly IEmailSender _emailSender;
 
 
-        public AppointmentsController(TodoFrenosDbContext context, IConfiguration config,UserManager<ApplicationUser> _userManager, HttpClientService clientService)
+        public AppointmentsController(TodoFrenosDbContext context, IConfiguration config,UserManager<ApplicationUser> _userManager, HttpClientService clientService, IEmailSender _emailSender)
         {
             _context = context;
             appointmentService = new AppointmentService(config, clientService);
             this._userManager = _userManager;
+            this._emailSender = _emailSender;
         }
 
         // GET: Appointments
@@ -98,10 +101,47 @@ namespace ProyectoTodoFrenosWeb.Controllers
         {
             try
             {
+                var appointment = await appointmentService.GetAppointment(id);
+                var user = await _userManager.FindByIdAsync(appointment.UserId);
+
                 var result = await appointmentService.AcceptAppointment(id);
                 if (result)
                 {
-                    TempData["SuccessMessage"] = "Cita aceptada correctamente.";
+                    if (user != null)
+                    {
+                        var userEmail = user.Email;
+                        var userName = user.Nombre;
+                        var lastName = user.PrimApellido;
+                        var secondlastName = user.SegunApellido;
+                        
+                        var CompleteName = userName + " " + lastName + " " + secondlastName;
+
+                        var fecha = appointment.AppointCreationDate.HasValue
+                        ? appointment.AppointCreationDate.Value.ToString("dd/MM/yyyy")
+                        : "Fecha no disponible";
+
+                        var hora = appointment.AppointCreationDate.HasValue
+                            ? appointment.AppointCreationDate.Value.ToString("HH:mm")
+                            : "Hora no disponible";
+
+                        var emailSubject = "Confirmación de Cita Aceptada - Taller Todo Frenos";
+                        var emailMessage = $@"
+                        <p>Estimado/a {CompleteName},</p>
+                        <p>Gracias por ponerse en contacto con el Taller Todo Frenos. Nos complace informarle que su cita ha sido aceptada con éxito.</p>
+                        <p><strong>Detalles de la Cita:</strong></p>
+                        <ul>
+                            <li><strong>Fecha:</strong> {fecha}</li>
+                            <li><strong>Hora:</strong> {hora}</li>
+                            <li><strong>Ubicación:</strong> 100m Sur, 25m Oeste del Hospital Maternidad La Carit. Av. 26. Calle 8., San José, Costa Rica</li>
+                        </ul>
+                        <p>Si tiene alguna consulta adicional o necesita realizar algún cambio en la cita, no dude en contactarnos respondiendo a este correo o llamándonos al 2227 6448.</p>
+                        <p>Estamos a su disposición y agradecemos su confianza en nuestros servicios.</p>
+                        <p>Atentamente,<br/>El equipo de Todo Frenos</p>
+                    ";
+                        await _emailSender.SendEmailAsync(userEmail, emailSubject, emailMessage);
+
+                        TempData["SuccessMessage"] = "Cita aceptada correctamente.";
+                    }
                 }
                 else
                 {

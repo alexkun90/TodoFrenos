@@ -182,7 +182,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             var emailMessage = $"Gracias por confiar en nosotros, ya puedes ingresar a nuestra pagina. " + "\n" +
                                $"Tu contraseña temporal es: <strong>{modelo.Password}</strong>, al iniciar sesión podras cambiarla en la sección del perfil de usuario";
             await _emailSender.SendEmailAsync(modelo.Email, emailSubject, emailMessage);
-            var resultado = await gestionUsuarios.CreateAsync(usuario, modelo.Password); // Asegúrate de pedir una contraseña segura en el formulario real
+            var resultado = await gestionUsuarios.CreateAsync(usuario, modelo.Password);
 
             if (resultado.Succeeded)
             {

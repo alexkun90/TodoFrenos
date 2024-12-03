@@ -75,6 +75,38 @@ namespace API.Controllers
                 .ToListAsync();
         }
 
+        [HttpGet("GetMyDelayedOrders/{userId}")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetMyDelayedOrders(string userId)
+        {
+            return await _context.Orders
+                .Where(o => o.OrderState == 0 && 
+                       o.UserId == userId)
+                .Include(o => o.User)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
+
+        [HttpGet("GetMyPendingOrders/{userId}")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetMyPendingOrders(string userId)
+        {
+            return await _context.Orders
+                .Where(o => o.OrderState == 1 &&
+                       o.UserId == userId) 
+                .Include(o => o.User)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
+
+        [HttpGet("GetMyDeliveredOrders/{userId}")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetMyDeliveredOrders(string userId)
+        {
+            return await _context.Orders
+                .Where(o => o.OrderState == 2 &&
+                       o.UserId == userId)
+                .Include(o => o.User)
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+        }
 
         [HttpGet("GetMyDetailsOrders/{orderId}")]
         public async Task<IActionResult> GetMyDetailsOrder(long orderId)

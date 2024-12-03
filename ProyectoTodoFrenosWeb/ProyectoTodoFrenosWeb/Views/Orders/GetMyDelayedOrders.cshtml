@@ -1,0 +1,85 @@
+﻿@model IEnumerable<DAL.Models.Order>
+
+@{
+    ViewData["Title"] = "Órdenes Denegadas";
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+<link href="~/estilos/css/custom.css" rel="stylesheet" />
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Órdenes Denegadas</h2>
+
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @successMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @errorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="container-border-custom mb-2">
+        <div class="table-responsive">
+            <div id="dataTable_wrapper" class="dataTables_wrapper">
+                <div class="col-sm-12">
+                    <table id="myDataTable" class="table table-bordered dataTable" style="width: 100%;">
+                        <thead class="table-primary">
+                            <tr>
+                                <th class="th-bg-custom">Código de Pedido</th>
+                                <th class="th-bg-custom">Usuario</th>
+                                <th class="th-bg-custom">Fecha de Pedido</th>
+                                <th class="th-bg-custom">Fecha de Retiro</th>
+                                <th class="th-bg-custom">SubTotal</th>
+                                <th class="th-bg-custom">Impuesto</th>
+                                <th class="th-bg-custom">Total</th>
+                                <th class="th-bg-custom">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center align-middle">@item.CodigoOrder</td>
+                                    <td class="text-center align-middle">@item.User.Email</td>
+                                    <td class="text-center align-middle">@item.OrderDate.ToString("dd MMM yyyy")</td>
+                                    <td class="text-center align-middle text-danger">@item.RetirementDate.ToString("dd MMM yyyy")</td>
+                                    <td class="text-center align-middle">@item.SubTotal.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
+                                    <td class="text-center align-middle">@item.Tax.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
+                                    <td class="text-center align-middle">@item.Total.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
+                                    <td class="text-center align-middle">
+                                        <a class="btn btn-details btn-action" href="@Url.Action("OrderDetailList","Orders", new { orderId = item.OrderId })">Detalles</a>
+                                        @if (item.OrderState == 1)
+                                        {
+                                            <a class="btn btn-active-custom btn-action" href="@Url.Action("OrderDelivered","Orders", new { orderId = item.OrderId })">Completado</a>
+                                        }
+                                        @* <a class="btn btn-delete btn-sm" asp-action="Delete" asp-route-id="@item.OrderId">Eliminar</a> *@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myDataTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "order": [[1, "desc"]],
+            "info": false
+        });
+    });
+</script>

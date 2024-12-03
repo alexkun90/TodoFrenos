@@ -56,7 +56,6 @@ namespace API.Services
 
             var currentDate = DateTime.Now;
 
-            // Obtener todas las órdenes pendientes cuya fecha de entrega ya pasó
             var delayedOrders = await _context.Orders
                 .Include(o => o.OrderDetails)
                 .Where(o => o.OrderState == 1 && o.RetirementDate < currentDate)

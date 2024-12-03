@@ -45,7 +45,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 UserId = userId,
                 OrderState = 1,
                 OrderDate = DateTime.Now,
-                RetirementDate = DateTime.Now.AddDays(3),
+                RetirementDate = DateTime.Now.AddDays(1),
                 SubTotal = cartItem.Sum(ci => ci.Price * ci.Quantity),
                 Tax = 0.13m * cartItem.Sum(ci => ci.Price * ci.Quantity),
                 Total = cartItem.Sum(ci => ci.Price * ci.Quantity) * 1.13m,
@@ -70,19 +70,13 @@ namespace ProyectoTodoFrenosWeb.Controllers
             _ = _shoppingCartService.ClearCart(cardId);
 
             TempData["Message"] = result;
-            return RedirectToAction("OrderList");
+            return RedirectToAction("IndexCliente", "Products");
         }
 
         public ActionResult Index()
         {
             return View();
         }
-
-        //public async Task<IActionResult> AllOrderList()
-        //{
-        //    var listResult = await _orderService.GetOrderList();
-        //    return View(listResult);
-        //}
         
         public async Task<IActionResult> GetDelayedOrders()
         {
@@ -100,11 +94,30 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(listResult);
         }
 
-        public async Task<IActionResult> OrderList(string userId)
+        public async Task<IActionResult> OrderList()
         {
-            userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var listResult = await _orderService.GetMyOrderList(userId);
 
+            return View(listResult);
+        }
+
+        public async Task<IActionResult> GetMyDelayedOrders()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var listResult = await _orderService.GetMyDelayedOrders(userId);
+            return View(listResult);
+        }
+        public async Task<IActionResult> GetMyPendingOrders()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var listResult = await _orderService.GetMyPendingOrders(userId);
+            return View(listResult);
+        }
+        public async Task<IActionResult> GetMyDeliveredOrders()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var listResult = await _orderService.GetMyDeliveredOrders(userId);
             return View(listResult);
         }
 

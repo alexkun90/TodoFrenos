@@ -124,23 +124,6 @@
                 </div>
 
                 <div class="navbar align-self-center d-flex">
-                    @* <a class="nav-icon position-relative text-decoration-none m-2" href=@Url.Action("ListaCarrito","Carrito")>
-                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-2 left-80 translate-middle badge rounded-pill bg-transparent text-dark">2</span>
-                    </a>
-                    <div class="dropdown">
-                    <a class="nav-icon position-relative text-decoration-none m-2 dropdown-toggle-custom-profile" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-fw fa-user text-dark mr-3 text-custom"></i>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item-custom" href="@Url.Action("PerfilUsuario","Usuario")">Pérfil</a></li>
-                    <li><a class="dropdown-item-custom" href="@Url.Action("HistorialPedidos","Pedidos")">Pedidos</a></li>
-                    <li><a class="dropdown-item-custom" href="@Url.Action("HistorialPedidos","Usuario")">Cerrar Sesión</a></li>
-                    </ul>
-                    </div>
-                    *@
-                    
-                    
                     
                     @if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
                     {
