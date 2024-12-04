@@ -45,7 +45,7 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             /// <summary>
             ///     The current password of the user.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Este campo es obligatorio.")]
             [DataType(DataType.Password)]
             [Display(Name = "Contraseña Actual")]
             public string CurrentPassword { get; set; }
@@ -108,7 +108,7 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             var passwordValid = await _userManager.CheckPasswordAsync(user, Input.CurrentPassword);
             if (!passwordValid)
             {
-                ModelState.AddModelError(string.Empty, "La contraseña actual es incorrecta");
+                TempData["ErrorMessage"] = "La contraseña temporal es incorrecta"; 
                 return Page();
             }
 
@@ -120,12 +120,36 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
                 return RedirectToPage("/Account/Login"); // Redirige al login
             }
 
+            var errorMessages = new List<string>();
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                switch (error.Code)
+                {
+                    case "PasswordTooShort":
+                        errorMessages.Add("La contraseña debe tener al menos 8 caracteres.");
+                        break;
+                    case "PasswordRequiresDigit":
+                        errorMessages.Add("La contraseña debe incluir al menos un número.");
+                        break;
+                    case "PasswordRequiresUpper":
+                        errorMessages.Add("La contraseña debe incluir al menos una letra mayúscula.");
+                        break;
+                    case "PasswordRequiresLower":
+                        errorMessages.Add("La contraseña debe incluir al menos una letra minúscula.");
+                        break;
+                    case "PasswordRequiresNonAlphanumeric":
+                        errorMessages.Add("La contraseña debe incluir al menos un carácter especial.");
+                        break;
+                    default:
+                        errorMessages.Add(error.Description);
+                        break;
+                }
             }
+            TempData["PasswordErrorMessages"] = string.Join("<br />", errorMessages);
             return Page();
 
         }
     }
+
 }
+

@@ -46,8 +46,8 @@ namespace ProyectoTodoFrenosWeb.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "Por favor, ingrese su correo electrónico.")]
-            [EmailAddress(ErrorMessage = "Ingrese una dirección de correo electrónico válida.")]
+            [Required(ErrorMessage = "Este campo es obligatorio.")]
+            [EmailAddress(ErrorMessage = "Por favor ingrese una dirección de correo electrónico válida.")]
             public string Email { get; set; }
         }
 

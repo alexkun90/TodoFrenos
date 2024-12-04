@@ -13,12 +13,11 @@ public partial class Appointment
 
     public string UserId { get; set; } = null!;
 
-    [Required(ErrorMessage = "La fecha de creación de la cita es obligatoria.")]
+    [Required(ErrorMessage = "Este campo es obligatorio.")]
     [DataType(DataType.Date)]
-    
     public DateTime? AppointCreationDate { get; set; }
 
-    [Required(ErrorMessage = "El motivo es obligatorio.")]
+    [Required(ErrorMessage = "Este campo es obligatorio.")]
     public string? Reason { get; set; }
 
     public int? AppointState { get; set; } = 1;
