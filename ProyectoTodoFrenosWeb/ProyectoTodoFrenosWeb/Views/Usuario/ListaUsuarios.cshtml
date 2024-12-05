@@ -47,11 +47,23 @@
                                 @Html.DisplayFor(modelItem => usuario.Email)
                             </td>
                             <td class="text-center align-middle">
-                                @foreach (var rol in usuario.Roles)
-                                {
-                                    <span>@rol</span>
-                                }
-                                
+                                <div class="d-flex flex-column align-items-center">
+                                    @foreach (var rol in usuario.Roles)
+                                    {
+                                        @switch (rol)
+                                        {
+                                            case "Admin":
+                                                <span>Administrador</span>
+                                                break;
+                                            case "Mecanico":
+                                                <span>Mecánico</span>
+                                                break;
+                                            case "User":
+                                                <span>Usuario</span>
+                                                break;
+                                        }
+                                    }
+                                </div>                         
                             </td>
                             <td class="text-center align-middle">
                                 @(usuario.Activo ? "Activo" : "Inactivo")
