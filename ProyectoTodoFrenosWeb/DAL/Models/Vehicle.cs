@@ -11,16 +11,21 @@ public partial class Vehicle
 
     public string? UserId { get; set; }
 
+    [Required(ErrorMessage = "Este campo es obligatorio.")]
     public string TypeVeh { get; set; }
 
+    [Required(ErrorMessage = "Este campo es obligatorio.")]
     public string? Brand { get; set; }
 
+    [Required(ErrorMessage = "Este campo es obligatorio.")]
     public string? ModelYear { get; set; }
 
     public string? Vin { get; set; }
 
+    [Required(ErrorMessage = "Este campo es obligatorio.")]
     public string? Plate { get; set; }
 
+    [Required(ErrorMessage = "Este campo es obligatorio.")]
     [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
     public DateTime? CreationDate { get; set; }
 

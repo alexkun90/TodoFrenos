@@ -11,26 +11,27 @@ namespace ProyectoTodoFrenosWeb.ViewModels
         }
 
         public string Id { get; set; }
-        
-        [Required]
+
+        [Required(ErrorMessage = "Este campo es obligatorio.")]
         public string NombreUsuario { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Este campo es obligatorio.")]
         [MaxLength(100)]
         public string PrimApellido { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es obligatorio.")]
         [MaxLength(100)]
         public string SegunApellido { get; set; }
-        [Display(Name ="Estado")]
+        [Display(Name = "Estado")]
         public bool Activo { get; set; } = true;
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es obligatorio.")]
         [EmailAddress]
         public string Email { get; set; }
 
         public List<string> Notificaciones { get; set; }
 
-        [Required]
-        public IList<string> Roles { get; set;}
+        [Required(ErrorMessage = "Este campo es obligatorio.")]
+        public IList<string> Roles { get; set; }
     }
 }

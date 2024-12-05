@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
-    [Authorize(Roles = "User,Admin")]
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly OrderService _orderService;
@@ -29,6 +29,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         // Confirmar compra y crear la orden
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> ConfirmOrder(List<CartItemDTO> cartItems, string userId, long cardId)
         {
             var cartItem = await _shoppingCartService.GetCartItems(userId);
@@ -45,7 +46,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 UserId = userId,
                 OrderState = 1,
                 OrderDate = DateTime.Now,
-                RetirementDate = DateTime.Now.AddDays(1),
+                RetirementDate = DateTime.Now.AddDays(3),
                 SubTotal = cartItem.Sum(ci => ci.Price * ci.Quantity),
                 Tax = 0.13m * cartItem.Sum(ci => ci.Price * ci.Quantity),
                 Total = cartItem.Sum(ci => ci.Price * ci.Quantity) * 1.13m,
@@ -77,23 +78,29 @@ namespace ProyectoTodoFrenosWeb.Controllers
         {
             return View();
         }
-        
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetDelayedOrders()
         {
             var listResult = await _orderService.GetDelayedOrders();
             return View(listResult);
         }
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetPendingOrders()
         {
             var listResult = await _orderService.GetPendingOrders();
             return View(listResult);
         }
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetDeliveredOrders()
         {
             var listResult = await _orderService.GetDeliveredOrders();
             return View(listResult);
         }
 
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> OrderList()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -102,18 +109,23 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(listResult);
         }
 
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> GetMyDelayedOrders()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var listResult = await _orderService.GetMyDelayedOrders(userId);
             return View(listResult);
         }
+
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> GetMyPendingOrders()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var listResult = await _orderService.GetMyPendingOrders(userId);
             return View(listResult);
         }
+
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> GetMyDeliveredOrders()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -121,6 +133,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(listResult);
         }
 
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> OrderDetailList(long? orderId)
         {
             var listResult = await _orderService.GetMyOrderDetailList(orderId);
@@ -128,6 +141,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             return View(listResult);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> OrderDelivered(long orderId)
         {
             try

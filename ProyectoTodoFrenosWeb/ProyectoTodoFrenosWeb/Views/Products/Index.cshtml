@@ -8,83 +8,79 @@
 
 <div class="container mt-3">
     <h2>Administración de Productos</h2>
-    <p>Apartado para agregar, modificar y eliminar los productos disponibles en el carrito de compras de TodoFrenos</p>
+    <p>Apartado para agregar, modificar y eliminar los productos disponibles en el carrito de compras de Todo Frenos</p>
     <div class="container-border-custom mb-2">
+        <div>
+            <a class="btn btn-agree mb-1" style="font-weight:bold" href="@Url.Action("Create", "Products")">Agregar Producto</a>
+        </div>
         <div class="table-responsive">
-            <div id="dataTable_wrapper" class="dataTables_wrapper">
-                <div class="col-sm-12 mb-2">
-                    <a class="btn btn-agree mb-1" style="font-weight:bold" href="@Url.Action("Create", "Products")">Agregar Producto</a>
-                </div>
-                <table id="myDataTable" class="table table-bordered dataTable" style="width: 100%;">
-                    <thead>
+            <table id="myDataTable" class="table table-bordered dataTable" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="th-bg-custom">Categoría</th>
+                        <th class="th-bg-custom">Nombre</th>
+                        <th class="th-bg-custom">Precio</th>
+                        <th class="th-bg-custom">Stock</th>
+                        <th class="th-bg-custom">Estado</th>
+                        <th class="th-bg-custom">Imagen</th>
+                        <th class="th-bg-custom">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
                         <tr>
-                            <th class="th-bg-custom">Categoría</th>
-                            <th class="th-bg-custom">Nombre</th>
-                            <th class="th-bg-custom">Precio</th>
-                            <th class="th-bg-custom">Stock</th>
-                            <th class="th-bg-custom">Estado</th>
-                            <th class="th-bg-custom">Imagen</th>
-                            <th class="th-bg-custom">Acciones</th>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td class="text-center align-middle">
+                                @item.Price?.ToString("C", new System.Globalization.CultureInfo("es-CR"))
+                            </td>
+                            <td class="text-center align-middle">
+                                @Html.DisplayFor(modelItem => item.Stock)
+                            </td>
+                            <td class="text-center align-middle">
+                                @(item.StateProdc ? "Activo" : "Inactivo")
+                            </td>
+                            <td class="d-flex justify-content-center">
+                                @if (item.ImageProduct != null && item.ImageProduct.Length > 0)
+                                {
+                                    <img alt="Imagen" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.ImageProduct))" width="120" height="120" />
+                                }
+                                else
+                                {
+                                    <span>Sin imagen</span>
+                                }
+                            </td>
+                            <td class="text-center align-middle">
+                                <div class="d-flex flex-column align-items-center">
+                                    <a class="btn btn-modify btn-action" href="@Url.Action("Edit", new { id = item.ProductId })">Editar</a>
+                                    @if (item.StateProdc != false)
+                                    {
+                                        <button type="button" class="btn btn-inactive AbrirModal btn-action" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                data-id="@item.ProductId" style="font:bold;font-size:18px">
+                                            Inactivar
+                                        </button>
+                                    }
+                                    @if (item.StateProdc != true)
+                                    {
+                                        <a class="btn btn-active-custom btn-action" href="@Url.Action("Activate", "Products", new { id = @item.ProductId })">Activar</a>
+                                    }
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td class="text-center align-middle">
-                                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
-                                </td>
-                                <td class="text-center align-middle">
-                                    @Html.DisplayFor(modelItem => item.ProductName)
-                                </td>
-                                <td class="text-center align-middle">
-                                    @Html.DisplayFor(modelItem => item.Price)
-                                </td>
-                                <td class="text-center align-middle">
-                                    @Html.DisplayFor(modelItem => item.Stock)
-                                </td>
-                                <td class="text-center align-middle">
-                                    @(item.StateProdc ? "Activo" : "Inactivo")
-                                </td>
-                                <td class="d-flex justify-content-center">
-                                    @if (item.ImageProduct != null && item.ImageProduct.Length > 0)
-                                    {
-                                        <img alt="Imagen" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.ImageProduct))" width="120" height="120" />
-                                    }
-                                    else
-                                    {
-                                        <span>Sin imagen</span>
-                                    }
-                                </td>
-                                <td class="text-center align-middle">
-                                    <div class="d-flex flex-column align-items-center">
-                                        <a class="btn btn-modify btn-action" href="@Url.Action("Edit", new { id = item.ProductId })">Editar</a>
-                                        @if (item.StateProdc != false)
-                                        {
-                                            <button type="button" class="btn btn-inactive AbrirModal btn-action" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                    data-id="@item.ProductId" style="font:bold;font-size:18px">
-                                                Inactivar
-                                            </button>
-                                        }
-                                        @if (item.StateProdc != true)
-                                        {
-                                            <a class="btn btn-active-custom btn-action" href="@Url.Action("Activate", "Products", new { id = @item.ProductId })">Activar</a>
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
-<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" />
 
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#myDataTable').DataTable({
@@ -131,5 +127,3 @@
         </div>
     </div>
 </div>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">

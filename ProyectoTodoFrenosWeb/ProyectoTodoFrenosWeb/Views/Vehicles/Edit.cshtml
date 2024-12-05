@@ -21,38 +21,30 @@
                         <div class="mb-3">
                             <label for="Brand" class="form-label">Marca</label>
                             @Html.TextBoxFor(m => m.Brand, new { @class = "form-control", placeholder = "Marca del vehículo", @required = "true" })
+                            <span asp-validation-for="Brand" class="text-danger"></span>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <label for="Plate" class="form-label">Placa</label>
                                 @Html.TextBoxFor(m => m.Plate, new { @class = "form-control", placeholder = "Número de placa", @required = "true" })
+                                <span asp-validation-for="Plate" class="text-danger"></span>
                             </div>
 
                             <div class="col-md-3">
                                 <label for="ModelYear" class="form-label">Modelo</label>
-                                @Html.TextBoxFor(m => m.ModelYear, new { @class = "form-control", placeholder = "Año del vehículo", @required = "true" })
+                                @Html.TextBoxFor(m => m.ModelYear, new { @class = "form-control", placeholder = "Modelo", @required = "true" })
+                                <span asp-validation-for="ModelYear" class="text-danger"></span>
                             </div>
 
                             <div class="col-md-5">
                                 <label for="CreationDate" class="form-label">Fecha Registro</label>
                                 @Html.TextBoxFor(m => m.CreationDate, new { @class = "form-control", @required = "true" })
-                                @Html.ValidationMessageFor(m => m.CreationDate, "", new { @class = "text-danger" })
+                                <span asp-validation-for="CreationDate" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            @* <div class="col-md-4">
-                                <label for="CarState" class="form-label">Estado</label>
-                                @{
-                                    var estados = new List<SelectListItem>
-                            {
-                            new SelectListItem { Value = "1", Text = "Activo" },
-                            new SelectListItem { Value = "0", Text = "Inactivo" }
-                            };
-                                }
-                                @Html.DropDownListFor(m => m.CarState, estados, new { @class = "form-select", @required = "true" })
-                            </div> *@
 
                             <div class="col-md-4">
                                 <label for="TypeVeh" class="form-label">Tipo de Vehículo</label>

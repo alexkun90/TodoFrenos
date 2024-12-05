@@ -44,11 +44,10 @@ builder.Services.AddHttpClient();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    // Configura los requisitos de la contraseña
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
-    options.Password.RequireNonAlphanumeric = false; // O true si quieres incluir caracteres especiales
+    options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 8;
     options.Password.RequiredUniqueChars = 1;
 });

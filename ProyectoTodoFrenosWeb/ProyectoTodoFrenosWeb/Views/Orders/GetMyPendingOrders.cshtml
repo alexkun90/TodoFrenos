@@ -48,17 +48,13 @@
                                 <tr>
                                     <td class="text-center align-middle">@item.CodigoOrder</td>
                                     <td class="text-center align-middle">@item.User.Email</td>
-                                    <td class="text-center align-middle">@item.OrderDate.ToString("dd MMM yyyy")</td>
-                                    <td class="text-center align-middle text-warning">@item.RetirementDate.ToString("dd MMM yyyy")</td>
+                                    <td class="text-center align-middle">@item.OrderDate.ToString("dd/MM/yyyy")</td>
+                                    <td class="text-center align-middle text-warning">@item.RetirementDate.ToString("dd/MM/yyyy")</td>
                                     <td class="text-center align-middle">@item.SubTotal.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td class="text-center align-middle">@item.Tax.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td class="text-center align-middle">@item.Total.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td class="text-center align-middle">
                                         <a class="btn btn-details btn-action" href="@Url.Action("OrderDetailList","Orders", new { orderId = item.OrderId })">Detalles</a>
-                                        @if (item.OrderState == 1)
-                                        {
-                                            <a class="btn btn-active-custom btn-action" href="@Url.Action("OrderDelivered","Orders", new { orderId = item.OrderId })">Completado</a>
-                                        }
                                         @* <a class="btn btn-delete btn-sm" asp-action="Delete" asp-route-id="@item.OrderId">Eliminar</a> *@
                                     </td>
                                 </tr>
@@ -74,11 +70,12 @@
 <script src="~/estilos/js/jquery-1.11.0.min.js"></script>
 <script>
     $(document).ready(function () {
+        $.fn.dataTable.moment('DD/MM/YYYY');
         $('#myDataTable').DataTable({
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
             },
-            "order": [[1, "desc"]],
+            "order": [[3, "desc"]],
             "info": false
         });
     });

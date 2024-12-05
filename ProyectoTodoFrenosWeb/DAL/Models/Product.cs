@@ -25,15 +25,12 @@ public partial class Product
     [DisplayName("Precio")]
     public decimal? Price { get; set; }
 
-    [Required(ErrorMessage = "Este campo es obligatorio.")]
     [DisplayName("Estado")]
     public bool StateProdc { get; set; } = true;
 
     [DisplayName("Imagen")]
     public byte[]? ImageProduct { get; set; }
-    
+
     [DisplayName("Categoría")]
     public virtual Category? Category { get; set; }
-
-    //public virtual ICollection<CartItem> CartItems { get; set; }
 }

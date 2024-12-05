@@ -8,7 +8,7 @@
 
 <div class="container mt-3">
     <h2>Gestión de Vehículo</h2>
-    <p>Apartado donde se gestiona el progreso del servicio recivido del vehiculo de los clientes de TodoFrenos</p>
+    <p>Apartado donde se gestiona el progreso del servicio recibido del vehículo de los clientes de Todo Frenos</p>
     <div class="container-border-custom mb-2">
         <div class="table-responsive">
             <div id="dataTable_wrapper" class="dataTables_wrapper">
@@ -42,7 +42,7 @@
                                             @Html.DisplayFor(modelItem => item.Plate)
                                         </td>
                                         <td class="text-center align-middle">
-                                            @Html.DisplayFor(modelItem => item.CreationDate)
+                                            @item.CreationDate?.ToString("dd/MM/yyyy")
                                         </td>
                                         <td class="text-center align-middle">
                                             @if (item.CarState == 1)

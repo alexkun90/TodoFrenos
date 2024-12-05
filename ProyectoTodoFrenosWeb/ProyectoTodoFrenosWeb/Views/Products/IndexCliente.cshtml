@@ -13,6 +13,15 @@
        
     </div>
 
+    
+    @if (!SignInManager.IsSignedIn(User))
+    {
+        <div class="alert alert-secondary text-center mb-4" style="font-weight:bold !important;" role="alert">
+            ¡Atención! Para adquirir productos, debes iniciar sesión.
+            <a href="/Identity/Account/Login" class="btn btn-agree btn-sm ms-3">Iniciar sesión</a>
+        </div>
+    }
+
     <!-- Buscador -->
     <div class="search-bar">
         <i class="fa fa-search search-icon"></i>
@@ -46,14 +55,16 @@
                         {
                             <div class="product-name">@producto.ProductName</div>
                             <div class="product-price">₡@producto.Price</div>
-                            <div class="product-price"> @producto.Stock</div>
-                            
-                            @using (Html.BeginForm("AddToCart", "Products", FormMethod.Post))
+                            <div class="product-price">Cantidad: @producto.Stock</div>
+                            @if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
                             {
-                                <input type="hidden" name="ProductId" value="@producto.ProductId" />
-                                <input type="hidden" name="Quantity" class="form-control" value="1">
-                                <input type="hidden" name="Stock" class="form-control" value="@producto.Stock">
-                                <button type="submit" class="add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Agregar al Carrito</button>
+                                @using (Html.BeginForm("AddToCart", "Products", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="ProductId" value="@producto.ProductId" />
+                                    <input type="hidden" name="Quantity" class="form-control" value="1">
+                                    <input type="hidden" name="Stock" class="form-control" value="@producto.Stock">
+                                    <button type="submit" class="add-to-cart-btn"><i class="fa-solid fa-cart-plus me-2"></i>Agregar al Carrito</button>
+                                }
                             }
                         }
                         else

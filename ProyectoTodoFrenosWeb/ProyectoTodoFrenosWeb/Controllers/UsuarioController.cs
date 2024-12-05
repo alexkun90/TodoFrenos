@@ -150,7 +150,8 @@ namespace ProyectoTodoFrenosWeb.Controllers
             {
                 Roles = new List<string>(),
                 Password = newPassword,
-                ConfirmPassword = newPassword
+                ConfirmPassword = newPassword,
+                Activo = true
             };
             ViewBag.Roles = roles;
             return View(modelo);

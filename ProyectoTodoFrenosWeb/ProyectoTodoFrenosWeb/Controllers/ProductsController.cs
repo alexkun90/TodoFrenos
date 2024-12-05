@@ -9,6 +9,8 @@ using DAL.Models;
 using ProyectoTodoFrenosWeb.ConsumoServices;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using ProyectoTodoFrenosWeb.ViewModels;
 
 namespace ProyectoTodoFrenosWeb.Controllers
 {
@@ -79,8 +81,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
-           
-            return View();
+            var modelo = new Product
+            {
+                StateProdc = true
+            };
+
+            return View(modelo);
         }
 
         // POST: Products/Create
@@ -89,6 +95,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product, IFormFile imagen)
         {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
             if (ModelState.IsValid)
             {
                 // Iformefile imagen
@@ -118,6 +125,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                     return View(product);
                 }
             }
+            
             return View(product);
         }
 

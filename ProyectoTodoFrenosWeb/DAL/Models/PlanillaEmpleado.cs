@@ -16,6 +16,7 @@ namespace DAL.Models
         
         [ForeignKey("Playroll")]
         public long NominaId { get; set; }
+        [Required(ErrorMessage = "Este campo es obligatorio.")]
         public DateTime? FechaPago {  get; set; }
         public string? Cedula { get; set; }
         public string? NombreEmpleado { get; set; }

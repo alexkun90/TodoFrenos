@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label asp-for="FechaContrato" class="form-label">Fecha Contrato</label>
+                            <label asp-for="FechaContrato" class="form-label">Fecha de Contratación</label>
                             <input asp-for="FechaContrato" class="form-control" type="Date" />
                             <span asp-validation-for="FechaContrato" class="text-danger"></span>
                         </div>
@@ -53,7 +53,7 @@
                             <span asp-validation-for="PlusesSalariales" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">
-                            <label asp-for="CantDiasLaborales" class="form-label">Cantidad de Dias laborales</label>
+                            <label asp-for="CantDiasLaborales" class="form-label">Días Laborales(Mensuales)</label>
                             <input asp-for="CantDiasLaborales" class="form-control" type="number" />
                             <span asp-validation-for="CantDiasLaborales" class="text-danger"></span>
                         </div>
@@ -68,13 +68,22 @@
                             <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">
-                            <label asp-for="Direccion" class="form-label">Direccion</label>
+                            <label asp-for="Direccion" class="form-label">Dirección</label>
                             <input asp-for="Direccion" class="form-control" type="text" />
                             <span asp-validation-for="Direccion" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label asp-for="EstadoCivil" class="form-label">Estado Civil</label>
-                            <input asp-for="EstadoCivil" class="form-control" type="text" />
+                            <select asp-for="EstadoCivil" class="form-control">
+                                <option value="">Seleccione...</option>
+                                <option value="Soltero(a)">Soltero(a)</option>
+                                <option value="Casado(a)">Casado(a)</option>
+                                <option value="Divorciado(a)">Divorciado(a)</option>
+                                <option value="Viudo(a)">Viudo(a)</option>
+                                <option value="Unión Libre">Unión Libre</option>
+                                <option value="Separado(a)">Separado(a)</option>
+                                
+                            </select>
                             <span asp-validation-for="EstadoCivil" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">
@@ -87,7 +96,7 @@
                             <span asp-validation-for="Genero" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">
-                            <label asp-for="ContactoEmergencia" class="form-label">ContactoEmergencia</label>
+                            <label asp-for="ContactoEmergencia" class="form-label">Contacto de Emergencia</label>
                             <input asp-for="ContactoEmergencia" class="form-control" type="text" />
                             <span asp-validation-for="ContactoEmergencia" class="text-danger"></span>
                         </div>

@@ -225,54 +225,59 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.24/sorting/datetime-moment.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @RenderSection("Scripts", required: false)
 
-    <script>
-        $(document).ready(function () {
-            function updatePendingAppointments() {
-                $.ajax({
-                    url: '@Url.Action("GetAppointmentsCount", "Appointments")',
-                    type: 'GET',
-                    success: function (count) {
-                        var countElement = $('#pendingAppointmentsCount');
-                        if (count > 0) {
-                            countElement.text(count);
-                            countElement.show();
-                        } else {
-                            countElement.hide();
+    @if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
+    {
+        <script>
+            $(document).ready(function () {
+                function updatePendingAppointments() {
+                    $.ajax({
+                        url: '@Url.Action("GetAppointmentsCount", "Appointments")',
+                        type: 'GET',
+                        success: function (count) {
+                            var countElement = $('#pendingAppointmentsCount');
+                            if (count > 0) {
+                                countElement.text(count);
+                                countElement.show();
+                            } else {
+                                countElement.hide();
+                            }
+                        },
+                        error: function (error) {
+                            console.error('Error fetching pending appointments count:', error);
                         }
-                    },
-                    error: function (error) {
-                        console.error('Error fetching pending appointments count:', error);
-                    }
-                });
-            }
-            
-            updatePendingAppointments();
-        });
+                    });
+                }
+                updatePendingAppointments();
+            });
 
-        $(document).ready(function () {
-            function updatePendingCarts() {
-                $.ajax({
-                    url: '@Url.Action("GetCartCount", "ShoppingCarts")',
-                    type: 'GET',
-                    success: function (count) {
-                        var countElement = $('#pendingCartCount');
-                        if (count > 0) {
-                            countElement.text(count);
-                            countElement.show();
-                        } else {
-                            countElement.hide();
+            $(document).ready(function () {
+                function updatePendingCarts() {
+                    $.ajax({
+                        url: '@Url.Action("GetCartCount", "ShoppingCarts")',
+                        type: 'GET',
+                        success: function (count) {
+                            var countElement = $('#pendingCartCount');
+                            if (count > 0) {
+                                countElement.text(count);
+                                countElement.show();
+                            } else {
+                                countElement.hide();
+                            }
+                        },
+                        error: function (error) {
+                            console.error('Error fetching pending appointments count:', error);
                         }
-                    },
-                    error: function (error) {
-                        console.error('Error fetching pending appointments count:', error);
-                    }
-                });
-            }
-            updatePendingCarts();
-        });
-    </script>
+                    });
+                }
+                updatePendingCarts();
+            });
+        </script>
+    }
 </body>
 </html>

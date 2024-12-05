@@ -12,6 +12,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
             @Html.HiddenFor(model => model.Password)
             @Html.HiddenFor(model => model.ConfirmPassword)
+            @Html.HiddenFor(model => model.Activo)
             <div style="display: flex; gap: 20px;">
                 <div class="form-column">
                     <div class="txt_field">
@@ -57,9 +58,7 @@
                         <span asp-validation-for="Roles" class="text-danger mt-2"></span>
                     </div>
                     <div class="mb-1">
-                        <label asp-for="Activo" class="form-label">Estado del Usuario:</label>
-                        <input asp-for="Activo" type="checkbox" />
-                        <span asp-validation-for="Activo" class="text-danger"></span>
+                        <label class="form-label"></label>
                     </div>
                 </div>
             </div>
@@ -68,18 +67,40 @@
     </div>
 </div>
 
+<script src="~/estilos/js/jquery-1.11.0.min.js"></script>
 <script>
-    function validateRoles() {
+    function validateRolesAndFields() {
         const checkboxes = document.querySelectorAll('#rolesContainer .form-check-input');
-        const checked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        const rolesChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
 
-        if (!checked) {
+        if (!rolesChecked) {
             checkboxes[0].setCustomValidity('Seleccione al menos un rol.');
-            checkboxes[0].reportValidity();
-            return false;
         } else {
             checkboxes[0].setCustomValidity('');
+        }
+
+        const requiredFields = document.querySelectorAll('input[required]');
+        let allValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.setCustomValidity('Este campo es obligatorio.');
+                field.reportValidity();
+                allValid = false;
+            } else {
+                field.setCustomValidity('');
+            }
+        });
+        if (rolesChecked && allValid) {
             return true;
+        } else {
+            const invalidField = document.querySelector(':invalid');
+            if (invalidField) {
+                invalidField.reportValidity();
+            }
+            return false;
         }
     }
+
+    document.querySelector('form').onsubmit = validateRolesAndFields;
 </script>
