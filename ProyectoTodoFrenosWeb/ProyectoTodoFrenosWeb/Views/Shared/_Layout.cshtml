@@ -76,25 +76,36 @@
                         }
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("User"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link nav-link-a-custom" href=@Url.Action("MyVehicles","Vehicles")>Mis Vehículos</a>
-                            </li>
+
+                            @if ((User.IsInRole("Mecanico") || User.IsInRole("Admin")) || (User.IsInRole("Mecanico") && User.IsInRole("Admin")))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-a-custom" href=@Url.Action("MyVehicles","Vehicles")>Vehículos</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-a-custom" href=@Url.Action("MyVehicles","Vehicles")>Mis Vehículos</a>
+                                </li>
+                            }
                         }
                         <li class="nav-item">
                             <a class="nav-link nav-link-a-custom" href=@Url.Action("IndexCliente","Products")>Productos</a>
                         </li>
 
-                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Mecanico"))
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Mecanico") && !User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link nav-link-a-custom" href=@Url.Action("Index","Vehicles")>Vehículos</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link nav-link-a-custom dropdown-toggle-custom" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Gestión
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item-custom" href=@Url.Action("Index","Vehicles")>Vehículos</a></li>
+                                </ul>
                             </li>
                         }
                        
-                        @*
-                        <li class="nav-item">
-                        <a class="nav-link nav-link-a-custom" href=@Url.Action("ListaProductos","Producto")>Producto lista</a>
-                        </li>*@
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li class="nav-item dropdown">
@@ -108,7 +119,6 @@
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","ManageAppointment")>Citas</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","Orders")>Órdenes</a></li>
                                 <li><a class="dropdown-item-custom" href=@Url.Action("Index","ManagePayrolls")>Nóminas Empleados</a></li>
-                                @* <li><a class="dropdown-item-custom" href=@Url.Action("Index","Employees")>Empleados</a></li> *@
                             </ul>
                         </li>
                         }
