@@ -24,20 +24,19 @@ namespace ProyectoTodoFrenosWeb.Controllers
     {
         VehicleInspectionService service;
         VehicleService serviceVehicle;
+        RenderHTMLService renderHTMLService;
         private readonly HttpClientService clientService;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ICompositeViewEngine _viewEngine;
-        private readonly ITempDataProvider _tempDataProvider;
+        
 
         public VehicleInspectionsController(TodoFrenosDbContext context, UserManager<ApplicationUser> userManager,
                                             IConfiguration config, HttpClientService clientService,
-                                            ICompositeViewEngine viewEngine, ITempDataProvider tempDataProvider)
+                                            RenderHTMLService renderHTMLService)
         {
             this.service = new VehicleInspectionService(config, clientService);
             this.serviceVehicle = new VehicleService(config, clientService);
             _userManager = userManager;
-            _viewEngine = viewEngine; 
-            _tempDataProvider = tempDataProvider;
+            this.renderHTMLService = renderHTMLService;
         }
 
         // GET: VehicleInspections
@@ -223,7 +222,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
             }
 
             // Generar la vista HTML como cadena
-            string htmlContent = await RenderViewAsStringAsync("Details", inspection);
+            string htmlContent = await renderHTMLService.RenderViewAsStringAsync(ControllerContext,"Details", inspection);
 
             string additionalHtml = @"
                 <div style='text-align: center; margin-top: 5%;'> 
@@ -244,35 +243,16 @@ namespace ProyectoTodoFrenosWeb.Controllers
             byte[] pdfBytes = pdfDocument.Save();
             pdfDocument.Close();
 
+            // Configurar headers para la respuesta
+            Response.Headers.Add("Cache-Control", "no-store");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
+
             return File(pdfBytes, "application/pdf", "Inspección Vehícular Todo Frenos.pdf");
         }
 
 
-        private async Task<string> RenderViewAsStringAsync(string viewName, object model)
-        {
-            var viewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
-            {
-                Model = model
-            };
-            using (var writer = new StringWriter())
-            {
-                var viewResult = _viewEngine.FindView(ControllerContext, viewName, false);
-                if (viewResult.View == null)
-                {
-                    throw new ArgumentNullException($"La vista '{viewName}' no fue encontrada.");
-                }
-                var viewContext = new ViewContext(
-                    ControllerContext,
-                    viewResult.View,
-                    viewData,
-                    new TempDataDictionary(ControllerContext.HttpContext, _tempDataProvider),
-                    writer,
-                    new HtmlHelperOptions()
-                );
-                await viewResult.View.RenderAsync(viewContext);
-                return writer.GetStringBuilder().ToString();
-            }
-        }
+        
 
 
     }

@@ -19,15 +19,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
     public class PlayrollController : Controller
     {
         PlayrollService service;
+        RenderHTMLService renderHTMLService;
 
-        private readonly ICompositeViewEngine _viewEngine;
-        private readonly ITempDataProvider _tempDataProvider;
-        public PlayrollController(IConfiguration config, HttpClientService clientService,
-                                  ICompositeViewEngine viewEngine, ITempDataProvider tempDataProvider)
+        public PlayrollController(IConfiguration config, HttpClientService clientService, RenderHTMLService renderHTMLService)
         {
             service = new PlayrollService(config, clientService);
-            _viewEngine = viewEngine;
-            _tempDataProvider = tempDataProvider;
+            this.renderHTMLService = renderHTMLService;
         }
 
         public async Task<IActionResult> Index()
@@ -86,20 +83,27 @@ namespace ProyectoTodoFrenosWeb.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, Mecanico,User")]
+        [Authorize(Roles = "Admin, Mecanico, User")]
         public async Task<IActionResult> DownloadPdf(long nominaId)
         {
-            
             var result = await service.GetPlayrollDetails(nominaId);
             if (result == null)
             {
                 return NotFound();
             }
             // Generar la vista HTML como cadena
-            string htmlContent = await RenderViewAsStringAsync("Details", result);
+            string htmlContent = await  renderHTMLService.RenderViewAsStringAsync(ControllerContext,"Details",result);
 
             // Crear un convertidor de HTML a PDF
             var converter = new HtmlToPdf();
+
+            // Configurar cabeceras y optimizaciones
+            converter.Options.PdfPageSize = PdfPageSize.A4;
+            converter.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+            converter.Options.WebPageWidth = 1024;
+            converter.Options.WebPageHeight = 0;
+            converter.Options.PdfCompressionLevel = PdfCompressionLevel.Best;
+
 
             // Convertir el HTML a PDF
             var pdfDocument = converter.ConvertHtmlString(htmlContent);
@@ -108,34 +112,40 @@ namespace ProyectoTodoFrenosWeb.Controllers
             byte[] pdfBytes = pdfDocument.Save();
             pdfDocument.Close();
 
-            return File(pdfBytes, "application/pdf", "Nómina Empleado.pdf");
+            // Configurar headers para la respuesta
+            Response.Headers.Add("Cache-Control", "no-store");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
+
+            return File(pdfBytes, "application/pdf", "Nomina_Empleado.pdf");
         }
 
 
-        private async Task<string> RenderViewAsStringAsync(string viewName, object model)
-        {
-            var viewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
-            {
-                Model = model
-            };
-            using (var writer = new StringWriter())
-            {
-                var viewResult = _viewEngine.FindView(ControllerContext, viewName, false);
-                if (viewResult.View == null)
-                {
-                    throw new ArgumentNullException($"La vista '{viewName}' no fue encontrada.");
-                }
-                var viewContext = new ViewContext(
-                    ControllerContext,
-                    viewResult.View,
-                    viewData,
-                    new TempDataDictionary(ControllerContext.HttpContext, _tempDataProvider),
-                    writer,
-                    new HtmlHelperOptions()
-                );
-                await viewResult.View.RenderAsync(viewContext);
-                return writer.GetStringBuilder().ToString();
-            }
-        }
+
+        //[HttpPost]
+        //[Authorize(Roles = "Admin, Mecanico,User")]
+        //public async Task<IActionResult> DownloadPdf(long nominaId)
+        //{
+
+        //    var result = await service.GetPlayrollDetails(nominaId);
+        //    if (result == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    // Generar la vista HTML como cadena
+        //    string htmlContent = await RenderViewAsStringAsync("Details", result);
+
+        //    // Crear un convertidor de HTML a PDF
+        //    var converter = new HtmlToPdf();
+
+        //    // Convertir el HTML a PDF
+        //    var pdfDocument = converter.ConvertHtmlString(htmlContent);
+
+        //    // Enviar el PDF al navegador para descargarlo
+        //    byte[] pdfBytes = pdfDocument.Save();
+        //    pdfDocument.Close();
+
+        //    return File(pdfBytes, "application/pdf", "Nómina Empleado.pdf");
+        //}
     }
 }

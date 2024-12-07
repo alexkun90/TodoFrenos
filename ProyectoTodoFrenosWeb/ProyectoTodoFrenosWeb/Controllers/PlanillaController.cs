@@ -15,17 +15,14 @@ namespace ProyectoTodoFrenosWeb.Controllers
     {
         PlanillaService service;
         PlayrollService playrollService;
+        RenderHTMLService renderHTMLService;
         private readonly HttpClientService clientService;
-        private readonly ICompositeViewEngine _viewEngine;
-        private readonly ITempDataProvider _tempDataProvider;
 
-        public PlanillaController(IConfiguration config, HttpClientService clientService,
-                                  ICompositeViewEngine viewEngine, ITempDataProvider tempDataProvider)
+        public PlanillaController(IConfiguration config, HttpClientService clientService, RenderHTMLService renderHTMLService)
         {
             service = new PlanillaService(config, clientService);
             playrollService = new PlayrollService(config, clientService);
-            _viewEngine = viewEngine;
-            _tempDataProvider = tempDataProvider;
+            this.renderHTMLService = renderHTMLService;
         }
 
         public async Task<IActionResult> Index(long nominaId)
@@ -109,7 +106,7 @@ namespace ProyectoTodoFrenosWeb.Controllers
                 return NotFound();
             }
             // Generar la vista HTML como cadena
-            string htmlContent = await RenderViewAsStringAsync("Details", result);
+            string htmlContent = await renderHTMLService.RenderViewAsStringAsync(ControllerContext, "Details", result);
 
             // Crear un convertidor de HTML a PDF
             var converter = new HtmlToPdf();
@@ -121,34 +118,12 @@ namespace ProyectoTodoFrenosWeb.Controllers
             byte[] pdfBytes = pdfDocument.Save();
             pdfDocument.Close();
 
+            // Configurar headers para la respuesta
+            Response.Headers.Add("Cache-Control", "no-store");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
+
             return File(pdfBytes, "application/pdf", "Planilla Empleado.pdf");
-        }
-
-
-        private async Task<string> RenderViewAsStringAsync(string viewName, object model)
-        {
-            var viewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
-            {
-                Model = model
-            };
-            using (var writer = new StringWriter())
-            {
-                var viewResult = _viewEngine.FindView(ControllerContext, viewName, false);
-                if (viewResult.View == null)
-                {
-                    throw new ArgumentNullException($"La vista '{viewName}' no fue encontrada.");
-                }
-                var viewContext = new ViewContext(
-                    ControllerContext,
-                    viewResult.View,
-                    viewData,
-                    new TempDataDictionary(ControllerContext.HttpContext, _tempDataProvider),
-                    writer,
-                    new HtmlHelperOptions()
-                );
-                await viewResult.View.RenderAsync(viewContext);
-                return writer.GetStringBuilder().ToString();
-            }
         }
     }
 }

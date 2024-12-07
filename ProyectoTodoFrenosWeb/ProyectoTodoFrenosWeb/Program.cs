@@ -38,8 +38,6 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/AccessDenied"; // Ruta de acceso denegado
 });
 
-
-
 builder.Services.AddHttpClient();
 
 builder.Services.Configure<IdentityOptions>(options =>
@@ -57,6 +55,7 @@ builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 
 #region DI
     builder.Services.AddScoped<HttpClientService>();
+    builder.Services.AddScoped<RenderHTMLService>();
 #endregion
 
 //Configuracion para las paginas o vistas
